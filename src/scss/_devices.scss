@@ -1,0 +1,167 @@
+.platform-android {
+  .devices{
+    .battery{
+      margin-top: -15px;
+    }
+  }
+}
+.devices {
+  .battery-charge{
+    width: 4%;
+    height:inherit;
+  }
+  .col-85 {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 85%;
+    -moz-box-flex: 0;
+    -moz-flex: 0 0 85%;
+    -ms-flex: 0 0 85%;
+    flex: 0 0 85%;
+    max-width: 85%;
+  }
+  .scroll {
+    height: 85% !important;
+  }
+  .scroll-refresher {
+    margin-top: 5vh;
+    border-bottom: 1px solid rgba(178, 178, 178, 0.1);
+    .ionic-refresher-content {
+      padding: 2vh 0;
+      color: #008bca;
+    }
+    ion-spinner svg {
+      stroke: #008bca !important;
+    }
+  }
+  .battery{
+    margin-top: -2px;
+  }
+  .device-container {
+    margin-top: 8vh;
+    min-height: 70vh;
+    color: #b0b0b0;
+    .top-container {
+      padding: 0 30px;
+    }
+    .scan-container {
+      border-bottom: 1px solid rgba(178,178,178,0.3);
+      font-size: 1.2em;
+      padding-bottom: 3vh;
+      padding-top: 3vh;
+      .ion-load-c {
+        margin-top: 10px;
+        font-size: 1.5em;
+      }
+    }
+    .no-pulses {
+      font-size: 1.2em;
+      margin: 0 auto;
+      display: block;
+      width: 100%;
+      padding-top: 25vh;
+    }
+    ion-list {
+      .item-inline {
+        display: inline-block;
+      }
+      .item {
+        background-color: $black;
+        color: #fff;
+        border-color: rgba(0, 139, 202,0.3);
+        border: none;
+        padding: 16px 0;
+      }
+      .device-title {
+        color: $white;
+        font-size: 1.2em;
+      }
+      .device {
+        border-bottom: 1px solid rgba(178,178,178,0.3);
+        padding-bottom: 20px;
+      }
+      .btn-row {
+        padding: 0;
+        max-height: 0;
+      }
+      .grow {
+        -moz-transition: max-height 0.5s;
+        -ms-transition: max-height 0.5s;
+        -o-transition: max-height 0.5s;
+        -webkit-transition: max-height 0.5s;
+        transition: max-height 0.5s;
+        overflow: hidden;
+        max-height: 100px;
+      }
+      .row {
+        padding: 0;
+      }
+      .shrink {
+        -moz-transition: max-height 0.5s;
+        -ms-transition: max-height 0.5s;
+        -o-transition: max-height 0.5s;
+        -webkit-transition: max-height 0.5s;
+        transition: max-height 0.5s;
+        overflow: hidden;
+        max-height: 0;
+      }
+      .device-btn {
+        margin-left: -2px;
+        min-width: 0;
+        max-height: 75px;
+        img {
+          height: 35px;
+          width: 35px;
+        }
+      }
+      .info-row {
+        padding-bottom: 15px;
+      }
+      .model {
+        text-align: right;
+        font-size: 0.8em;
+        line-height: 1em;
+      }
+      .indicator {
+        margin-top: -2px;
+        padding-top: 0;
+      }
+      .nickname-col {
+        margin-top: 10px;
+      }
+      .input-label {
+        color: $grey;
+        font-size: 18px;
+      }
+      .item-input {
+        padding: 0;
+      }
+      input {
+        color: white;
+        font-size: 18px;
+      }
+      .btn-row {
+        button {
+          margin-top: 40px;
+          font-size: 0.9em;
+          width: 90px;
+          line-height: 1;
+          min-height: 34px;
+          color: #fff;
+        }
+      }
+      .status {
+        font-size: 0.9em;
+      }
+    }
+  }
+  .arrow-container {
+    padding: 0;
+    img {
+      width: 40px;
+    }
+  }
+  .active-search {
+    background-color: #e5e5e5;
+    color: black;
+  }
+}

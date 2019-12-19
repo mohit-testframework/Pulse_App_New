@@ -1,0 +1,56 @@
+<ion-view view-title="Photo" class="photo">
+  <ion-content class="has-header" scroll="false">
+    <div class="photo-container">
+      <div class="row row-center center">
+        <div class="col center image-preview">
+
+          <div class="img-container" ng-click="ctrl.toggleHistogram()" ng-if="thumbCapable">
+            <div
+              ng-if="!ctrl.isBtClassicConnected() || !ctrl.histogram"
+              class="thumb white-box"
+              ng-class="(ctrl.btClassic.settings.enabled) ? '': 'defaultThumb'"
+              style="background-image: linear-gradient(rgba(0, 0, 0, {{ctrl.backgroundGradient}}), rgba(0, 0, 0, {{ctrl.backgroundGradient}})), url({{ctrl.thumb}});">
+              <ion-spinner icon="circles" ng-show="ctrl.showSpinner && ctrl.selectedDevice.btClassic.enabled" class="circlesreg"></ion-spinner>
+            </div>
+            <div class="hist-chart white-box" ng-if="ctrl.histogram">
+              <canvas
+                id="bar"
+                class="chart chart-bar"
+                chart-data="ctrl.histogramItems.data"
+                chart-labels="ctrl.histogramItems.labels"
+                chart-series="ctrl.histogramItems.series"
+                chart-options="ctrl.histogramItems.options"
+                chart-colours="ctrl.histogramItems.colours">
+              </canvas>
+              <ion-spinner icon="circles" ng-show="ctrl.showSpinner && ctrl.selectedDevice.btClassic.enabled" class="circleshist"></ion-spinner>
+              <div class="camSettings black text-center gotham-light">
+                <span class="shutter" ng-if="ctrl.camSettings.shutter.value">{{ctrl.camSettings.shutter.value}}s</span>
+                <span class="aperture" ng-if="ctrl.camSettings.aperture.value">f/{{ctrl.camSettings.aperture.value}}</span>
+                <span class="iso" ng-if="ctrl.camSettings.iso.value">ISO
+                  {{ctrl.camSettings.iso.value}}</span>
+              </div>
+            </div>
+            <div class="helper-hist text-center gotham-light grey" ng-show="ctrl.showHistText()">Tap for Histogram</div>
+          </div>
+          <div class="no-thumbnails text-center gotham-light" ng-if="!thumbCapable">
+            Thumbnails are not supported for your device.
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="toggle-contain text-center" ng-if="ctrl.showThumbToggle() && thumbCapable">
+      <ion-toggle ng-change="ctrl.handleToggle(ctrl.selectedDevice.btClassic.enabled)" ng-model="ctrl.selectedDevice.btClassic.enabled" ng-checked="ctrl.selectedDevice.btClassic.enabled" class="grey">
+        Thumbnail
+      </ion-toggle>
+    </div>
+  </div>
+</ion-content>
+
+<div class="row fixed-bottom-section">
+  <div class="col text-center">
+    <div class="red gotham-light bulb-warning {{ctrl.bulbClass}}">{{ctrl.errorText}}</div>
+    <photo-button partial-url="photoButton" on-item-click="ctrl.takePhoto()" fill="{{ctrl.fill}}" on-item-release="ctrl.endBurst()" on-item-hold="ctrl.burst()" animate-time="{{ctrl.animationSettings.shutterCounter}}" animate-max="{{ctrl.animationSettings.maxShutter}}"></photo-button>
+  </div>
+</div>
+</ion-view>

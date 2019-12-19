@@ -1,0 +1,172 @@
+@import "_variables";
+
+.bulb {
+  .page-2 {
+    .bulb-container {
+      margin-top: 20vh;
+    }
+  }
+  .page-3 {
+    .bulb-container {
+      margin-top: 7.5vh;
+    }
+  }
+  item-toggle .toggle input:checked + .track {
+    border-color: #9a40ad;
+    background-color: #9a40ad;
+  }
+
+  .bulb-btn{
+    width: 220px;
+    &:hover{
+      color:#fff;
+    }
+  }
+
+  .countdown-timer {
+    margin: 8vh 0;
+    font-size: 4em;
+  }
+
+  .line-separator {
+    width: 50px;
+  }
+  .total-time{
+    margin-top:20px;
+    font-size:22px;
+  }
+
+  .fixed-bottom-section {
+    svg {
+      padding: 0.5px !important;
+    }
+  }
+
+  .bulb-warning {
+    margin-bottom: 10px;
+    padding: 0 5%;
+  }
+
+  .purpleFill {
+    .infinity,
+    .timer {
+      fill: #9A40AD;
+    }
+  }
+
+  .bulb-message {
+    margin-top: 7vh;
+  }
+
+  .bulb-container {
+    margin-top: 15vh;
+    font-size: 1.2em;
+
+    .incrementer-row {
+      margin-top: -20px;
+      margin-bottom: 25px;
+
+      .incrementer-value {
+        font-family: "Gotham-Light", sans-serif;
+      }
+    }
+
+    .separator {
+      font-size: 3em;
+    }
+
+    .infinite {
+      padding-left: 5px;
+    }
+
+    .mode-picker {
+      text-align: center;
+      padding: 1em 0;
+      width: 40%;
+      margin: 0 auto;
+
+      .mode {
+        display: block;
+      }
+    }
+
+    .bulb-timer {
+      font-size: 3em;
+    }
+
+  }
+  .img-container {
+    background-color: #fff;
+    border-radius: 20px;
+    margin-bottom: 40px;
+
+    .name {
+      color: $black;
+    }
+
+    .no-image-text {
+      margin-bottom: 12.5px;
+    }
+
+    .white-box {
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .circlesreg {
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+
+      svg {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    .circleshist {
+      left: 50%;
+      top: 25%;
+      transform: translateX(-50%);
+      position: absolute;
+
+      svg {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    .chart-container {
+      padding: 24px 10px 14px;
+      background: white;
+      border-radius: 20px;
+    }
+
+    .chart-bar {
+      width: 210px !important;
+      height: 138px !important;
+    }
+
+    .camSettings {
+      padding-bottom: 14px;
+      font-size: 0.85em;
+
+      .aperture {
+        margin: 0 8px;
+      }
+    }
+  }
+  .thumb {
+    height: 165px;
+    width: 220px;
+    margin: 25px 5px;
+    background-size: cover;
+
+    &.defaultThumb {
+      background-image: url("../../img/pulse-scene.jpg") !important;
+    }
+  }
+}

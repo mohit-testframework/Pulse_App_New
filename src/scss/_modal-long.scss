@@ -1,0 +1,103 @@
+.ion-nifty-modal-long {
+  &.picker {
+    height: 300px !important;
+    bottom: 25%;
+  }
+  &.firmware-diff{
+    height: 225px !important;
+  }
+  width: 90%;
+  min-height: 0 !important;
+  height: 350px !important;
+  top: 25%;
+  left: 5%;
+  right: 5%;
+  bottom: 5%;
+  background-color: transparent;
+  border-radius: 10px;
+  -webkit-box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+
+  .ion-modal-content-custom {
+    width: 100%;
+    height: 100%;
+    color: #E6E2E2;
+    background-color: #333;
+    border-radius: 10px;
+
+    ion-content {
+      background-color: $white;
+    }
+
+    .text {
+      margin: 15px 0;
+    }
+
+    .modal-btn {
+      width: 250px;
+    }
+
+    .twoButton {
+      .modal-btn {
+        width: 40%;
+
+        &.left-side {
+          float: left;
+          margin-left: 5%;
+          background-color: #b2b2b2;
+        }
+
+        &.right-side {
+          float: right;
+          margin-right: 5%;
+        }
+      }
+    }
+  }
+
+  .modal-header {
+    background-color: #e1e1e1;
+    color: #747474;
+    font-size: 16px;
+  }
+
+  .device-text {
+    font-size: 16px;
+    padding: 10px 5px 0;
+  }
+
+  .modal-footer {
+    border-top: solid 2px #e1e1e1;
+
+    .blue {
+      font-size: 16px;
+      padding: 15px;
+    }
+  }
+
+  .cloud-image {
+    margin-top: 10px;
+    width: 60px;
+  }
+
+  .modal-header-text {
+    padding: 15px;
+  }
+  .ion-ios-close-empty{
+    font-size: 30px;
+    margin: 8px 10px;
+  }
+}
+/* Fix modal backdrop for smaller devices */
+@media (max-width: 679px) {
+  .active .modal-backdrop-bg {
+    opacity: 0.5;
+  }
+
+  .modal-backdrop-bg {
+    -webkit-transition: opacity 300ms ease-in-out;
+    transition: opacity 300ms ease-in-out;
+    background-color: #000;
+    opacity: 0;
+  }
+}

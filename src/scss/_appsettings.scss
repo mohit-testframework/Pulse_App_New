@@ -1,0 +1,78 @@
+@import "_variables";
+
+.app-settings {
+  .list {
+    margin-top: 5vh;
+
+    .item {
+      padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: $white;
+    }
+
+    .left-section {
+      font-size: 20px;
+    }
+  }
+
+  .item-row {
+    padding: 15px 20px;
+    text-decoration: none;
+    color: $white;
+    align-items: center;
+
+    &.led {
+      padding-right: 0;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    &.debug {
+      padding: 10px 20px;
+    }
+
+    &.permissable-mode {
+      padding: 10px 20px;
+
+      .left-section {
+        padding: 0;
+      }
+    }
+
+    .item-toggle {
+      border: none;
+      height: 44px;
+      display: block;
+
+      .toggle {
+        right: 4px;
+      }
+
+      .toggle input:checked + .track {
+        border-color: $blue;
+        background-color: $blue;
+      }
+    }
+  }
+
+  .ion-ios-arrow-right {
+    font-size: 25px;
+  }
+
+  .button {
+    width: 112px;
+    min-height: 40px;
+
+    &.searching {
+      background-color: #055c84 !important;
+    }
+  }
+
+  .permissable {
+    font-size: 10px;
+    white-space: normal;
+    margin-top: -10px;
+    padding: 0 0 0 15px;
+    line-height: 1.4;
+  }
+}

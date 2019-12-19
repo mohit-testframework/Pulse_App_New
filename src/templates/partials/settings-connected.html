@@ -1,0 +1,42 @@
+<div class="row text-center">
+  <h4 class="col stable con-header blue">Connected Devices</h4>
+</div>
+<div class="slider-container">
+<ion-slide-box on-slide-changed>
+  <ion-slide>
+    <div class="row cam-subheader">
+      <div class="col col-offset-10">
+        <div class="name">Camera Name</div>
+      </div>
+      <div class="col battery-col">
+        <div class="ion-battery-charging right"></div>
+      </div>
+    </div>
+  </ion-slide>
+  <ion-slide>
+    <div class="row text-right disconnect-subheader">
+      <div class="col">
+        <button class="button button-assertive" ng-click="ctrl.disconnectDevice()">
+          Disconnect Pulse
+        </button>
+      </div>
+    </div>
+  </ion-slide>
+
+</ion-slide-box>
+</div>
+
+<div class="cam-settings">
+  <div class="row text-center">
+    <div class="col">100 ISO</div>
+  </div>
+  <div class="row text-center">
+    <div class="col">1/100 Shutter</div>
+  </div>
+  <div class="row text-center">
+    <div class="col">5.6 Aperture</div>
+  </div>
+  <div class="row text-center">
+    <div class="col">Burst Mode</div>
+  </div>
+</div>

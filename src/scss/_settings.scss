@@ -1,0 +1,79 @@
+@import "_variables";
+.settings {
+  .clear {
+    opacity: 0;
+  }
+  .camMode-container{
+    margin-top: 7.5vh;
+    font-size: 14px;
+    text-transform: capitalize;
+  }
+  .setting-header {
+    font-size: 0.4em;
+    color: #fff;
+  }
+  .container {
+    margin-top: 20vh;
+    font-size: 1.2em;
+  }
+  .no-settings {
+    font-size: 1.2em;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    padding-top: 25vh;
+  }
+  .swiper-slide {
+    padding: 12px 0 !important;
+    font-size: 0.4em;
+    opacity: 0.3;
+  }
+  .swiper-slide.clear:not(.swiper-slide-active) {
+    opacity: 0;
+    font-size: 0.75em;
+    .iso-text {
+      display: none;
+    }
+  }
+  .swiper-fadeOut:not(.swiper-slide-active) {
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+  }
+  .swiper-slide.swiper-slide-active {
+    font-size: 0.90em;
+    opacity: 1;
+  }
+  .slider-container {
+    font-size: 1.8em;
+  }
+  .con-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .scan-container {
+    margin-top: 30%;
+    font-size: 1.3em;
+    .not-connected {
+      line-height: 1.5;
+    }
+    .down {
+      font-size: 4em;
+      color: rgba(178,178,178,0.2);
+    }
+  }
+  .scan-container {
+    .scanning {
+      span {
+        font-size: 0.8em;
+      }
+    }
+    .padding-left {
+      padding-left: 10px;
+    }
+  }
+  .tl-button-container {
+    padding: 0 20%;
+  }
+  .update-btn[disabled] {
+    color: #b2b2b2;
+  }
+}

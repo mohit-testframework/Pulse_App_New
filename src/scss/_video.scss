@@ -1,0 +1,17 @@
+@import "_variables";
+.video {
+  .video-container {
+    margin-top: 12.5vh;
+    &.more-margin{
+      margin-top: 25vh;
+    }
+  }
+  .video-message {
+    margin: 12.5vh auto 0;
+    font-size: 1.2em;
+    text-align: center;
+  }
+  .video-timer {
+    font-size: 5em;
+  }
+}

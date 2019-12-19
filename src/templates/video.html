@@ -1,0 +1,29 @@
+<ion-view view-title="Video" class="video">
+  <div class="cam-not-supported" ng-if="ctrl.modelNotSupported">
+    <div class="not-supported-text text-center">
+      This camera does not support Video with Pulse.
+    </div>
+  </div>
+  <ion-content class="has-header" scroll="false">
+
+    <div class="video-message" ng-if="ctrl.showVideoText">
+      <div class="line-separator"></div>
+      <div class="row row-center center">
+        <div class="col center gotham-book text warning-text">Please ensure your camera is on Video Mode.</div>
+      </div>
+      <div class="line-separator"></div>
+    </div>
+
+    <div class="video-container" ng-class="ctrl.showVideoText ? '' : 'more-margin'">
+      <div class="row row-center center">
+        <div class="col center video-timer gotham-thin">{{ctrl.model.minutes}}:{{ctrl.model.seconds}}</div>
+      </div>
+    </div>
+  </ion-content>
+
+  <div class="row fixed-bottom-section">
+    <div class="col text-center">
+      <photo-button partial-url="videoButton" model="ctrl.model" on-item-click="ctrl.startOrPauseVideo()"></photo-button>
+    </div>
+  </div>
+</ion-view>

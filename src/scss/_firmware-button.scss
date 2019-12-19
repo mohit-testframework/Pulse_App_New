@@ -1,0 +1,36 @@
+@import "_variables";
+
+.firmware-button {
+  padding: 0 25vw;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 10vh;
+
+  .white-btn {
+    width: 150px;
+    margin-top: 20px;
+  }
+
+  .update-text {
+    text-align: center;
+    display: block;
+  }
+}
+
+.firmware-cancel-button {
+  padding: 0 25vw;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20vh;
+
+  .white-btn {
+    width: 150px;
+    margin-top: 20px;
+    background-color: rgba(95, 185, 219, 0.79);
+  }
+
+  .update-text {
+    text-align: center;
+    display: block;
+  }
+}

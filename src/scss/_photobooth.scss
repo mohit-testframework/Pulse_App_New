@@ -1,0 +1,44 @@
+@import "_variables";
+.photobooth {
+  .incrementer-row {
+    .incrementer-value {
+      font-family: "Gotham-Light", sans-serif;
+    }
+  }
+  .photobooth-container {
+    margin-top: 15vh;
+    font-size: 1.2em;
+  }
+  .photobooth-slide2-container {
+    margin-top: 30vh;
+    font-size: 1.2em;
+  }
+  .photobooth-slide3-container {
+    margin-top: 5vh;
+    font-size: 1.2em;
+  }
+  .pb-row {
+    &.one {
+      margin-bottom: 25px;
+    }
+  }
+  .thumb {
+    height: 100px;
+    width: 65px;
+  }
+  .time {
+    margin-top: 30px;
+    font-size: 3em;
+  }
+  .img-container {
+    background-color: #FFF7ED;
+    border-radius: 20px;
+    .name {
+      color: $black;
+    }
+  }
+  .photo-row{
+    padding: 15px 10px;
+    min-width:225px;
+  }
+}

@@ -1,0 +1,193 @@
+.loading-active {
+  .loading-container {
+    .loading {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(30,30,30,0.9);
+      padding: 0;
+
+      &:after {
+        display: none;
+      }
+
+      .tl-loading {
+        background-color: rgba(0, 0, 0, 0.20);
+        height: 100%;
+      }
+
+      .metadata-loading {
+        background-color: rgba(0, 21, 35, 0.3);
+        height: 100%;
+
+        .lines-reg {
+          &.spinner {
+            stroke: #f0f0f0;
+            fill: #444;
+          }
+
+          svg {
+            width: 60px;
+            height: 60px;
+          }
+        }
+      }
+
+      .fw-loading {
+        background-color: rgba(95, 185, 219, 0.82);
+        height: 100%;
+      }
+
+      .pl-loading {
+        background-color: rgba(231, 136, 69, 0.98);
+        height: 100%;
+
+        &.flicker {
+          opacity: 0;
+        }
+      }
+
+      .tl-backdrop {
+        padding-top: 35vh;
+        font-size: 1.8em;
+      }
+
+      .metadata-backdrop {
+        padding-top: 35vh;
+        padding-bottom: 20px;
+        font-size: 2em;
+      }
+
+      .pl-backdrop {
+        padding-top: 35vh;
+        font-size: 1.8em;
+      }
+
+      .fw-backdrop {
+        font-size: 1.2em;
+        padding: 30vh 5vh 1vh;
+        line-height: 1.4;
+      }
+
+      .time {
+        margin-top: 50px;
+        font-size: 4em;
+        color: $blue;
+      }
+
+      .bulldozer-entry {
+        padding-right: 20px;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        position: absolute;
+        left: 50%;
+        -webkit-animation: move 10s;
+        animation: move 10s;
+
+        img {
+          -webkit-transition: all 2s ease-in-out;
+          -moz-transition: all 2s ease-in-out;
+          -o-transition: all 2s ease-in-out;
+          -ms-transition: all 2s ease-in-out;
+          transition-duration: 2s;
+        }
+      }
+
+      .bulldozer-fire {
+        padding-right: 20px;
+        -webkit-transform: translate3d(-50%, -50%, 10%);
+        transform: translate3d(-50%,-50% , 10%);
+        position: absolute;
+        left: 125%;
+        bottom: -25%;
+        -webkit-animation: fire 9s;
+        animation: fire 9s;
+
+        img {
+          -webkit-transition: all 2s ease-in-out;
+          -moz-transition: all 2s ease-in-out;
+          -o-transition: all 2s ease-in-out;
+          -ms-transition: all 2s ease-in-out;
+          transition-duration: 2s;
+        }
+      }
+
+      .bulldozer-exit {
+        padding-left: 20px;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        position: absolute;
+        left: 125%;
+        -webkit-animation: move-out 12s;
+        animation: move-out 12s;
+        animation-delay: 0s;
+        -webkit-animation-delay: 0s;
+
+        img {
+          -webkit-transition: all 4s ease-in-out;
+          -moz-transition: all 4s ease-in-out;
+          -o-transition: all 4s ease-in-out;
+          -ms-transition: all 4s ease-in-out;
+          transition-duration: 4s;
+        }
+      }
+      @-webkit-keyframes move {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: 50%;
+        }
+      }
+      @keyframes move {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: 50%;
+        }
+      }
+      @-webkit-keyframes fire {
+        from {
+          left: 0;
+          bottom: 35%;
+        }
+
+        to {
+          left: 125%;
+          bottom: -25%;
+        }
+      }
+      @keyframes fire {
+        from {
+          left: 0;
+          bottom: 35%;
+        }
+
+        to {
+          left: 50%;
+          bottom: -25%;
+        }
+      }
+      @-webkit-keyframes move-out {
+        from {
+          left: 50%;
+        }
+
+        to {
+          left: 125%;
+        }
+      }
+      @keyframes move-out {
+        from {
+          left: 50%;
+        }
+
+        to {
+          left: 125%;
+        }
+      }
+    }
+  }
+}

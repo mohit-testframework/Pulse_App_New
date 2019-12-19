@@ -1,0 +1,29 @@
+<ion-view view-title="HDR" class="hdr">
+  <ion-content class="has-header" scroll="false">
+
+    <div class="hdr-container">
+      <div class="hdr-row one">
+        <div class="row row-center center text-center gotham-light">Number of Photos</div>
+        <div class="row row-center center text-center gotham-light incrementer-spacer">
+          <incrementer swipe-interval=100 ng-model="ctrl.model.settings.numPhotos" integer initval="{{ctrl.model.settings.numPhotos}}" step="2" min=3 max=15></incrementer>
+        </div>
+      </div>
+      <div class="hdr-row">
+        <div class="row row-center center text-center gotham-light">EV Steps</div>
+        <div class="row row-center center text-center gotham-light incrementer-spacer">
+          <incrementer swipe-interval=100 ng-model="ctrl.model.settings.evSteps" integer initval="{{ctrl.model.settings.evSteps}}" step="1" min=1 max=7></incrementer>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+
+  <div class="row fixed-bottom-section">
+    <div class="col text-center">
+      <div class="gotham-light" ng-if="ctrl.model.settings.shutterValue">Current Shutter: {{ctrl.model.settings.shutterValue}}</div>
+      <div class="gotham-light" ng-if="ctrl.model.settings.photoCount > 0">Current Photo: {{ctrl.model.settings.photoCount}}</div>
+      <div class="red gotham-light hdr-warning {{ctrl.errorClass}}">{{ctrl.errorMessage}}</div>
+      <photo-button partial-url="hdrButtonStart" on-item-click="ctrl.startHdr()" ng-if="!ctrl.model.settings.isActive"></photo-button>
+      <photo-button partial-url="hdrButtonEnd" on-item-click="ctrl.stopHdr()" animate-time="{{ctrl.model.settings.photoCount}}" animate-max="{{ctrl.model.settings.numPhotos}}" ng-if="ctrl.model.settings.isActive"></photo-button>
+    </div>
+  </div>
+</ion-view>

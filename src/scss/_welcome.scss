@@ -1,0 +1,129 @@
+@import "_variables";
+.welcome {
+  .welcome-container {
+    .slider {
+      height: 100vh;
+    }
+    .scenery {
+      background: url("../../img/welcome-intro.png") no-repeat center center fixed;
+      background-size: 100% 100%;
+    }
+    .header {
+      font-size: 1.7em;
+    }
+    .heading {
+      padding: 1.5vh 1vh;
+      font-size: 1.3em;
+    }
+    .welcome-container {
+      margin-top: 45vh;
+    }
+    .link-out {
+      display: inline-block;
+    }
+    .caption {
+      line-height: 4vh;
+      font-size: 1.1em;
+      a {
+        text-decoration: none;
+        color: #008bca;
+      }
+    }
+    .name-pulse{
+      margin-top:20px;
+    }
+    .save-btn{
+      width: 250px;
+      margin-top: 20px;
+    }
+    .real-name{
+      margin-left: 10px;
+    }
+    .pulse-name{
+      color: #fff;
+    }
+    .pulse-box{
+      margin:20px 40px;
+    }
+    .p-icon{
+      font-size: 140px;
+      margin:-20px 0px;
+    }
+    .ready {
+      margin-top: -1vh;
+    }
+    .num-icon {
+      background: #008bca;
+      margin: 4vh auto 1vh;
+      width: 40px;
+      border-radius: 40px;
+      height: 40px;
+      font-size: 20px;
+      padding: 10px;
+    }
+    .line-separator {
+      width: 20%;
+      margin-top: 2vh;
+      margin-bottom: 2vh;
+      border-bottom: 1px solid #008bca;
+    }
+    .photo-ring {
+      #innerRing:active {
+        fill: #008bca;
+      }
+    }
+    .shutter-btn {
+      margin-bottom: 2vh;
+    }
+    .slide-1-container {
+      margin-top: 10vh;
+    }
+    .slide-2-container {
+      margin-top: 10vh;
+    }
+    .slide-4-container {
+      margin-top: 10vh;
+    }
+    .slide-3-container {
+      .wait {
+        margin-bottom: 2vh;
+      }
+      .s3-section {
+        padding: 2.5vh 0;
+      }
+      .link-out {
+        text-decoration: none;
+        color: rgb(40,115,189);
+      }
+      margin-top: 10vh;
+      .img {
+        margin: 0 auto;
+        display: block;
+        width: 50px;
+        &.cloud {
+          width: 35px;
+        }
+      }
+    }
+    .slide-1 {
+      .btn-container {
+        margin-top: 48vh;
+      }
+      button {
+        border-radius: 10px;
+        padding: 2px 45px;
+      }
+    }
+    .logo {
+      width: 200px;
+    }
+    .slider-pager {
+      .slider-pager-page {
+        color: #fff;
+        &.active {
+          color: $blue;
+        }
+      }
+    }
+  }
+}

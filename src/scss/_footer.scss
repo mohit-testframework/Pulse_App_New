@@ -1,0 +1,17 @@
+@import "_variables";
+  .bar-footer{
+    background-color: $black;
+    background-image: none;
+    .col, .row{
+      padding: 0px;
+    }
+    .circle{
+      width: 20px;
+      margin-right: 10px;
+      vertical-align: bottom;
+    }
+    .footer-text{
+      line-height: 0.5;
+      font-size: 0.8em;
+    }
+  }

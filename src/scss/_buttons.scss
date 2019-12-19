@@ -1,0 +1,132 @@
+@import "_variables";
+.photo{
+  .take-photo{
+    .inner{
+      opacity: 0.5;
+    }
+  }
+}
+.take-photo {
+  &.red-btn{
+    .activated{
+      background-color:  #9F0202 !important;
+    }
+  }
+  &.outer {
+    border: 5px solid #ffffff;
+    margin: auto;
+    text-align: center;
+    width: 90px;
+    height: 90px;
+    overflow: hidden;
+    -webkit-border-radius: 220px;
+    -moz-border-radius: 220px;
+    border-radius: 220px;
+    position: relative;
+    opacity: 0.9;
+  }
+  .inner {
+    padding: 0 50%;
+    height: 92px;
+    -moz-border-radius: 180px;
+    opacity: 1;
+    .directive-icon {
+      font-size: 3em;
+      color: #fff;
+      margin-left: -12px;
+      margin-top: -5px;
+    }
+    .directive-text{
+      margin-top: -7px;
+      color:#fff;
+    }
+    &.activated {
+      background: $blue;
+    }
+  }
+}
+.light-blue-btn {
+  background-color: $light-blue;
+  color: white;
+  border: 0 solid $light-blue;
+  &.activated {
+    background-color: #17C0E7;
+  }
+}
+
+.blue-btn {
+  background-color: $blue;
+  color: white;
+  border: 0 solid $blue;
+  min-height: 0px;
+  &.activated {
+    background-color: #287597;
+  }
+}
+.white-btn {
+  background-color: $black;
+  color: white;
+  border: 1px solid #ffffff;
+  &.activated {
+    background-color: #fff;
+    color: $black;
+  }
+}
+
+.cam-settings-light-btn {
+  width: 35px;
+  padding-top: 5px;
+}
+.dots-light-btn {
+  width: 35px;
+  padding-top: 5px;
+}
+.platform-android {
+  .buttons {
+    top: 6px !important;
+  }
+  .cam-settings-light-btn {
+    padding-top: 0px !important;
+  }
+}
+
+#videoButton {
+  margin-bottom: -1em;
+  .hideButton { opacity: 0 !important; visibility: hidden !important; }
+  .showButton { opacity: 1 !important; visibility: visible !important; }
+  circle, path { transition: opacity .5s ease; }
+}
+
+#photoButton {
+  margin-bottom: -1em;
+  #innerRing {
+    &:active {
+      fill: #7f7f7f;
+    }
+  }
+}
+
+#photoBoothButton {
+  margin-bottom: -1em;
+  #innerRing {
+    &:active {
+      fill: #FFF;
+    }
+  }
+}
+
+#TLButton {
+  #innerRing {
+    &:active {
+      fill: #FFF;
+    }
+  }
+}
+
+#bulbButton {
+  #innerRing {
+    &:active {
+      fill: #FFF;
+    }
+  }
+}

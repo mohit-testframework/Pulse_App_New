@@ -1,0 +1,32 @@
+@import "_variables";
+.load-preset-container {
+  margin-top: 20vh;
+  font-size:1.2em;
+  .preset-name{
+    font-size: 24px;
+    margin-bottom:20px;
+  }
+  .span-display{
+    margin-left: 5px;
+  }
+  .load-preset{
+    width:180px;
+    width: 50%;
+    margin: 20px;
+    color: white !important;
+    .save{
+      border: 2px solid #008bca;
+    }
+  }
+  .no-presets{
+    padding: 20px;
+  }
+  .swiper-button-prev, .swiper-container-rtl .swiper-button-next{
+    background-image: url("../../img/left-arrow.svg");
+    background-size:50%;
+  }
+  .swiper-button-next, .swiper-container-rtl .swiper-button-prev{
+    background-image: url("../../img/right-arrow.svg");
+    background-size:50%;
+  }
+}

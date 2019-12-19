@@ -1,0 +1,90 @@
+$primary: #008bca !default;
+$positive: #1E1E1E !default;
+$light: #1E1E1E !default;
+$stable: #6E6E6E !default;
+$blue: #008bca !default;
+$light-blue: #53C9E4;
+$grey: #b2b2b2;
+$green: #13D862;
+$orange: #e9a33e;
+$red: #FF0707;
+$error-red: #B92309;
+$side-menu-bg: #242d32;
+$black: #1E1E1E;
+$white: #fff;
+
+@font-face {
+  font-family: 'Gotham-Black';
+  src: url('../fonts/Gotham-Black.otf') format("opentype");;
+}
+@font-face {
+  font-family: 'Gotham-Bold';
+  src: url('../fonts/Gotham-Bold.otf') format("opentype");
+}
+@font-face {
+  font-family: 'Gotham-Book';
+  src: url('../fonts/Gotham-Book.otf') format("opentype");
+}
+@font-face {
+  font-family: 'Gotham-Medium';
+  src: url('../fonts/Gotham-Medium.otf') format("opentype");
+}
+@font-face {
+  font-family: 'Gotham-Light';
+  src: url('../fonts/Gotham-Light.otf') format("opentype");
+}
+@font-face {
+  font-family: 'Gotham-Thin';
+  src: url('../fonts/Gotham-Thin.otf') format("opentype");
+}
+@font-face {
+  font-family: 'Gotham-XLight';
+  src: url('../fonts/Gotham-XLight.otf') format("opentype");
+}
+
+@font-face {
+  font-family: 'Garramond';
+  src: url('../fonts/GaramondPremrPro.otf') format("opentype");
+}
+
+@font-face {
+  font-family: 'God';
+  src: url('../fonts/iNked_God.ttf');
+}
+@font-face {
+  font-family: 'Minion';
+  src: url('../fonts/minionpromedium.ttf');
+}
+@font-face {
+  font-family: 'Neutra';
+  src: url('../fonts/neutra2textlight.ttf');
+}
+
+@font-face {
+  font-family: 'GothamRnd-Light';
+  src: url('../fonts/GothamRnd-Light.otf') format("opentype");
+}
+
+@font-face {
+  font-family: 'Niconne';
+  src: url('../fonts/Niconne-Regular.ttf');
+}
+
+$niconne: 'Niconne', cursive;
+$gotham-thin: "Gotham-Thin", sans-serif !default;
+$gotham-xlight: "Gotham-XLight", sans-serif !default;
+$gotham-light: "Gotham-Light", sans-serif !default;
+$gotham-medium: "Gotham-Medium", sans-serif !default;
+$gotham-black: "Gotham-Black", sans-serif !default;
+$gotham-book: "Gotham-Book", sans-serif !default;
+$gotham-bold: "Gotham-Bold", sans-serif !default;
+$gotham-round-light: "GothamRnd-Light", sans-serif !default;
+$garramond: "Garramond", sans-serif !default;
+$god: "God", sans-serif !default;
+$minion: "Minion", sans-serif !default;
+$neutra: "Neutra", sans-serif !default;
+
+$font-size-base: 14px !default;
+$font-size-large: 18px !default;
+$font-size-small: 11px !default;
+$base-color: #6E6E6E !default;

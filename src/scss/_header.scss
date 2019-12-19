@@ -1,0 +1,261 @@
+@import "_variables";
+
+.pulse-header {
+  background: $black;
+  border-style: none;
+
+  .title {
+    line-height: 50px !important;
+  }
+
+  .buttons {
+    .header-btn {
+      padding-left: 10px;
+      padding-right: 10px;
+      color: #fff;
+    }
+
+    .button-icon {
+      &.connected {
+        background: url("img/connected.svg") no-repeat 0 35px;
+        background-size: 62%;
+      }
+
+      &.fa {
+        &:before {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+
+  .header-item {
+    font-size: 24px;
+     margin: 0px 0px;
+
+    &.title-center {
+      color: $white;
+      margin-top: 3px !important;
+    }
+  }
+
+  .device-nickname {
+    height: 2.4em;
+  }
+}
+
+.grey-gradient {
+  background-color: $side-menu-bg;
+}
+
+.custom {
+  background-color: $side-menu-bg;
+  font-size: 1.4em;
+  padding-top: 5vh;
+
+  .img-row {
+    padding-left: 0;
+  }
+
+  .item-row {
+    text-decoration: none;
+  }
+
+  .label-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 5px 0 15px;
+    margin-left: 10px;
+  }
+
+  .item-row.inactive-item span {
+    color: rgba(178, 178, 178, 0.5) !important;
+
+    &.activated {
+      color: $grey !important;
+    }
+  }
+
+  .device-col {
+    flex: 0 0 99%;
+    max-width: 99%;
+    padding-left: 0;
+  }
+  .battery-charge{
+    margin-top:5px;
+  }
+
+  .pulse-logo {
+    width: 30%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .pulse-logo-2{
+    width: 40px;
+    margin-top: 50%;
+  }
+
+  .down-arrow {
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .item {
+    background-color: transparent;
+    border: none;
+    color: white;
+
+    &.bottom-border {
+      border-bottom: 1px solid rgba(255,255,255, 0.08);
+    }
+  }
+
+  .item-row {
+    &.selected {
+      span {
+        font-family: $gotham-book;
+        color: $blue;
+      }
+    }
+
+    &.activated {
+      span {
+        color: $blue;
+      }
+    }
+
+    .pulsicons-hdr-2 {
+      line-height: 0.8;
+    }
+
+    .item-content {
+      background-color: transparent;
+
+      &.activated {
+        color: $light-blue;
+      }
+
+      .menu-icon {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .bottom-border {
+    border-bottom: 1px solid $grey;
+  }
+
+  .side-menu-header {
+    margin-top: 10px;
+
+    > div {
+      margin-right: 5%;
+      margin-left: 9%;
+      margin-bottom: 5px;
+
+      &.menu-line-separator {
+        height: 1px;
+        margin-right: 9%;
+        margin-left: 9%;
+        border-bottom: 1px solid #615f5f;
+      }
+    }
+
+    .device-title {
+      font-size: 16px;
+      padding-bottom: 10px;
+      padding-top: 15px;
+      line-height: 1;
+    }
+
+    .connected {
+      .row {
+        padding: 0;
+      }
+    }
+
+    .not-connected {
+      .down-arrow {
+        margin-top: 10px;
+      }
+    }
+
+    .cam-title {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .status {
+      font-size: 4vw;
+      padding-left: 0;
+    }
+
+    .pulse-battery {
+        margin: -8.5px 0 0 4px;
+        width: 30px;
+    }
+  }
+
+  .list-items {
+    margin-top: 4vh;
+
+    .tl-percent {
+      padding-right: 20px;
+    }
+  }
+}
+
+.platform-ios.platform-cordova:not(.fullscreen) .bar-subheader,
+.platform-ios.platform-cordova:not(.fullscreen) .has-header {
+  top: 44px;
+}
+
+.bar-header {
+  &.menu-bar {
+    background-color: $side-menu-bg !important;
+    height: 50px !important;
+    border: none;
+    background-image: none;
+
+    h1 {
+      color: #fff;
+    }
+  }
+}
+/*Just makes the type white*/
+.custom a,
+.custom h2,
+.custom h3,
+.custom p {
+  color: white;
+  /*Text color for each item, overrides the color property above*/
+}
+
+.platform-ios.platform-cordova:not(.fullscreen) {
+  .bar-header:not(.bar-subheader) {
+    margin-top: 20px;
+  }
+}
+
+.platform-android {
+  .custom .side-menu-header .pulse-battery {
+    margin: -8.5px 0 0 4px;
+
+    width: 30px;
+  }
+
+  .pulse-header {
+    .title {
+      font-size: 24px;
+      line-height: 46px !important;
+    }
+  }
+}
+
+.platform-ios {
+  .pulse-header {
+    .settings-icon {
+      margin-top: 5px;
+    }
+  }
+}

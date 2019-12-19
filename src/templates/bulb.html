@@ -1,0 +1,117 @@
+<ion-view view-title="Long Exposure" class="bulb">
+  <div class="cam-not-supported" ng-if="ctrl.modelNotSupported">
+    <div class="not-supported-text text-center">
+      This camera does not support Long Exposure with Pulse.
+    </div>
+  </div>
+  <ion-content class="has-header" scroll="false">
+    <div class="page-1" ng-class="!ctrl.model.settings.isActive && !ctrl.showPreview ? 'animated fadeIn' : 'hide'">
+    <div class="bulb-container">
+      <!-- Mode -->
+      <div class="row row-center center text-center gotham-book">
+        {{ctrl.getMode()}}
+      </div>
+      <div class="row row-center center mode-picker">
+        <div class="mode timer" ng-click="ctrl.setTimedMode()">
+          <div ng-include="'img/timer.svg'" ng-class="ctrl.model.settings.isTimed ? 'purpleFill' : ''"></div>
+
+        </div>
+        <div class="mode separator gotham-xlight">|</div>
+        <div class="mode infinite" ng-click="ctrl.setManualMode()">
+          <div ng-include="'img/infinity-sm.svg'" ng-class="!ctrl.model.settings.isTimed ? 'purpleFill' : ''"></div>
+
+        </div>
+      </div>
+      <br>
+
+      <!-- Exposure Time + Timer -->
+      <div class="row row-center center text-center gotham-book">
+        <div class="row row-center center text-center gotham-book" ng-if="ctrl.model.settings.isTimed">
+          Exposure Time</div>
+      </div>
+      <br>
+      <div class="row row-center center text-center picker" ng-if="ctrl.model.settings.isTimed">
+        <timeincrementer swipe-interval=50 ng-model="duration.timed" inithour={{ctrl.model.duration.timed.hours}} minute-transition=true postfix="m" postfix2="S" initial-selection="minutes" min=0 max=60 min2=0 max2=59 initminute={{ctrl.model.duration.timed.minutes}}></timeincrementer>
+      </div>
+      <div class="toggle-contain text-center" ng-if="ctrl.showThumbToggle() && thumbCapable && ctrl.model.settings.thumbsEnabled">
+        <ion-toggle ng-change="ctrl.handleToggle(ctrl.selectedDevice.btClassic.enabled)" ng-model="ctrl.selectedDevice.btClassic.enabled" ng-checked="ctrl.selectedDevice.btClassic.enabled" class="grey">
+          Thumbnail
+        </ion-toggle>
+      </div>
+    </div>
+  </div>
+  <div class="page-2" ng-class="ctrl.model.settings.isActive ? 'animated fadeIn' : 'hide'">
+    <div class="bulb-container">
+      <div class="row row-center center text-center gotham-light">
+        Exposure Time</div>
+      <div class="row row-center center countdown-timer gotham-thin">
+        <timer interval="1000"  max-time-unit="minute" autostart="false" start-time="ctrl.timerStart">{{mminutes}}:{{sseconds}}</timer>
+      </div>
+      <div class="bottom-section gotham-thin" ng-if="ctrl.model.settings.isTimed && ctrl.model.settings.isActive">
+        <div class="line-separator"></div>
+      <div class="row row-center center total-time">
+        {{ctrl.maxMinutes}}:{{ctrl.maxSeconds}}
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="page-3" ng-class="ctrl.showPreview ? 'animated fadeIn' : 'hide'">
+    <div class="bulb-container">
+      <div class="row row-center center">
+        <div class="col center image-preview">
+
+          <div class="img-container" ng-click="ctrl.toggleHistogram()">
+            <div
+              ng-if="!ctrl.histogram || !ctrl.isBtClassicConnected()"
+              class="thumb white-box"
+              ng-class="(ctrl.isBtClassicConnected()) ? '': 'defaultThumb'"
+              style="background-image: linear-gradient(rgba(0, 0, 0, {{ctrl.backgroundGradient}}), rgba(0, 0, 0, {{ctrl.backgroundGradient}})), url({{ctrl.thumb}});">
+              <ion-spinner icon="circles" ng-show="ctrl.showSpinner && ctrl.isBtClassicConnected()" class="circlesreg"></ion-spinner>
+            </div>
+            <div class="hist-chart white-box" ng-if="ctrl.histogram">
+              <canvas
+                id="bar"
+                class="chart chart-bar"
+                chart-data="ctrl.histogramItems.data"
+                chart-labels="ctrl.histogramItems.labels"
+                chart-series="ctrl.histogramItems.series"
+                chart-options="ctrl.histogramItems.options"
+                chart-colours="ctrl.histogramItems.colours"></canvas>
+              <ion-spinner icon="circles" ng-show="ctrl.showSpinner && ctrl.isBtClassicConnected()" class="circleshist"></ion-spinner>
+              <div class="camSettings black text-center gotham-light">
+                <span class="shutter" ng-if="ctrl.camSettings.shutter.value">{{ctrl.camSettings.shutter.value}}s</span>
+                <span class="aperture" ng-if="ctrl.camSettings.aperture.value">f/{{ctrl.camSettings.aperture.value}}</span>
+                <span class="iso" ng-if="ctrl.camSettings.iso.value">ISO
+                  {{ctrl.camSettings.iso.value}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="no-thumbnails text-center gotham-light" ng-if="!thumbCapable">
+            Thumbnails are not supported for your device.
+          </div>
+        </div>
+
+      </div>
+      <div class="row row-center center text-center gotham-light">
+        Final Exposure Time</div>
+      <div class="row row-center center countdown-timer gotham-thin" ng-if="ctrl.stoppedSeconds">
+        {{ctrl.stoppedMinutes + ':' + ctrl.stoppedSeconds}}
+      </div>
+      <div class="row row-center center countdown-timer gotham-thin" ng-if="!ctrl.stoppedSeconds">
+        {{ctrl.maxMinutes + ':' + ctrl.maxSeconds}}
+      </div>
+    </div>
+  </div>
+  </ion-content>
+
+  <div class="row fixed-bottom-section">
+    <div class="col text-center" ng-if="!ctrl.showPreview">
+      <div class="red gotham-light bulb-warning {{ctrl.errorClass}}">Make sure your camera is set to bulb</div>
+      <photo-button partial-url="bulbButton" on-item-click="ctrl.startOrStopBulb()" ng-if="!ctrl.model.settings.isActive"></photo-button>
+      <photo-button partial-url="bulbButtonEnd" on-item-click="ctrl.startOrStopBulb()" ng-if="ctrl.model.settings.isActive" animate-time="{{ctrl.model.duration.animationValues.current}}" animate-max="{{ctrl.model.duration.animationValues.max}}"></photo-button>
+    </div>
+    <div class="row text-center center" ng-if="ctrl.showPreview">
+      <button class="button white-btn gotham-book bulb-btn one" ng-click="ctrl.finishBulb()">Finish</button>
+    </div>
+  </div>
+</ion-view>

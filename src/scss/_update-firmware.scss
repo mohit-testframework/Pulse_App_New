@@ -1,0 +1,28 @@
+@import "_variables";
+.update-firmware {
+  .update-container{
+    font-size: 1.2em;
+    margin-top: 5vh;
+  }
+  .progress-wrapper {
+    margin-top:5vh;
+    .percentage {
+      top: 110px;
+      left: 5px;
+      position: relative;
+      z-index: 10;
+      color: #b2b2b2;
+      font-size: 2.8em;
+      span {
+        font-size: 0.5em;
+        margin-left: -15px;
+      }
+    }
+  }
+  .progress-container {
+    padding: 1.5em;
+  }
+  .update-status{
+    padding-bottom: 25px;
+  }
+}

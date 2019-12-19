@@ -1,0 +1,51 @@
+@import "_variables";
+
+.bug-report {
+  .bug-report-container {
+    margin-top: 5vh;
+  }
+
+  .firmware-button{
+    margin-top: -15px;
+  }
+  .no-debug {
+    padding: 20px 20px 0;
+  }
+
+  .item {
+    background: #fafafa;
+  }
+
+  .shredder{
+    border-radius:200px;
+    width:50%;
+  }
+
+  textarea {
+    background: #fafafa;
+    height: 75px;
+  }
+
+  .thanks {
+    margin-bottom: 30px;
+    padding: 20vh 4vh;
+  }
+
+  button {
+    &.button-block {
+      margin-top: 15vh;
+    }
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .list {
+    padding: 20px;
+  }
+
+  .btn-row {
+    padding: 0 20px;
+  }
+}

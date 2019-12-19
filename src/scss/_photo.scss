@@ -1,0 +1,115 @@
+@import "_variables";
+
+.photo {
+  .fixed-bottom-section {
+    .bulb-warning {
+      margin-bottom: 10px;
+      padding: 0 5%;
+    }
+
+    svg {
+      padding: 0.5px !important;
+    }
+  }
+
+  .no-thumbnails {
+    margin-top: 25vh;
+    padding: 0 10vh;
+    font-size: 16px;
+  }
+
+  .photo-ring {
+    #innerRing:active {
+      fill: #b2b2b2;
+    }
+  }
+
+  .image-preview {
+    margin-top: 6vh;
+  }
+
+  .thumb {
+    height: 187.5px;
+    width: 250px;
+    margin: 25px 5px;
+    background-size: cover;
+
+    &.defaultThumb {
+      background-image: url("../../img/pulse-scene.jpg") !important;
+    }
+  }
+
+  .no-image-text {
+    margin-top: -15px;
+    margin-bottom: 5px;
+  }
+
+  .helper-hist {
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
+
+  .img-container {
+    background-color: #fff;
+    border-radius: 20px;
+
+    .name {
+      color: $black;
+    }
+
+    .no-image-text {
+      margin-bottom: 12.5px;
+    }
+
+    .white-box {
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .circlesreg {
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+
+      svg {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    .circleshist {
+      left: 50%;
+      top: 25%;
+      transform: translateX(-50%);
+      position: absolute;
+
+      svg {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    .chart-container {
+      padding: 24px 10px 14px;
+      background: white;
+      border-radius: 20px;
+    }
+
+    .chart-bar {
+      width: 240px !important;
+      height: 160px !important;
+    }
+
+    .camSettings {
+      padding-bottom: 14px;
+      font-size: 0.85em;
+
+      .aperture {
+        margin: 0 8px;
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+@import "_variables";
+.small-iphone-style {
+  .video-container{
+    margin-top:8vh !important;
+  }
+  .timelapse-container{
+    margin-top: 6vh !important;
+  }
+  .bulb-container, .photobooth-container, .hdr-container, .save-preset-container, .settings-container{
+    margin-top: 10vh !important;
+  }
+  .exposure-container{
+    margin-top:6vh !important;
+  }
+
+  .fixed-bottom-section{
+    bottom: 8vh !important;
+  }
+
+}

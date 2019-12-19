@@ -1,0 +1,43 @@
+<ion-view view-title="Load a Preset" class="loadPreset" cache-view="false">
+  <ion-content class="has-header" scroll="false">
+
+    <div class="load-preset-container">
+      <div class="row-center container gotham-medium">
+        <div class="text-center gotham-light no-presets" ng-if="!ctrl.presets">You have not saved any preset timelapses yet.</div>
+
+        <div class="slider-container" ng-if="ctrl.presets">
+          <div class="col" style="height: 150px;">
+            <ks-swiper-container
+              loop="false"
+              show-nav-buttons="true"
+              slides-per-view="1"
+              initial-slide="0"
+              current-slide="0"
+              pagination-clickable="false"
+              swiper="ctrl.swiper"
+              speed="600"
+              override-parameters="{iOSEdgeSwipeDetection: true, centeredSlides: true, resistanceRatio: 1, longSwipesRatio: 0.3, freeMode: true, freeModeSticky: true, freeModeMomentumBounce: false, freeModeMinimumVelocity: 0.08, freeModeMomentumRatio: 0.5}">
+              <ks-swiper-slide class="swiper-slide" data-num="{{$index}}" data-index="{{key}}" ng-repeat="(key,val) in ctrl.presets">
+
+                <div class="text-center gotham-light col">
+                  <div class="preset-name gotham-book">{{key}}</div>
+                  <div>Interval<span class="gotham-book span-display">{{val.interval}}<span class="gotham-xlight grey">s</span></span></div>
+                  <div>Duration<span class="gotham-book span-display">{{val.duration.hours}}<span class="gotham-xlight grey">h</span>{{val.duration.minutes}}<span class="gotham-xlight grey">m</span></span></div>
+                  <div>Total Photos<span class="gotham-book span-display">{{ctrl.calculateTotalPhotos(val.duration, val.interval)}}</span></div>
+                  <div ng-if="val.activeExposure">Exp. Ramp</div>
+                  <div ng-if="val.activeDelay">Time Delay</div>
+
+                </div>
+
+              </ks-swiper-slide>
+            </ks-swiper-container>
+          </div>
+        </div>
+      </div>
+      <div class="row row-center center" style="margin-top: 15vh;" ng-if="ctrl.presets">
+        <button class="button white-btn gotham-book load-preset" ng-click="ctrl.deletePreset()">Delete</button>
+        <button class="button blue-btn gotham-book load-preset save" ng-click="ctrl.loadPreset()">{{ctrl.buttonText}}</button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,14 @@
+<ion-view view-title="Timelapse Delay" class="timelapse-delay">
+  <ion-content class="has-header" overflow-scroll="false" has-bouncing="false">
+    <div class="gotham-light vertically-center white">
+      <div class="row row-center center text-center delay">
+        <ion-toggle ng-model="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeDelay" ng-checked="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeDelay" class="grey">
+          Enable Delay
+        </ion-toggle>
+      </div>
+      <div class="row row-center center text-center picker">
+        <timeincrementer swipe-interval=50 minute-transition=true ng-model="ctrl.timelapseModel.timelapses[ctrl.dId].settings.delay" inithour={{ctrl.timelapseModel.timelapses[ctrl.dId].settings.delay.hours}} postfix="h" postfix2="m" min=0 max=24 min2=0 max2=59 initminute={{ctrl.timelapseModel.timelapses[ctrl.deviceModel.id].settings.delay.minutes}} time-incrementer-name="delay"></timeincrementer>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

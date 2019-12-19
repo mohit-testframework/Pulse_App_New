@@ -1,0 +1,21 @@
+@import "_variables";
+.hdr {
+  .hdr-warning {
+    margin-bottom: 20px;
+    padding: 0 15%;
+  }
+  .hdr-container {
+    .fixed-bottom-section {
+      svg {
+        padding: 0.5px !important;
+      }
+    }
+    margin-top: 15vh;
+    font-size: 1.2em;
+    .hdr-row {
+      &.one {
+        margin-bottom: 25px;
+      }
+    }
+  }
+}

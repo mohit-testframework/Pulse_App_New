@@ -1,0 +1,43 @@
+{
+  "name": "pulse",
+  "private": "true",
+  "devDependencies": {
+     "ionic": "ionic-team/ionic-bower#1.3.4",
+    "babel-polyfill": "~0.0.1",
+    "ngcordova-wrapper-nativestorage": "git://github.com/TheCocoaProject/ngcordova-wrapper-nativestorage"
+  },
+  "dependencies": {
+    "ngCordova": "^0.1.24-alpha",
+    "jquery": "~2.0.3",
+    "ionic-native-transitions": "shprink/ionic-native-transitions#^1.0.0-rc9",
+    "lodash": "^4.5.1",
+    "angular-swiper": "https://github.com/blakeparkinson/angular-swiper.git#master",
+    "ionic-incrementer": "https://github.com/blakeparkinson/ionic-incrementer.git#master",
+    "angular-timer": "^1.3.3",
+    "font-awesome": ">=4.5.0",
+    "angular-svg-round-progressbar": "^0.4.2",
+    "angular-moment": "^0.10.3",
+    "ionic-nifty-modal": "*",
+    "node-histogram": "https://github.com/blakeparkinson/node-histogram.git#master",
+    "angular-chart.js": "^0.9.0"
+  },
+  "overrides": {
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css"
+      ]
+    },
+    "ionic-incrementer": {
+      "main": [
+        "css/incrementer.css",
+        "src/incrementer.js",
+        "src/time-incrementer.js"
+      ]
+    },
+    "node-histogram": {
+      "main": [
+        "histogram.min.js"
+      ]
+    }
+  }
+}

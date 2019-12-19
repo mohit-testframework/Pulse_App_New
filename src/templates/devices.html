@@ -1,0 +1,65 @@
+<ion-view view-title="Devices" class="devices">
+  <ion-content class="has-header" overflow-scroll="true" has-bouncing="true">
+    <ion-refresher class="blue" pulling-icon="ion-ios-arrow-down" pulling-text="Pull to rescan." spinner="crescent" on-refresh="ctrl.initiateScan()"></ion-refresher>
+    <div class="page-container" on-swipe-down="ctrl.initiateScan()">
+      <div class="device-container gotham-light padding">
+        <div ng-if="ctrl.isEmpty() || !ctrl.localStorageDevices" class="text-center no-pulses">
+          No devices detected.<br><br>Make sure your Pulse<br>is on and in range.
+        </div>
+        <ion-list ng-if="ctrl.localStorageDevices && !ctrl.isEmpty()">
+          <ion-item ng-repeat="localStorageDevice in ctrl.localStorageDevices" ng-click="ctrl.expandOrCollapse($index)" ng-if="localStorageDevice">
+            <div class="device">
+              <div ng-show="$index != ctrl.editingRow">
+                <div class="row">
+                  <div class="col col-85">
+                    <div class="row info-row">
+                      <div class="device-title">{{localStorageDevice.nickname}}</div>
+                      <div class="battery col" ng-if="ctrl.isDeviceActive(localStorageDevice)">
+                        <pulse-battery device="localStorageDevice"></pulse-battery>
+                      </div>
+                    </div>
+                    <div class="model row gotham-light">{{ctrl.getCameraModel(localStorageDevice)}}</div>
+                  </div>
+                  <div class="col indicator">
+                    <button class="button button-clear right device-btn" ng-click="ctrl.connectOrDisconnectDevice(localStorageDevice, $event)">
+                      <img ng-src="{{ctrl.getImageSource(localStorageDevice)}}" ng-class="(localStorageDevice.isScanning)? 'ion-spin-animation' : ''">
+                    </button>
+                  </div>
+                </div>
+                <div class="btn-row row" ng-class="(ctrl.selectedRow == $index) ? 'grow': 'shrink'">
+                  <div class="col col-33" ng-if="!ctrl.isConnected(localStorageDevice)">
+                    <button class="button white-btn gotham-book forget" ng-click="ctrl.forgetDevice(localStorageDevice, $index)">Forget</button>
+                  </div>
+                  <div class="col col-33" ng-if="ctrl.isConnected(localStorageDevice)">
+                    <button class="button white-btn gotham-book rename" ng-click="ctrl.renameDevice($event, $index)">Rename</button>
+                  </div>
+                  <div class="col col-33">
+                    <button class="button white-btn gotham-book blink {{ctrl.btnClass}}" ng-click="ctrl.findPulse($event, localStorageDevice)" ng-if="ctrl.isConnected(localStorageDevice)">Blink LED</button>
+                  </div>
+                </div>
+              </div>
+              <div class="editing row" ng-show="$index == ctrl.editingRow">
+                <div class="col-75 nickname-col">
+                  <form ng-submit="ctrl.saveNickname(localStorageDevice, localStorageDevice.nickname)">
+                    <label class="item-input" focus-me>
+                      <span class="input-label">Nickname</span>
+                      <input id="nickname-input" type="text" ng-model="ctrl.modelNickName" maxlength="10" ng-keypress="ctrl.checkForEnter($event.keyCode)"></input>
+                    </label>
+                  </form>
+                </div>
+                <div class="col">
+                  <button class="button blue-btn right gotham-book" ng-click="ctrl.saveNickname(localStorageDevice, ctrl.modelNickName)">Save</button>
+                </div>
+              </div>
+            </div>
+
+          </ion-item>
+        </ion-list>
+      </div>
+      <div class="col text-center bounce">
+        <div class="scan gotham-book">Scan</div>
+        <navigation-arrow type="down" direction="down"></navigation-arrow>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

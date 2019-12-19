@@ -1,0 +1,56 @@
+@import "_variables";
+.exposure {
+  .exposure-container {
+    margin-top: 5vh;
+  }
+  .exposure-settings-container {
+    margin-top: -1vh;
+  }
+  .stats {
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+  }
+  .border {
+    width: 250px;
+    margin: 0 auto;
+    border-top: solid 1px #969696;
+    transition: opacity 0.5s ease;
+  }
+  .stat-right {
+    margin-left: 5px;
+  }
+  .swiper-container {
+    width: inherit !important;
+   }
+  .bot-border {
+    border-bottom: 1px solid rgba(178,178,178,0.3);
+  }
+  .incrementer{
+    margin-top: -7px;
+    .plus{
+      line-height: 1.8;
+    }
+  }
+  .label {
+    display: flex;
+    align-items: center;
+    width: 120px;
+    &.carousel {
+      padding-left: 10px;
+    }
+  }
+  .fixed-bottom-section {
+    bottom: 5vh;
+    padding: 0px;
+  }
+  .picker {
+    font-size: 0.9em;
+  }
+  .incrementer {
+    float: right;
+  }
+  .swiper-slide{
+    font-size: 1.4em;
+  }
+}

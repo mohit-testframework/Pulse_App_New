@@ -1,0 +1,8 @@
+<div class="firmware-button" ng-if="!modal">
+  <div class="row gotham-light white update-text" ng-if="!noUpdateText">
+    A new firmware update is available.
+  </div>
+  <button class="button white-btn gotham-book" ng-click="vm.goToFirmwarePage()">Update</button>
+
+</div>
+<button ng-if="modal" class="button button-positive modal-btn right-side" ng-click="vm.goToFirmwarePage()">Yes</button>
