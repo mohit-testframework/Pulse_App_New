@@ -1,0 +1,105 @@
+<ion-view cache-view="false" class="settings">
+  <ion-nav-title>
+    {{'Camera'}}
+  </ion-nav-title>
+
+  <ion-content class="has-header" scroll="false">
+    <div
+      ng-if="!ctrl.selectedDevice.metaData.camSettings.shutterOptions.length && !ctrl.selectedDevice.metaData.camSettings.apertureOptions.length && !ctrl.selectedDevice.metaData.camSettings.isoOptions.length"
+      class="text-center gotham-light no-settings padding">
+      No settings available. Your camera is not connected.
+    </div>
+    <div ng-if="ctrl.selectedDevice.loadingMeta" class="text-center gotham-light no-settings padding">
+      Fetching camera settings.
+    </div>
+    <div class="row-center container gotham-medium settings-container" ng-if="!ctrl.selectedDevice.loadingMeta">
+      <div class="slider-container shutter" ng-if="ctrl.selectedDevice.metaData.camSettings.shutterOptions.length">
+        <div class="col" style="height: 90px;">
+          <div class="setting-header text-center gotham-light">Shutter</div>
+
+          <ks-swiper-container
+            loop="false"
+            show-nav-buttons="false"
+            slides-per-view="3"
+            initial-slide="ctrl.selectedDevice.metaData.camSettings.activeShutterIndex"
+            current-slide="ctrl.indexes.shutterIndex"
+            pagination-clickable="false"
+            on-ready="ctrl.onReadySwiper(swiper, 'shutter', 'shutter')"
+            speed="600"
+            override-parameters="{iOSEdgeSwipeDetection: true, centeredSlides: true, resistanceRatio: 1, longSwipesRatio: 0.3, freeMode: true, freeModeSticky: true, freeModeMomentumBounce: false, freeModeMinimumVelocity: 0.08, freeModeMomentumRatio: 0.5}">
+            <ks-swiper-slide class="swiper-slide" data-index="{{$index}}" ng-repeat="item in ctrl.selectedDevice.metaData.camSettings.shutterOptions">
+
+              <div class="text-center gotham-book">
+                <span class="iso-number">{{item.value}}</span>
+              </div>
+
+            </ks-swiper-slide>
+          </ks-swiper-container>
+        </div>
+      </div>
+      <div class="slider-container aperture" ng-if="ctrl.selectedDevice.metaData.camSettings.apertureOptions.length">
+        <div class="col" style="height: 90px;">
+          <div class="setting-header text-center gotham-light">Aperture</div>
+          <ks-swiper-container
+            loop="false"
+            show-nav-buttons="false"
+            slides-per-view="3"
+            pagination-clickable="false"
+            initial-slide="ctrl.selectedDevice.metaData.camSettings.activeApertureIndex"
+            current-slide="ctrl.indexes.apertureIndex"
+            on-ready="ctrl.onReadySwiper(swiper, 'aperture', 'aperture')"
+            speed="600"
+            override-parameters="{iOSEdgeSwipeDetection: true, centeredSlides: true, resistanceRatio: 1, speed: 600, longSwipesRatio: 0.3, freeMode: true, freeModeSticky: true, freeModeMomentumBounce: false, freeModeMomentumRatio: 0.5, freeModeMinimumVelocity: 0.08}">
+            <ks-swiper-slide class="swiper-slide" data-index="{{$index}}" ng-repeat="item in ctrl.selectedDevice.metaData.camSettings.apertureOptions">
+
+              <div class="text-center gotham-book">
+                <span class="niconne">f</span>
+                <span class="iso-number">{{item.value}}</span>
+              </div>
+
+            </ks-swiper-slide>
+          </ks-swiper-container>
+        </div>
+      </div>
+      <div class="slider-container iso" ng-if="ctrl.selectedDevice.metaData.camSettings.isoOptions.length">
+        <div class="col" style="height: 90px;">
+          <div class="setting-header text-center gotham-light">ISO</div>
+
+          <ks-swiper-container
+            loop="false"
+            show-nav-buttons="false"
+            slides-per-view="3"
+            pagination-clickable="false"
+            initial-slide="ctrl.selectedDevice.metaData.camSettings.activeIsoIndex"
+            current-slide="ctrl.indexes.isoIndex"
+            on-ready="ctrl.onReadySwiper(swiper, 'iso', 'iso')"
+            speed="600"
+            override-parameters="{iOSEdgeSwipeDetection: true, centeredSlides: true, resistanceRatio: 1, speed: 600, longSwipesRatio: 0.3, freeMode: true, freeModeSticky: true, freeModeMomentumBounce: false, freeModeMinimumVelocity: 0.08, freeModeMomentumRatio: 0.5}">
+            <ks-swiper-slide class="swiper-slide" data-index="{{$index}}" ng-repeat="item in ctrl.selectedDevice.metaData.camSettings.isoOptions">
+
+              <div class="text-center gotham-book">
+                <span class="iso-number">{{item.value}}</span>
+              </div>
+
+            </ks-swiper-slide>
+          </ks-swiper-container>
+        </div>
+      </div>
+      <div class="camMode-container" ng-if="ctrl.selectedDevice.metaData.cameraMode.length">
+        <div class="text-center gotham-light grey">
+          Current Mode: {{ctrl.selectedDevice.metaData.cameraMode.toLowerCase()}}
+        </div>
+      </div>
+      <div class="row fixed-bottom-section" ng-if="ctrl.isTimelapseActive()">
+        <div class="col text-center">
+
+          <div class="tl-button-container">
+            <button class="button button-block white-btn gotham-book update-btn" ng-click="ctrl.updateTlSettings()" ng-disabled="ctrl.disabledUpdateButton">{{ctrl.btnText}}</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>

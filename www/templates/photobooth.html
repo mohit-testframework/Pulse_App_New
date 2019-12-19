@@ -1,0 +1,63 @@
+<ion-view view-title="Photo Booth" class="photobooth">
+  <ion-content class="has-header pb-header" scroll="false">
+    <ion-slide-box ng-init="ctrl.disableSwipe()" show-pager=false>
+      <ion-slide>
+        <div class="photobooth-container col">
+          <div class="gotham-medium">
+
+            <div class="pb-row one">
+              <div class="row row-center center text-center gotham-light">Time Between Photos</div>
+              <div class="row row-center center text-center incrementer-spacer">
+                <incrementer swipe-interval=100 ng-model="pbSettings.interval" integer initval="{{pbSettings.interval}}" postfix="s" step="5" min=5 max=60 incrementer-name="photobooth"></incrementer>
+              </div>
+            </div>
+            <div class="pb-row">
+              <div class="row row-center center text-center gotham-light">Number of Photos</div>
+              <div class="row row-center center text-center incrementer-spacer">
+                <incrementer swipe-interval=100 ng-model="pbSettings.numPhotos" integer initval="4" step="1" min=1 max=10></incrementer>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="photobooth-slide2-container col text-center">
+          <div class="gotham-light">Next Photo in</div>
+          <div class="time gotham-light">
+            <timer interval="1000" countdown="pbSettings.interval" autostart="false" finish-callback="ctrl.handlePbTransition()">{{countdown}}</timer>
+          </div>
+        </div>
+
+      </ion-slide>
+      <ion-slide>
+        <div class="photobooth-slide3-container col text-center">
+          <div class="row row-center center">
+            <div class="col center image-preview">
+
+              <div class="img-container" ng-if="ctrl.thumbs.length">
+                <div class="row flex-wrap center-text photo-row">
+                  <div class="thumb col-50" ng-repeat="thumb in ctrl.thumbs | filter:ctrl.notEmptyOrNull" value="{{thumb}}" style="background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url({{thumb}}); background-size: cover;"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="stats-container center-text gotham-medium">
+            <span class="white">Photos Taken</span>
+            <span class="orange">{{ctrl.photosTaken}}</span>
+          </div>
+        </div>
+
+      </ion-slide>
+    </ion-slide-box>
+  </ion-content>
+
+  <div class="row fixed-bottom-section">
+    <div class="col text-center">
+      <photo-button partial-url="photoBoothButtonSlide3" ng-if="pbSettings.finished" on-item-click="ctrl.startOrPausePhotobooth()"></photo-button>
+      <photo-button partial-url="photoBoothButton" ng-if="!pbSettings.finished && !pbSettings.inProgress" on-item-click="ctrl.startOrPausePhotobooth()"></photo-button>
+      <photo-button partial-url="photoBoothButtonSlide2" ng-if="!pbSettings.finished && pbSettings.inProgress" on-item-click="ctrl.startOrPausePhotobooth()"></photo-button>
+    </div>
+  </div>
+
+</ion-view>

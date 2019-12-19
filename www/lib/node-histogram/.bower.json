@@ -1,0 +1,13 @@
+{
+  "name": "node-histogram",
+  "homepage": "https://github.com/blakeparkinson/node-histogram",
+  "_release": "87810b3c8d",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "87810b3c8d06b1e63c990d36669f9fb0953a3d64"
+  },
+  "_source": "https://github.com/blakeparkinson/node-histogram.git",
+  "_target": "master",
+  "_originalSource": "https://github.com/blakeparkinson/node-histogram.git"
+}

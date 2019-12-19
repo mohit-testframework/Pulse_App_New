@@ -1,0 +1,62 @@
+{
+  "author": "Peter Müller <munter@fumle.dk> (http://fumle.dk)",
+  "name": "histogram",
+  "version": "2.1.0",
+  "description": "Provides a histogram data structure of png, gif and jpeg images using canvas. This library works in the browser as well",
+  "keywords": [
+    "histogram",
+    "image",
+    "png",
+    "jpeg",
+    "jpg",
+    "gif"
+  ],
+  "maintainers": [
+    {
+      "name": "Peter Müller",
+      "email": "munter@fumle.dk",
+      "web": "http://fumle.dk"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "BeerWare"
+    }
+  ],
+  "homepage": "http://munter.github.com/node-histogram",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Munter/node-histogram.git"
+  },
+  "files": [
+    "lib",
+    "histogram.min.js"
+  ],
+  "main": "lib/index.js",
+  "dependencies": {
+    "canvas": "1.3.16"
+  },
+  "devDependencies": {
+    "coveralls": "2.11.9",
+    "istanbul": "0.4.3",
+    "jshint": "2.9.2",
+    "mocha": "2.5.1",
+    "mocha-lcov-reporter": "1.2.0",
+    "mocha-phantomjs-core": "2.0.1",
+    "phantomjs-prebuilt": "2.1.7",
+    "uglify-js": "2.6.2",
+    "unexpected": "10.13.3"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "lint": "jshint .",
+    "phantom": "phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js test/global.html spec \"`node -pe 'JSON.stringify({useColors:true,grep:process.env.grep})'`\"",
+    "test": "npm run lint && mocha && npm run phantom",
+    "preversion": "uglifyjs lib/index.js -m -c > histogram.min.js && git add histogram.min.js",
+    "travis": "npm run lint && npm run coverage",
+    "coverage": "istanbul cover _mocha"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "ionic-incrementer",
+  "description": "ionic incremementer plugin",
+  "main": [
+      "./dist/incrementer.js",
+      "./css/incrementer.css"
+    ],
+  "authors": [
+    "blake parkinson"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "ionic",
+    "incrementer"
+  ],
+  "homepage": "https://github.com/blakeparkinson/ionic-incrementer",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

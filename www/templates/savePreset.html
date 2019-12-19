@@ -1,0 +1,27 @@
+<ion-view view-title="Save as Preset" class="savePreset" cache-view="false">
+  <ion-content class="has-header" scroll="false">
+
+    <div class="save-preset-container">
+      <div class="row row-center center">
+        <div class="col center gotham-light">Name</div>
+      </div>
+      <div class="row row-center center">
+          <div class="col">
+            <form>
+          <label class="item item-input">
+            <input class="gotham-bold" ng-model="ctrl.model.settings.presetName" ng-keypress="ctrl.checkForEnter($event.keyCode)" type="text" maxlength="10" focus-me>
+          </form>
+        </div>
+      </div>
+      <div class="col footer-text gotham-light">
+        <div class="center row row-center">Saves all timelapse settings.</div>
+        <div class="center row row-center">Excludes camera settings.</div>
+      </div>
+      <div class="red gotham-light {{ctrl.errorClass}} preset-error">Make sure you give your preset a name</div>
+
+      <div class="row row-center center">
+        <button class="button white-btn gotham-book save-preset" ng-click="ctrl.savePreset()">{{ctrl.buttonText}}</button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,72 @@
+<ion-view view-title="Settings" class="app-settings">
+  <ion-content class="has-header" has-bouncing="true">
+    <div class="settings-list gotham-light">
+      <ion-list>
+        <ion-item>
+          <a class="row item-row" ui-sref="app.about">
+            <div class="col left-section">
+              <div>
+                About
+              </div>
+            </div>
+            <div class="col col-25 gotham-medium">
+              <div class="ion-ios-arrow-right right"></div>
+            </div>
+          </a>
+        </ion-item>
+        <ion-item>
+          <a class="row item-row" ui-sref="app.bugreport">
+            <div class="col left-section">
+              <div>
+                Submit a Bug
+              </div>
+            </div>
+            <div class="col col-25 gotham-medium">
+              <div class="ion-ios-arrow-right right"></div>
+            </div>
+          </a>
+        </ion-item>
+        <ion-item ng-if="ctrl.isDeviceConnected()">
+          <div class="row item-row led">
+            <div class="col-33 col- left-section">
+              <div>
+                LED Level
+              </div>
+            </div>
+            <div class="col col-67 right">
+              <div class="range range-positive">
+                 <i class="icon ion-ios-sunny-outline"></i>
+                 <input type="range" name="volume" min="0" max="100" ng-model="ctrl.ledLevel" on-release="ctrl.setLEDLevel()">
+                 <i class="icon ion-ios-sunny"></i>
+               </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-75 permissable">
+              Control how brightly your pulse blinks
+            </div>
+          </div>
+        </ion-item>
+        <ion-item ng-if="ctrl.showPermissableOption()">
+          <div class="row item-row permissable-mode">
+            <div class="col left-section">
+              <div>
+                Permissable Mode
+              </div>
+            </div>
+            <div class="col col-25 right">
+                <ion-toggle ng-checked="ctrl.views.permissableMode" ng-model="ctrl.views.permissableMode" ng-change="ctrl.updatePermissableMode()" class="grey"></ion-toggle>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-75 permissable">
+              When in permissable mode, pulse will not check your camera mode (manual, auto, etc...) before shooting.
+            </div>
+          </div>
+        </ion-item>
+      </ion-list>
+      <firmware ng-if="ctrl.showFirmwareWarning"></firmware>
+    </div>
+
+  </ion-content>
+</ion-view>

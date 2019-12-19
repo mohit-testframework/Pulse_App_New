@@ -1,0 +1,114 @@
+<div class="menu-pane">
+  <pulse-modal control="vm.control"></pulse-modal>
+  <ion-side-menus>
+
+    <ion-side-menu-content drag-content="{{vm.canDrag}}">
+
+      <ion-nav-bar class="bar pulse-header row stable gotham-light">
+        <ion-nav-buttons side="left">
+          <button ng-if="!(vm.photobooth.inProgress && vm.$location.path() == '/app/photobooth')" class="button button-icon button-clear header-btn left {{vm.getLeftIcon()}}" ng-click="vm.handleLeftNavigation()"></button>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+          <button class="button button-icon button-clear header-btn" ng-class="vm.showRightIcon() ? 'show' : 'hide'" ng-click="vm.handleRightNavigation()">
+            <div ng-include src="vm.getRightIcon()"></div>
+          </button>
+        </ion-nav-buttons>
+      </ion-nav-bar>
+
+      <ion-nav-view class="main stable primary"></ion-nav-view>
+      <ion-footer-bar ng-if="vm.$location.path() != '/app/devices' && vm.$location.path() != '/app/welcome'">
+        <div class="row">
+          <div class="status-factory text-center col white">
+            <span class="" ng-bind-html="vm.getStatusMarkup()"></span>
+          </div>
+        </div>
+      </ion-footer-bar>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="left" class="gotham-thin grey-gradient">
+      <!-- <ion-header-bar class="menu-bar"></ion-header-bar> -->
+      <ion-content class="custom white">
+        <div class="side-menu-header">
+          <div class="col-offset-5 not-connected" ng-if="!vm.arePulsesConnected()" ng-click="vm.openPopover($event)">
+            <div class="row img-row">
+              <div class="col-95 col device-col">
+                <img class="pulse-logo" ng-src="img/alpine-logo.png"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-offset-10 connected" ng-if="vm.arePulsesConnected()" ng-click="vm.openPopover($event)">
+            <div class="row">
+              <div class="col col-20">
+                <img class="pulse-logo-2" ng-src="img/alpine-logo.png"/>
+              </div>
+              <div class="col col-90">
+                <div class="row gotham-light device-nickname">
+
+                  <div class="col-90 col device-col">
+                    <div class="row">
+                      <div class="device-title">
+                        <span class="left">{{vm.getDeviceName()}}</span>
+                        <pulse-battery class="right"></pulse-battery>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col" ng-if="vm.connectedPulses.length > 1">
+                    <div class="row down-arrow">
+                      <div class="right ion-arrow-down-b"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row gotham-light cam-row" ng-if="vm.getCameraModel()">
+                  <div class="cam-title">{{vm.getCameraModel()}}</div>
+                </div>
+                <div class="row gotham-light status">
+                  <div>
+                    <span ng-bind-html="vm.getStatusText()"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-class="vm.arePulsesConnected() ? 'menu-line-separator': ''"></div>
+        </div>
+        <div class="list-items">
+          <ion-list>
+            <div ng-repeat="menuItem in vm.menuItems">
+              <a
+                class="item-row row menu-{{menuItem.name}}"
+                ng-if="!menuItem.hidden && menuItem.page"
+                menu-toggle
+                ui-sref="{{menuItem.page}}(vm.getState(menuItem.name))"
+                tl-sref="{{menuItem.page}}(vm.getState(menutItem.name))"
+                ui-sref-active="selected"
+                eat-click-if="menuItem.notReady || (menuItem.greyOut && vm.isTimelapseActive())"
+                ng-class="menuItem.notReady || (menuItem.greyOut && vm.isTimelapseActive())">
+                <span class="{{menuItem.icon}} menu-icon col col-10 col-offset-5"></span>
+<!--                 <img  ng-if="(menuItem.name == 'bulb' || menuItem.name == 'hdr' || menuItem.name == 'devices')" class="sideMenuImage" src="{{menuItem.icon}}" alt="">
+                  <img  ng-if="(menuItem.name == 'bulb')" class="sideMenuImage-selected" src="img/icon01.png" alt="">
+                  <img  ng-if="( menuItem.name == 'hdr')" class="sideMenuImage-selected" src="img/icon02.png" alt="">
+                  <img  ng-if="(menuItem.name == 'devices')" class="sideMenuImage-selected" src="img/icon03.png" alt=""> -->
+                <span class="col label-item">
+                  {{menuItem.label}}
+                  <span class="right gotham-light white tl-percent" ng-if="menuItem.showPercentage && vm.isTimelapseActive()">
+                    <div class="progress-wrapper">
+                      <div class="percentage gotham-light">
+                        {{vm.completionPercentage}}
+                        <span>%</span>
+                      </div>
+                      <div animation-delay="0" animation="easeInOutQuart" bgcolor="#2D2D2D" clockwise="true" color="#008bca" current="vm.completionPercentage" duration="800" max="100" radius="19.5" responsive="false" round-progress stroke="1"></div>
+                    </div>
+
+                  </span>
+                </span>
+
+              </a>
+            </div>
+          </ion-list>
+        </div>
+      </ion-content>
+    </ion-side-menu>
+
+  </ion-side-menus>
+
+</div>

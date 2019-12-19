@@ -1,0 +1,180 @@
+<ion-view view-title="Exposure Ramping" class="exposure">
+  <ion-content class="has-header" overflow-scroll="true" has-bouncing="true">
+    <div class="gotham-light white exposure-container">
+      <div class="row row-center center text-center delay">
+
+        <ion-toggle ng-model="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeExposure" ng-checked="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeExposure" class="grey">
+          Enable
+        </ion-toggle>
+      </div>
+      <div class="row-center container gotham-light exposure-settings-container">
+        <div class="row" style="height: 60px">
+          <div class="col col-30 gotham-book blue label">Delay:</div>
+          <div class="col col-70 text-center picker">
+            <timeincrementer
+              ng-model="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.delay"
+              inithour="{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.delay.hours}}"
+              postfix="h"
+              min=0
+              max="24"
+              min2="0"
+              max2=59
+              swipe-interval=50
+              initminute="{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.delay.minutes}}"
+              allowzero="true"
+              class="right"
+              time-incrementer-name="exposure-delay"
+              minute-transition=true></timeincrementer>
+          </div>
+        </div>
+        <div class="row" style="height: 60px; margin-bottom:10px;">
+          <div class="col col-30 gotham-book blue label">Duration:</div>
+          <div class="col col-70 text-center picker">
+            <timeincrementer
+              ng-model="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.duration"
+              inithour="{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.duration.hours}}"
+              postfix="h"
+              min=0
+              max="24"
+              min2="0"
+              max2=59
+              swipe-interval=50
+              time-incrementer-name="exposure-duration"
+              initminute="{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.duration.minutes}}"></timeincrementer>
+          </div>
+        </div>
+
+        <div class="slider-container startShutter" ng-if="ctrl.shutterOptions.valueArray.length">
+          <div style="height: 55px;">
+
+            <div class="setting-header gotham-book blue left label carousel">Start Shutter:</div>
+
+            <ks-swiper-container
+              loop="false"
+              show-nav-buttons="false"
+              slides-per-view="1"
+              initial-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.startShutterIndex"
+              current-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.startShutterIndex"
+              pagination-clickable="false"
+              on-ready="ctrl.onReadySwiper(swiper, 'startShutter', 'startShutter')"
+              speed="600"
+              override-parameters="{iOSEdgeSwipeDetection: true, centeredSlides: true, resistanceRatio: 1, longSwipesRatio: 0.3, freeMode: true, freeModeSticky: true, freeModeMomentumBounce: false,  freeModeMomentumRatio: 0.4, freeModeMomentumVelocityRatio: 0.8}">
+              <ks-swiper-slide class="swiper-slide" data-index="{{$index}}" ng-repeat="item in ctrl.shutterOptions.valueArray">
+
+                <div class="text-center gotham-book">
+                  <span class="iso-number">{{item.value}}</span>
+                </div>
+
+              </ks-swiper-slide>
+            </ks-swiper-container>
+          </div>
+        </div>
+
+        <div class="row-center container gotham-medium">
+          <div class="slider-container endShutter" ng-if="ctrl.shutterOptions.valueArray.length">
+            <div style="height: 55px;">
+              <div class="setting-header gotham-book blue left label carousel">End Shutter:</div>
+
+              <ks-swiper-container
+                loop="false"
+                show-nav-buttons="false"
+                slides-per-view="1"
+                initial-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.endShutterIndex"
+                current-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.endShutterIndex"
+                pagination-clickable="false"
+                on-ready="ctrl.onReadySwiper(swiper, 'endShutter', 'endShutter')"
+                speed="600"
+                override-parameters="{iOSEdgeSwipeDetection: true, centeredSlides: true, resistanceRatio: 1, longSwipesRatio: 0.3, freeMode: true, freeModeSticky: true, freeModeMomentumBounce: false,  freeModeMomentumRatio: 0.4, freeModeMomentumVelocityRatio: 0.8}">
+                <ks-swiper-slide class="swiper-slide" data-index="{{$index}}" ng-repeat="item in ctrl.shutterOptions.valueArray">
+
+                  <div class="text-center gotham-book">
+                    <span class="iso-number">{{item.value}}</span>
+                  </div>
+
+                </ks-swiper-slide>
+              </ks-swiper-container>
+            </div>
+          </div>
+        </div>
+        <div class="row-center container gotham-medium">
+          <div class="slider-container startIso" ng-if="ctrl.isoOptions.valueArray.length">
+            <div style="height: 55px;">
+              <div class="setting-header left gotham-book blue label carousel">Start ISO:</div>
+
+              <ks-swiper-container
+                loop="false"
+                show-nav-buttons="false"
+                slides-per-view="1"
+                initial-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.startIsoIndex"
+                current-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.startIsoIndex"
+                pagination-clickable="false"
+                on-ready="ctrl.onReadySwiper(swiper, 'startIso', 'startIso')"
+                speed="600"
+                override-parameters="{iOSEdgeSwipeDetection: true, centeredSlides: true, resistanceRatio: 1, longSwipesRatio: 0.3, freeMode: true, freeModeSticky: true, freeModeMomentumBounce: false,  freeModeMomentumRatio: 0.4, freeModeMomentumVelocityRatio: 0.8}">
+                <ks-swiper-slide class="swiper-slide" data-index="{{$index}}" ng-repeat="item in ctrl.isoOptions.valueArray">
+
+                  <div class="text-center gotham-book">
+                    <span class="iso-number">{{item.value}}</span>
+                  </div>
+
+                </ks-swiper-slide>
+              </ks-swiper-container>
+            </div>
+          </div>
+
+        </div>
+        <div class="row-center container gotham-medium">
+          <div class="slider-container endIso" ng-if="ctrl.isoOptions.valueArray.length">
+            <div style="height: 55px;">
+              <div class="setting-header left gotham-book blue label carousel">End ISO:</div>
+
+              <ks-swiper-container
+                loop="false"
+                show-nav-buttons="false"
+                slides-per-view="1"
+                initial-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.endIsoIndex"
+                current-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.endIsoIndex"
+                pagination-clickable="false"
+                on-ready="ctrl.onReadySwiper(swiper, 'endIso', 'endIso')"
+                speed="600"
+                override-parameters="{iOSEdgeSwipeDetection: true, centeredSlides: true, resistanceRatio: 1, longSwipesRatio: 0.3, freeMode: true, freeModeSticky: true, freeModeMomentumBounce: false,  freeModeMomentumRatio: 0.4, freeModeMomentumVelocityRatio: 0.8}">
+                <ks-swiper-slide class="swiper-slide" data-index="{{$index}}" ng-repeat="item in ctrl.isoOptions.valueArray">
+
+                  <div class="text-center gotham-book">
+                    <span class="iso-number">{{item.value}}</span>
+                  </div>
+
+                </ks-swiper-slide>
+              </ks-swiper-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  <div class="row stats fixed-bottom-section" ng-if="!iPhone4">
+    <div class="col text-center">
+      <div class="border">
+
+        <div class='stats'>
+          <div class="row" ng-if="ctrl.shutterOptions.valueArray.length && ctrl.isoOptions.valueArray.length">
+            <div class="gotham-book">EV Change:
+            </div>
+            <div class="gotham-medium stat-right">{{ctrl.getEV()}}</div>
+          </div>
+          <div class="row">
+            <div class="gotham-book">Photos:</div>
+            <div class="gotham-medium stat-right">{{ctrl.getTotalPhotos()}}</div>
+          </div>
+          <div class="row">
+            <div class="gotham-book">Interval:
+            </div>
+            <div class="gotham-medium stat-right">{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.interval}}
+              <span>s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-view>

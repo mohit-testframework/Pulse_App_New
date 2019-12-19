@@ -1,0 +1,75 @@
+=<ion-view view-title="TL Menu" class="timelapse-menu">
+  <ion-content class="has-header" overflow-scroll="true" has-bouncing="true">
+    <div class="menu-list gotham-light">
+      <ion-list>
+        <ion-item>
+          <ion-item>
+            <a class="row item-row" ui-sref="app.settings({deviceId:'{{ctrl.dId}}'})">
+              <div class="col left-section">
+                <div>
+                  Camera Settings
+                </div>
+              </div>
+              <div class="col gotham-medium">
+                <div class="ion-ios-arrow-right right"></div>
+              </div>
+            </a>
+          </ion-item>
+          <ion-item>
+            <a class="row item-row" ui-sref="app.exposure({deviceId:'{{ctrl.dId}}'})">
+              <div class="col left-section">
+                <div>
+                  Exposure Ramp
+                </div>
+              </div>
+              <div class="col gotham-medium">
+                <div class="ion-ios-arrow-right right"></div>
+                <div class="blue gotham-medium right time" ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeExposure">On</div>
+              </div>
+            </a>
+          </ion-item>
+          <ion-item>
+            <a class="row item-row" ui-sref="app.timelapsedelay({deviceId:'{{ctrl.dId}}'})">
+              <div class="col left-section">
+                <div>
+                  Time Delay
+                </div>
+              </div>
+              <div class="col gotham-medium">
+
+                <div class="ion-ios-arrow-right right"></div>
+                <div class="blue gotham-medium right time" ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeDelay">{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.delay.hours}}h{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.delay.minutes}}m
+                </div>
+              </div>
+            </a>
+          </ion-item>
+          <ion-item>
+            <a class="row item-row" ui-sref="app.savePreset">
+              <div class="col left-section">
+                <div>
+                  Save as Preset
+                </div>
+              </div>
+              <div class="col gotham-medium">
+
+                <div class="ion-ios-arrow-right right"></div>
+              </div>
+            </a>
+          </ion-item>
+          <ion-item>
+            <a class="row item-row" ui-sref="app.loadPreset">
+              <div class="col left-section">
+                <div>
+                  Load a Preset
+                </div>
+              </div>
+              <div class="col gotham-medium">
+
+                <div class="ion-ios-arrow-right right"></div>
+              </div>
+            </a>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-content>
+  </ion-view>

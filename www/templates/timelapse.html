@@ -1,0 +1,229 @@
+<ion-view view-title="Time Lapse" class="timelapse">
+  <ion-content class="has-header" scroll="false">
+    <ion-slide-box ng-init="ctrl.disableSwipe(false)" show-pager=false>
+      <!-- TL Slide 1 -->
+      <ion-slide>
+        <div class="timelapse-container col">
+          <div class="preset-name" ng-if="ctrl.presetModel.settings.presetName.length">
+            <div class="row row-center center text-center gotham-bold blue">{{ctrl.presetModel.settings.presetName}}</div>
+          </div>
+          <div class="gotham-light">
+            <div class="row row-center center text-center gotham-light">Interval</div>
+            <div class="row row-center center text-center incrementer-spacer">
+              <incrementer ng-model="tlSettings.interval" initval="5" postfix="s" min=1 max=1200 swipe-interval=50 incrementer-name="timelapse"></incrementer>
+            </div>
+            <div class="row row-center center text-center gotham-light incrementer-header">Duration</div>
+            <div class="row row-center center text-center incrementer-spacer">
+              <timeincrementer
+                minute-transition=true
+                ng-model="tlSettings.duration"
+                inithour="{{tlSettings.duration.hours}}"
+                postfix="h"
+                min=0
+                max=23
+                min2="{{ctrl.minMinute}}"
+                max2=59
+                initminute="{{tlSettings.duration.minutes}}"
+                infinity="true"
+                swipe-interval=50
+                time-incrementer-name="timelapse"
+                imgpath="img/infinity.svg"></timeincrementer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-slide>
+
+    <!-- TL Slide 2 -->
+    <ion-slide>
+      <div class="timelapse-container slide-2">
+        <div class="subSlider">
+          <ion-slide-box show-pager=true on-slide-changed="ctrl.changeSlide($index)">
+            <ion-slide>
+              <div class="text-center gotham-book">
+                <div class="progress-container col" ng-if="!ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite">
+                  <div class="progress-wrapper">
+                    <div class="percentage gotham-light">{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.enumeratingTl.completionPercentage}}
+                      <span>%</span>
+                    </div>
+                    <div
+                      animation-delay="0"
+                      animation="easeInOutQuart"
+                      bgcolor="#615f5f"
+                      clockwise="true"
+                      color="#008bca"
+                      current="ctrl.timelapseModel.timelapses[ctrl.dId].settings.enumeratingTl.completionPercentage"
+                      duration="800"
+                      max="100"
+                      radius="65"
+                      responsive="false"
+                      round-progress
+                      stroke="4"></div>
+                  </div>
+
+                </div>
+                <div class="infinite-container col" ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite">
+                  <img class="infinity" ng-src="img/infinity.svg"/>
+                </div>
+                <div class="line-separator"></div>
+                <div class="status-section gotham-xlight text grey row row-center">
+
+                  <div class="text-column col">
+
+                    <div class="row center-row">
+                      <div class="row left-photo">
+
+                        <img ng-src="img/photos-white.svg"/>
+                      </div>
+                      <div class="row right-text" ng-class="(ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite) ? 'push-left' : ''">
+
+                        <div class="count">{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.enumeratingTl.photos}}</div>
+                        <div class="small-container" ng-if="!ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite">
+                          <span class="spacer">/</span>
+                          <span class="small">{{ctrl.model.getTotalPhotos(ctrl.dId)}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row center-row">
+                      <div class="row left-photo">
+                        <img ng-src="img/clock-white.svg"/>
+                      </div>
+                      <div class="row right-text" ng-class="(ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite) ? 'push-left' : ''">
+
+                        <div class="count">{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.enumeratingTl.hours}}:{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.enumeratingTl.minutes}}</div>
+                        <div class="small-container" ng-if="!ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite">
+                          <span class="spacer">/</span>
+                          <span class="small">{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.hours}}:{{ctrl.renderMinutes()}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <!--
+                    <div class="row center-row" ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeExposure">
+                      <div class="row left-photo">
+
+                        <img class="ramp-2" ng-src="img/ramp.svg"/>
+                      </div>
+                      <div class="row right-text" ng-class="(ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite) ? 'push-left' : ''">
+
+                        <div class="count">{{ctrl.getCurrentShutter()}}<span class="gotham-light">s</span></div>
+                        <div class="small-container" ng-if="!ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite">
+                          <span class="spacer">/</span>
+                          <span class="small">{{ctrl.getCurrentIso()}}<span class="gotham-light">iso</span></span>
+                        </div>
+                      </div>
+                    </div>
+                  -->
+                  </div>
+                </div>
+                <div class="swipe-hint center-text gotham-light" ng-if="!ctrl.hasSwiped && thumbCapable">Swipe right to view thumbnails
+                  <div class="fadingEffect"></div>
+                </div>
+              </div>
+            </ion-slide>
+            <ion-slide>
+              <div class="sub-slide2">
+                <div class="photo-container" ng-if="thumbCapable">
+                  <div class="row row-center center">
+                    <div class="col center image-preview">
+
+                      <div class="img-container" ng-click="ctrl.toggleHistogram()">
+                        <div
+                          ng-if="!ctrl.histogram || !ctrl.isBtClassicConnected()"
+                          class="thumb white-box"
+                          ng-class="(ctrl.isBtClassicConnected()) ? '': 'defaultThumb'"
+                          style="background-image: linear-gradient(rgba(0, 0, 0, {{ctrl.backgroundGradient}}), rgba(0, 0, 0, {{ctrl.backgroundGradient}})), url({{ctrl.thumb}});">
+                          <ion-spinner icon="circles" ng-show="ctrl.showSpinner && ctrl.isBtClassicConnected()" class="circlesreg"></ion-spinner>
+                        </div>
+                        <div class="hist-chart white-box" ng-if="ctrl.histogram">
+                          <canvas
+                            id="bar"
+                            class="chart chart-bar"
+                            chart-data="ctrl.histogramItems.data"
+                            chart-labels="ctrl.histogramItems.labels"
+                            chart-series="ctrl.histogramItems.series"
+                            chart-options="ctrl.histogramItems.options"
+                            chart-colours="ctrl.histogramItems.colours"></canvas>
+                          <ion-spinner icon="circles" ng-show="ctrl.showSpinner && ctrl.isBtClassicConnected()" class="circleshist"></ion-spinner>
+                          <div class="camSettings black text-center gotham-light">
+                            <span class="shutter" ng-if="ctrl.camSettings.shutter.value">{{ctrl.camSettings.shutter.value}}s</span>
+                            <span class="aperture" ng-if="ctrl.camSettings.aperture.value">f/{{ctrl.camSettings.aperture.value}}</span>
+                            <span class="iso" ng-if="ctrl.camSettings.iso.value">ISO
+                              {{ctrl.camSettings.iso.value}}</span>
+                          </div>
+                        </div>
+                        <div class="helper-hist text-center gotham-light grey" ng-show="ctrl.showHistText()">Tap for Histogram</div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row row-center center text-center gotham-light details-row">
+                    <div class="right-side">Image
+                      {{ctrl.currentPhoto}}/{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.enumeratingTl.photos}}</div>
+                    <div class="left-side">{{ctrl.time | amDateFormat: 'h:mm a'}}</div>
+                  </div>
+                  <div class="toggle-contain text-center" ng-if="ctrl.showThumbToggle()">
+                    <ion-toggle ng-change="ctrl.handleToggle(ctrl.deviceModel.btClassic.enabled)" ng-model="ctrl.deviceModel.btClassic.enabled" ng-checked="ctrl.deviceModel.btClassic.enabled" class="grey">
+                      Thumbnail
+                    </ion-toggle>
+                  </div>
+                  <div ng-if="ctrl.tooMuchInterval" class="text-center gotham-book slide-text">
+                    Your interval of
+                    {{ctrl.timelapseModel.timelapses[ctrl.dId].settings.interval}}
+                    seconds is too fast for thumbnail preview.
+                  </div>
+                  <div class="row row-center center" ng-if="!ctrl.tooMuchInterval">
+                    <button class="button blue-bg gotham-light white refresh-btn" ng-click="ctrl.refreshImage()" ng-disabled="ctrl.isThumbButtonDisabled()">
+                      Load next image
+                    </button>
+                  </div>
+                </div>
+                <div class="no-thumbnails text-center gotham-light" ng-if="!thumbCapable">
+                  Thumbnails are not supported for your device.
+                </div>
+
+              </div>
+            </ion-slide>
+          </ion-slide-box>
+        </div>
+
+      </div>
+    </ion-slide>
+  </ion-slide-box>
+</ion-content>
+
+<!-- TL Stats -->
+<div class="row fixed-bottom-section">
+  <div class="col text-center" ng-if="!ctrl.timelapseModel.timelapses[ctrl.dId].settings.isActive">
+
+    <photo-button id='tlButton' partial-url="TLButton" on-item-click="ctrl.startTl()" animate-time="{{ctrl.tlDelay}}" animate-max="{{ctrl.tlMax}}" button-opacity="{{ctrl.opacity}}" processing="ctrl.processing"></photo-button>
+    <br>
+    <div class='stats' ng-if="ctrl.isNumber(ctrl.getTotalPhotos())" ng-class="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeDelay && ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeExposure ? 'smaller' : '' ">
+      <div>
+        <div class='photos'></div>
+        <div class="stat">{{ctrl.getTotalPhotos()}}</div>
+      </div>
+      <div>
+        <div class='duration'></div>
+        <div class="stat">{{ctrl.getFinalTLLength()}}s
+        </div>
+      </div>
+      <div ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeDelay">
+        <div class='delay'></div>
+        <div class="stat">{{ctrl.getDelaySeconds() - ctrl.countDown}}s
+        </div>
+      </div>
+      <div ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeExposure">
+        <div class='ramp'></div>
+        <div class="stat">On
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row text-center center bottom-buttons" ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.isActive">
+    <button class="button white-btn gotham-book tl-btn one" ng-click="ctrl.pauseTl()">{{ctrl.pauseOrResumeText}}</button>
+    <button class="button white-btn gotham-book tl-btn two" ng-click="ctrl.endTl()">End</button>
+  </div>
+
+</div>
+
+</ion-view>

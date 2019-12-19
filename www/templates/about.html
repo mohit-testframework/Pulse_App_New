@@ -1,0 +1,23 @@
+<ion-view view-title="About" class="about">
+  <ion-content class="has-header" overflow-scroll="true" has-bouncing="true">
+    <div class="about-container">
+      <div class="gotham-medium section-one" ng-if="ctrl.appVersion">
+        <div class="text-center">
+        <span class="white">App</span>
+        <ng-include src="'templates/partials/app-version-hash.html'"></ng-include>
+      </div>
+      </div>
+      <div class="text-center gotham-medium" ng-if="ctrl.getFirmwareVersion()">
+        <span class="white">Firmware</span>
+        <span class="blue">v{{ctrl.getFirmwareVersion()}}</span>
+      </div>
+      <firmware ng-if="ctrl.showFirmwareWarning"></firmware>
+      <div class="gotham-light text-center firmware-date" ng-if="ctrl.showOutOfDateAndroid">
+        A new firmware update is available. However, it requires Android 5 or higher to install. Please either update your Android OS or find another device to perform the firmware update.
+      </div>
+      <div class="gotham-light text-center firmware-date" ng-if="!ctrl.showOutOfDateAndroid && !ctrl.showFirmwareWarning && ctrl.hasDevice">
+        Your firmware is up to date!
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

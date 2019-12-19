@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="Content-Security-Policy" content="default-src * ipinfo.io data: blob: ws: wss: cdvfile://*; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
+
+      <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' ionic: data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src 'self'; img-src ionic: 'unsafe-inline'"> -->
+
+    <meta name="viewport" content="viewport-fit=cover,initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+
+    <!--build:css css/styles.min.css-->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="lib/swiper/dist/css/swiper.css" />
+    <link rel="stylesheet" href="lib/ionic-incrementer/css/incrementer.css" />
+    <link rel="stylesheet" href="lib/font-awesome/css/fontawesome.css" />
+    <link rel="stylesheet" href="lib/ionic-nifty-modal/nifty.modal.css" />
+    <link rel="stylesheet" href="lib/angular-chart.js/dist/angular-chart.css" />
+    <!-- endbower -->
+    <link rel="stylesheet" href="css/ionic.app.css">
+    <!-- <link rel="stylesheet" href="dist/css/app.css"> -->
+    <!--endbuild-->
+
+
+    <title></title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    
+   <!--build:js js/main.min.js -->
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!-- bower:js -->
+    <script src="lib/jquery/jquery.js"></script>
+    <script src="lib/ionic-native-transitions/dist/ionic-native-transitions.js"></script>
+    <script src="lib/lodash/lodash.js"></script>
+    <script src="lib/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="lib/swiper/dist/js/swiper.js"></script>
+    <script src="lib/angular-swiper/dist/angular-swiper.js"></script>
+    <script src="lib/angular-sanitize/angular-sanitize.js"></script>
+    <script src="lib/ionic-incrementer/src/incrementer.js"></script>
+    <script src="lib/ionic-incrementer/src/time-incrementer.js"></script>
+    <script src="lib/moment/moment.js"></script>
+    <script src="lib/humanize-duration/humanize-duration.js"></script>
+    <script src="lib/angular-timer/dist/angular-timer.js"></script>
+    <script src="lib/angular-svg-round-progressbar/build/roundProgress.min.js"></script>
+    <script src="lib/angular-moment/angular-moment.js"></script>
+    <script src="lib/node-histogram/histogram.min.js"></script>
+    <script src="lib/ngcordova-wrapper-nativestorage/src/ngcordova-wrapper-nativestorage.js"></script>
+    <script src="lib/Chart.js/Chart.js"></script>
+    <script src="lib/angular-chart.js/dist/angular-chart.js"></script>
+    <!-- endbower -->
+    <script src="lib/babel-polyfill/browser-polyfill.js"></script>
+    <script src="lib/ionic/js/ionic-angular.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+        <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src='https://cdn.socket.io/socket.io-1.4.5.js'></script>
+    <script src="js/app.js"></script>
+
+    <script src="js/constants/config.constant.js"></script>
+    <script src="js/services/testClient.service.js"></script>
+    <script src="js/services/views.service.js"></script>
+    <script src="js/services/fileLogger.service.js"></script>
+    <script src="js/services/ble.service.js"></script>
+    <script src="js/services/device.service.js"></script>
+    <script src="js/services/photo.service.js"></script>
+    <script src="js/services/video.service.js"></script>
+    <script src="js/services/camSettings.service.js"></script>
+    <script src="js/services/timelapse.service.js"></script>
+    <script src="js/services/bulb.service.js"></script>
+    <script src="js/services/photobooth.service.js"></script>
+    <script src="js/services/hdr.service.js"></script>
+    <script src="js/services/menuItems.service.js"></script>
+    <script src="js/services/btClassic.service.js"></script>
+    <script src="js/services/transmit.service.js"></script>
+    <script src="js/services/platform.service.js"></script>
+    <script src="js/services/bugreport.service.js"></script>
+    <script src="js/services/firmware.service.js"></script>
+    <script src="js/services/histogram.service.js"></script>
+    <script src="js/services/console.service.js"></script>
+    <script src="js/services/fileSystem.service.js"></script>
+    <script src="js/services/preset.service.js"></script>
+    <script src="js/services/presetData.service.js"></script>
+    <script src="js/controllers/main.ctrl.js"></script>
+    <script src="js/controllers/photo.ctrl.js"></script>
+    <script src="js/controllers/video.ctrl.js"></script>
+    <script src="js/controllers/timelapse.ctrl.js"></script>
+    <script src="js/controllers/bulb.ctrl.js"></script>
+    <script src="js/controllers/photobooth.ctrl.js"></script>
+    <script src="js/controllers/settings.ctrl.js"></script>
+    <script src="js/controllers/devices.ctrl.js"></script>
+    <script src="js/controllers/bugreport.ctrl.js"></script>
+    <script src="js/controllers/appsettings.ctrl.js"></script>
+    <script src="js/controllers/about.ctrl.js"></script>
+    <script src="js/controllers/hdr.ctrl.js"></script>
+    <script src="js/controllers/timelapsemenu.ctrl.js"></script>
+    <script src="js/controllers/timelapsedelay.ctrl.js"></script>
+    <script src="js/controllers/savePreset.ctrl.js"></script>
+    <script src="js/controllers/loadPreset.ctrl.js"></script>
+    <script src="js/controllers/exposure.ctrl.js"></script>
+    <script src="js/controllers/welcome.ctrl.js"></script>
+    <script src="js/controllers/updatefirmware.ctrl.js"></script>
+    <script src="js/directives/gonative.directive.js"></script>
+    <script src="js/directives/header.directive.js"></script>
+    <script src="js/directives/photoButton.directive.js"></script>
+    <script src="js/directives/navigationArrow.directive.js"></script>
+    <script src="js/directives/focusMe.directive.js"></script>
+    <script src="js/directives/ellipsis.directive.js"></script>
+    <script src="js/directives/integer.directive.js"></script>
+    <script src="js/directives/pulseModal.directive.js"></script>
+    <script src="js/directives/eatIf.directive.js"></script>
+    <script src="js/directives/tlSref.directive.js"></script>
+    <script src="js/directives/pulseBattery.directive.js"></script>
+    <script src="js/directives/firmware.directive.js"></script>
+    <script src="js/filters/updateProgress.filter.js"></script>
+    <!-- <script src="js/templates.js"></script>     -->
+  </head>
+  <body ng-app="pulse" class="body-dark gotham-thing" ng-class="iPhone4 ? 'small-iphone-style' : ''">
+    <ion-nav-view></ion-nav-view>
+  </body>
+</html>

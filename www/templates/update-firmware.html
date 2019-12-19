@@ -1,0 +1,36 @@
+<ion-view view-title="Firmware Update" class="update-firmware" cache-view="false">
+  <ion-content class="has-header pb-header" scroll="false">
+    <div class="update-container">
+      <div class="progress-container col">
+
+        <div class="text-center gotham-book">
+          <div class="line-separator warning"></div>
+
+          <div class="row row-center center">
+            <div class="col center gotham-book text warning-text">Make sure to keep the app open and Pulse near your phone during the update.</div>
+          </div>
+          <div class="line-separator warning"></div>
+
+          <div class="progress-wrapper">
+            <div class="percentage gotham-light">{{ctrl.completionPercentage}}
+              <span>%</span>
+            </div>
+            <div animation-delay="0" animation="easeInOutQuart" bgcolor="#b2b2b2" clockwise="true" color="#008bca" current="ctrl.completionPercentage" duration="800" max="100" radius="125" responsive="false" semi="true" round-progress stroke="5"></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  <div class="row fixed-bottom-section">
+    <div class="row center">
+      <span class="update-status" ng-if="ctrl.display.completionPercentage != 100">Hang tight while we update your firmware
+        <ellipsis-animated></ellipsis-animated>
+      </span>
+      <span class="update-status" ng-if="ctrl.display.completionPercentage == 100">Restoring your data. One moment please
+        <ellipsis-animated></ellipsis-animated>
+      </span>
+    </div>
+  </div>
+
+</ion-view>

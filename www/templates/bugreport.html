@@ -1,0 +1,44 @@
+<ion-view view-title="Submit a Bug" class="bug-report">
+  <ion-content class="has-header" scroll="false">
+    <div class="bug-report-container">
+      <div class="no-debug" ng-if="ctrl.showFirmwareWarning">
+        <div class="row row-center center">
+          <div class="col center gotham-book text-center font-twelve">
+            Your firmware is out of date. You may want to update to see if it solves your issue.
+          </div>
+        </div>
+        <firmware no-update-text="true"></firmware>
+      </div>
+
+      <div class="list" ng-if="!ctrl.viewSettings.sent">
+        <label class="item item-input">
+          <input placeholder="Name" type="text" ng-model="ctrl.formSettings.firstName">
+        </label>
+        <label class="item item-input">
+          <input placeholder="Email" type="email" ng-model="ctrl.formSettings.email" required>
+        </label>
+        <label class="item item-input">
+          <textarea placeholder="What seems to be the problem?" ng-model="ctrl.formSettings.comments"></textarea>
+        </label>
+      </div>
+      <div class="text-center gotham-light padding thanks" ng-if="ctrl.viewSettings.sent && !ctrl.badWordOffender">
+        <p>Thanks for submitting. We’ll look into fixing the bug for the next app update.</p>
+      </div>
+      <div class="text-center gotham-light padding thanks" ng-if="ctrl.viewSettings.sent && ctrl.badWordOffender">
+        <p>Thanks for submitting, but please watch your language next time or this guy will fight you.</p>
+        <img class="shredder" ng-src="img/shredder.png"/>
+      </div>
+      <div class="text-center btn-row" ng-if="!ctrl.viewSettings.sent">
+        <button class="button button-block white-btn gotham-book" ng-click="ctrl.sendErrorReport()">
+          <div class="row">
+            <span class="col">{{ctrl.viewSettings.btnText}}
+              <ellipsis-animated ng-if="ctrl.ellipsis"></ellipsis-animated>
+            </span>
+          </div>
+
+        </button>
+      </div>
+        <div class="red gotham-light text-center bulb-warning {{ctrl.bulbClass}}">Your email address is invalid</div>
+        <div class="padding text-center" ng-if="ctrl.error">We weren't able to send off your bug report. Please ensure that you have wifi connection and try again.</div>
+      </ion-content>
+    </ion-view>

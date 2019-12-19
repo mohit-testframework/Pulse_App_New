@@ -1,0 +1,100 @@
+<ion-view view-title="Welcome" class="welcome" hide-nav-bar="true">
+  <ion-content scroll="false">
+    <div class="welcome-container">
+      <ion-slide-box show-pager=true on-slide-changed="ctrl.slideHasChanged($index)">
+        <!-- SLIDE 1 -->
+        <ion-slide class="slide-1 scenery">
+          <div class="slide-1-container">
+            <div class="row row-center center heading"><img class="logo" src="img/pulse-logo-white.png"/></div>
+            <div class="row row-center center text-center gotham-book heading">Your camera, upgraded.</div>
+            <div class="row row-center center gotham-book btn-container">
+              <button class="button center icon-right blue-bg right gotham-light white" ng-click="ctrl.nextSlide()">Get Started!</button>
+            </div>
+          </div>
+        </ion-slide>
+<!--
+        <ion-slide class="slide-4">
+          <div class="slide-4-container">
+            <div class="row row-center center text-center gotham-light header">A little housekeeping...</div>
+
+            <div class="row row-center center text-center gotham-book num-icon name-pulse">1</div>
+            <div class="row row-center center text-center gotham-medium heading">Name your Pulse</div>
+
+            <label class="item item-input pulse-box">
+              <span class="input-label">Pulse name</span>
+              <input type="text" class="pulse-name" ng-model="ctrl.nickname" maxlength="10" ng-focus="ctrl.onFocus()" ng-keypress="ctrl.checkForEnter($event.keyCode)">
+            </label>
+
+
+            <div class="text-center pulsicons-devices blue p-icon"></div>
+            <div class="row row-center center text-center gotham-light caption">Your pulse's name: <span class="blue gotham-medium real-name">{{ctrl.nickname}}</span></div>
+
+            <div class="row row-center center text-center">
+              <button class="button blue-btn right gotham-book save-btn" ng-click="ctrl.saveNickname(true)">{{ctrl.saveText}}</button>
+            </div>
+
+
+          </div>
+        </ion-slide>
+-->
+
+        <!-- SLIDE 2 -->
+        <ion-slide class="slide-2">
+          <div class="slide-2-container">
+
+            <div class="row row-center center text-center gotham-light header">Easy as 1-2-3</div>
+            <div class="row row-center center text-center gotham-book num-icon">1</div>
+
+            <div class="row row-center center text-center gotham-medium heading">Connect to Pulse</div>
+            <div class="row row-center center text-center gotham-light caption">Turn on your phone's bluetooth</div>
+              <div class="row row-center center text-center gotham-book num-icon">2</div>
+              <div class="row row-center center text-center gotham-medium heading">Compose and focus</div>
+              <div class="row row-center center text-center gotham-light caption">Put your lens in Manual mode</div>
+            <div class="row row-center center text-center gotham-book num-icon">3</div>
+            <div class="row row-center center text-center gotham-medium heading">Start shooting!</div>
+            <div class="row row-center center text-center gotham-light caption">Adjust camera settings with &nbsp;
+              <div ng-include="'img/cam-settings-white.svg'"></div>
+            </div>
+          </div>
+        </ion-slide>
+
+        <!-- SLIDE 3 -->
+        <ion-slide class="slide-3">
+          <div class="slide-3-container">
+            <div class="row row-center center text-center gotham-light header wait">Wait, before you go...</div>
+            <div class="s3-section">
+              <img class="img cloud" ng-src="img/lightning.svg"/>
+              <div class="row row-center center text-center gotham-medium heading">Up your game</div>
+              <div class="text-center gotham-light">
+
+                <span class="caption">with</span>
+                <span>
+                  <a href="#" onclick="window.open('http://alpinelaboratories.com/pulsetutorials', '_system', 'location=yes'); return false;" class="text-center gotham-book caption link-out">video tutorials</a>
+                </span>
+              </div>
+            </div>
+            <div class="s3-section" ng-if="!iPhone4">
+
+              <img class="img" ng-src="img/helicopter.svg"/>
+              <div class="text-center gotham-medium heading">Need help?</div>
+              <div class="text-center gotham-light">
+                <span class="caption">send us an</span>
+                <a href="#" onclick="window.open('mailto:info@alpinelaboratories.com', '_system', 'location=yes'); return false;" class="gotham-book caption link-out">email</a>
+              </div>
+            </div>
+            <div class="s3-section">
+
+              <div class="text-center gotham-medium heading ready">Ready?</div>
+              <div class="text-center gotham-light caption">press the shutter button!</div>
+            </div>
+            <div class="row fixed-bottom-section shutter-btn">
+              <div class="col text-center">
+                <photo-button partial-url="photoButton" on-item-click="ctrl.exitWelcomeScreen()" fill="#fff"></photo-button>
+              </div>
+            </div>
+          </div>
+        </ion-slide>
+      </ion-slide-box>
+    </div>
+  </ion-content>
+</ion-view>
