@@ -1,14 +1,12 @@
-'use strict';
+"use strict";
 
-(function () {
-  'use strict';
+(function() {
+  "use strict";
 
-  pulse.services.factory('BLE', function ($rootScope, $q, $timeout) {
-
+  pulse.services.factory("BLE", function($rootScope, $q, $timeout) {
     var connected;
     var num_connects_failed = 0;
     return {
-
       devices: [],
 
       /**
@@ -19,31 +17,43 @@
        * @param  {array} dataArray  array of data to wright
        * @return {promise} - when the writing is completed
        */
-      write: function write(deviceId, serviceUuid, characteristicUuid, dataArray, success, failure) {
-        console.log('Inside BLE write');
-        console.log('deviceId : ' + deviceId);
-        console.log('serviceUuid : ' + serviceUuid);
-        console.log('characteristicUuid : ' + characteristicUuid);
-        console.log('dataArray : ' + JSON.stringify(dataArray));
-
+      write: function write(
+        deviceId,
+        serviceUuid,
+        characteristicUuid,
+        dataArray,
+        success,
+        failure
+      ) {
         if (!window.cordova) {
           return this.noCordova();
         }
         var deferred = $q.defer();
 
-        ble.write(deviceId, serviceUuid, characteristicUuid, dataArray, function(response) {
-           console.log('BLE writeSuccess  : ' + response);
-          if (success) {
-            success(response);
+        ble.write(
+          deviceId,
+          serviceUuid,
+          characteristicUuid,
+          dataArray,
+          function(response) {
+            console.log(
+              `BLE write success for service:  ${serviceUuid} and char: ${characteristicUuid} with dataArray: ${dataArray.toString()} and response: ${response}`
+            );
+            if (success) {
+              success(response);
+            }
+            deferred.resolve(response);
+          },
+          function(error) {
+            console.log(
+              `BLE write error for service:  ${serviceUuid} and char: ${characteristicUuid} with dataArray: ${dataArray.toString()} and error: ${error}`
+            );
+            if (failure) {
+              failure(error);
+            }
+            deferred.reject(error);
           }
-          deferred.resolve(response);
-        }, function(error) {
-           console.log('BLE writeError  : ' + error);
-          if (success) {
-            success(error);
-          }
-          deferred.resolve(response);
-        });
+        );
 
         // var writeSuccess = function writeSuccess(response) {
         //    console.log('BLE writeSuccess  : ' + response);
@@ -68,7 +78,7 @@
        * disconnect - wrapper around ble.disconnect, always resolves the promise whether it fails or errors out
        */
       disconnect: function disconnect(device, deferred) {
-        console.log('Inside BLE disconnect');
+        console.log("Inside BLE disconnect");
         var _this = this;
 
         if (!window.cordova) {
@@ -77,18 +87,26 @@
         if (!deferred) {
           deferred = $q.defer();
         }
-        ble.disconnect(device.id, function (event) {
-          ble.isConnected(device.id, function () {
-            ///ughhhhh still connected, try again
-            _this.disconnect(device, deferred);
-          }, function () {
-            //yay we aren't connected
+        ble.disconnect(
+          device.id,
+          function(event) {
+            ble.isConnected(
+              device.id,
+              function() {
+                ///ughhhhh still connected, try again
+                _this.disconnect(device, deferred);
+              },
+              function() {
+                //yay we aren't connected
+                deferred.resolve();
+              }
+            );
+          },
+          function(error) {
+            //just resolve it and see what happens :)
             deferred.resolve();
-          });
-        }, function (error) {
-          //just resolve it and see what happens :)
-          deferred.resolve();
-        });
+          }
+        );
 
         return deferred.promise;
       },
@@ -100,7 +118,7 @@
        * @return {promise} - the array of devices
        */
       scan: function scan(serviceCharacteristics, timeout) {
-        console.log('Inside BLE scan');
+        console.log("Inside BLE scan");
         if (!window.cordova) {
           return this.noCordova();
         }
@@ -113,64 +131,78 @@
 
         var deviceArray = serviceCharacteristics;
 
-        console.log('scanning for Pulse devices');
-        ble.startScan(deviceArray, /* scan for all services */
-        function (peripheral) {
-          console.log('Inside startScan :' , peripheral);
-          //add any found devices to our  pulse candidate array
-          if (peripheral && peripheral.name) {
-            console.log("Found device details : " + peripheral);
-            console.log("Found device: " + peripheral.name);
-          }
-
-          if (peripheral) {
-            if (deviceArray.length < 1) {
-              console.log('Inside deviceArray.length < 1');
-              //we aren't checking by service characteristic so make sure it's named pulse
-              if (peripheral.name) {
-                var deviceName = peripheral.name.toLowerCase();
-                console.log('device name toLowerCase : ' + deviceName);
-                if (deviceName.indexOf('pulse') > -1) {
-                  console.log('inside deviceName.indexOf');
-                  if (deviceName != 'pulse bootloader' || deviceName != 'pulse lite') {
-                    console.log('inside not pulse bootloader and pulse lite');
-                    that.devices.push(peripheral);
-                  }
-                  if (deviceName == 'pulse lite') {
-                    return;
-                  }
-                  $timeout.cancel(timer);
-                  ble.stopScan();
-                  deferred.resolve(peripheral);
-                }
-              }
-            } else {
-              console.log('else of deviceArray.length < 1');
-              //we are checking by service characteristic, just append it to the device since we know it's a pulse
-
-              if (peripheral.name != 'Pulse Bootloader' || peripheral.name != 'Pulse Lite') {
-                that.devices.push(peripheral);
-              }
-              if (peripheral.name == 'Pulse Lite') {
-                return;
-              }
-              $timeout.cancel(timer);
-              console.log("Resolving scan promise");
-              ble.stopScan();
-              deferred.resolve(peripheral);
+        console.log("scanning for Pulse devices");
+        ble.startScan(
+          deviceArray /* scan for all services */,
+          function(peripheral) {
+            console.log("Inside startScan :", peripheral);
+            //add any found devices to our  pulse candidate array
+            if (peripheral && peripheral.name) {
+              console.log("Found device details : " + peripheral);
+              console.log("Found device: " + peripheral.name);
             }
+
+            if (peripheral) {
+              if (deviceArray.length < 1) {
+                console.log("Inside deviceArray.length < 1");
+                //we aren't checking by service characteristic so make sure it's named pulse
+                if (peripheral.name) {
+                  var deviceName = peripheral.name.toLowerCase();
+                  console.log("device name toLowerCase : " + deviceName);
+                  if (deviceName.indexOf("pulse") > -1) {
+                    console.log("inside deviceName.indexOf");
+                    if (
+                      deviceName != "pulse bootloader" ||
+                      deviceName != "pulse lite"
+                    ) {
+                      console.log("inside not pulse bootloader and pulse lite");
+                      that.devices.push(peripheral);
+                    }
+                    if (deviceName == "pulse lite") {
+                      return;
+                    }
+                    $timeout.cancel(timer);
+                    ble.stopScan();
+                    deferred.resolve(peripheral);
+                  }
+                }
+              } else {
+                console.log("else of deviceArray.length < 1");
+                //we are checking by service characteristic, just append it to the device since we know it's a pulse
+
+                if (
+                  peripheral.name != "Pulse Bootloader" ||
+                  peripheral.name != "Pulse Lite"
+                ) {
+                  that.devices.push(peripheral);
+                }
+                if (peripheral.name == "Pulse Lite") {
+                  return;
+                }
+                $timeout.cancel(timer);
+                console.log("Resolving scan promise");
+                ble.stopScan();
+                deferred.resolve(peripheral);
+              }
+            }
+          },
+          function(error) {
+            console.log("Failed to scan. Error: ", error);
+            deferred.reject(error);
           }
-        }, function (error) {
-          console.log('Failed to scan. Error: ',  error);
-          deferred.reject(error);
-        });
+        );
         if (timeout) {
-          timer = $timeout(ble.stopScan, timeout, function () {
-            deferred.resolve();
-          }, function () {
-            console.log("stopScan failed");
-            deferred.reject("Error stopping scan");
-          });
+          timer = $timeout(
+            ble.stopScan,
+            timeout,
+            function() {
+              deferred.resolve();
+            },
+            function() {
+              console.log("stopScan failed");
+              deferred.reject("Error stopping scan");
+            }
+          );
         }
 
         return deferred.promise;
@@ -181,7 +213,7 @@
        * @return {promise} whether the scan was stopped
        */
       stopScan: function stopScan(tries, deferred) {
-        console.log('Inside BLE stopScan');
+        console.log("Inside BLE stopScan");
         var _this2 = this;
 
         if (!tries) {
@@ -190,17 +222,20 @@
         if (!deferred) {
           deferred = $q.defer();
         }
-        ble.stopScan(function () {
-          console.log('stopped the scan');
-          deferred.resolve();
-        }, function (error) {
-          tries++;
-          if (tries < 5) {
-            _this2.stopScan(tries, deferred);
-          } else {
-            deferred.resolve(error);
+        ble.stopScan(
+          function() {
+            console.log("stopped the scan");
+            deferred.resolve();
+          },
+          function(error) {
+            tries++;
+            if (tries < 5) {
+              _this2.stopScan(tries, deferred);
+            } else {
+              deferred.resolve(error);
+            }
           }
-        });
+        );
         return deferred.promise;
       },
 
@@ -210,40 +245,46 @@
        * @return {promise} -- the details object for the connected device
        */
       connect: function connect(device) {
-        console.log('Inside BLE connect');
+        console.log("Inside BLE connect");
         var deferred = $q.defer();
         var succeeded = false;
 
         if (!window.cordova) {
           deferred.resolve(this.noCordova());
         }
-        console.log('attempting to connect to device: ' + device.id);
-        ble.connect(device.id, function (peripheral) {
-          succeeded = true;
-          console.log('device: ' + device.id + ' is connected');
-          connected = peripheral;
-          num_connects_failed = 0;
-          //store the device
-          deferred.resolve(peripheral);
-        }, function (error) {
-          console.log('failed to connect, disconnected from: ' + device.id);
-          num_connects_failed++; //increment the number of failed connections
-          if (device.callbacks && device.callbacks.disconnectCallback) {
-            device.callbacks.disconnectCallback();
-          } else {
-            // This is a bootloader device, start scanning again
-            console.log("This was a bootloader device. Triggering scanAndConnect");
-            $rootScope.$broadcast('scanBLE');
-          }
+        console.log("attempting to connect to device: " + device.id);
+        ble.connect(
+          device.id,
+          function(peripheral) {
+            succeeded = true;
+            console.log("device: " + device.id + " is connected");
+            connected = peripheral;
+            num_connects_failed = 0;
+            //store the device
+            deferred.resolve(peripheral);
+          },
+          function(error) {
+            console.log("failed to connect, disconnected from: " + device.id);
+            num_connects_failed++; //increment the number of failed connections
+            if (device.callbacks && device.callbacks.disconnectCallback) {
+              device.callbacks.disconnectCallback();
+            } else {
+              // This is a bootloader device, start scanning again
+              console.log(
+                "This was a bootloader device. Triggering scanAndConnect"
+              );
+              $rootScope.$broadcast("scanBLE");
+            }
 
-          deferred.reject('failed to connect to device');
-        });
+            deferred.reject("failed to connect to device");
+          }
+        );
 
         return deferred.promise;
       },
 
       stuckInLoop: function stuckInLoop() {
-        console.log('Inside BLE stuckInLoop');
+        console.log("Inside BLE stuckInLoop");
         if (num_connects_failed > 3) {
           console.log("we're stuck in loop");
           return true;
@@ -256,9 +297,9 @@
        * @return {promise} a rejection error message
        */
       noCordova: function noCordova() {
-        console.log('Inside BLE noCordova');
+        console.log("Inside BLE noCordova");
         var deferred = $q.defer();
-        deferred.reject('cordova is not active');
+        deferred.reject("cordova is not active");
         return deferred.promise;
       }
     };
