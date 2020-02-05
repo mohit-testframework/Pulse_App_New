@@ -18,9 +18,11 @@
     $ionicSideMenuDelegate.canDragContent(false);
 
     $rootScope.$on('thumbnailUpload', function (event, data) {
+      console.log("data.thumbPath PhotoBooth Page : " + data.thumbPath);
+      let photoThumb = window.Ionic.WebView.convertFileSrc(data.thumbPath);
       if (pbPhotos > 0) {
         pbPhotos--;
-        vm.thumbs.push(data.thumbPath);
+        vm.thumbs.push(photoThumb);
       }
     });
 
