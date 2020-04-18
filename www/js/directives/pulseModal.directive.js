@@ -26,6 +26,12 @@
             animation: animation,
             backdropClickToClose: false
           }).then(function (modal) {
+            console.log('inside openModal');
+            if($scope.modal){
+              $scope.modal.hide();
+              $scope.modal.remove();              
+            }
+
             $scope.modal = modal;
             $scope.modal.show();
           });
@@ -52,11 +58,16 @@
         });
 
         $scope.closeModal = function () {
-
+          console.log('inside Close Modal');
           $scope.modal.hide();
           $scope.control.onButtonClick();
-          $scope.modal.remove();
+           $scope.modal.remove();
         };
+
+         // $scope.$on('$destroy', function() {
+         //  console.log('inside destroy');
+         //    $scope.modal.remove();
+         //  });
 
         $scope.showCheckMark = function () {
           $cordovaNativeStorage.getItem('shouldWarnPicker').then(function (item) {
@@ -75,14 +86,17 @@
         };
         //Cleanup the modal when we're done with it!
         $scope.$on('$destroy', function () {
+          console.log('inside destroy');
           $scope.modal.remove();
         });
         // Execute action on hide modal
         $scope.$on('modal.hidden', function () {
+           console.log('inside modal.hidden');
           // Execute action
         });
         // Execute action on remove modal
         $scope.$on('modal.removed', function () {
+          console.log('inside modal.removed');
           // Execute action
         });
       }

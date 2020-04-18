@@ -1,6 +1,6 @@
-<ion-view view-title="Time Lapse" class="timelapse">
+<ion-view view-title="Time Lapse" class="timelapse" cache-view="false">
   <ion-content class="has-header" scroll="false">
-    <ion-slide-box ng-init="ctrl.disableSwipe(false)" show-pager=false>
+    <ion-slide-box ng-init="ctrl.disableSwipe(false)" show-pager=false delegate-handle="time-lapse-directive">
       <!-- TL Slide 1 -->
       <ion-slide>
         <div class="timelapse-container col">
@@ -38,7 +38,7 @@
     <ion-slide>
       <div class="timelapse-container slide-2">
         <div class="subSlider">
-          <ion-slide-box show-pager=true on-slide-changed="ctrl.changeSlide($index)">
+      <ion-slide-box show-pager=true on-slide-changed="ctrl.changeSlide($index)" active-slide="1" delegate-handle="time-lapse-progres-directive">
             <ion-slide>
               <div class="text-center gotham-book">
                 <div class="progress-container col" ng-if="!ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite">

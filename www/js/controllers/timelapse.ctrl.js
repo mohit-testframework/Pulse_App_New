@@ -63,8 +63,11 @@
           var modalData = {
             text: "Your time lapse completed successfully!",
             onButtonClick: function onButtonClick() {
-              $ionicSlideBoxDelegate.slide(0);
+              console.log('Inside successfully alert');
+              // $ionicSlideBoxDelegate.slide(0);
+              $ionicSlideBoxDelegate.$getByHandle('time-lapse-directive').slide(0);
               $timelapse.timelapses[dId].settings.isActive = false;
+              // $rootScope.$broadcast("closeModal");
             },
             animation: "fade-in-scale"
           };
@@ -80,14 +83,17 @@
 
       //go to the active timelapse slide
 
-      $ionicSlideBoxDelegate._instances[0].slide(1);
+      // $ionicSlideBoxDelegate._instances[0].slide(1);
+      $ionicSlideBoxDelegate.$getByHandle('time-lapse-directive').slide(1);
+      $ionicSlideBoxDelegate.$getByHandle('time-lapse-progres-directive').slide(0);
     });
 
     $scope.$on("$ionicView.enter", function() {
       var device = $device.getSelectedDevice();
       if (!$timelapse.timelapses[dId].settings.isActive) {
         //if the user gets in some weird state, slide back to the original slide if the tl is not active
-        $ionicSlideBoxDelegate.slide(0);
+        // $ionicSlideBoxDelegate.slide(0);
+        $ionicSlideBoxDelegate.$getByHandle('time-lapse-directive').slide(0);
       }
     });
 
@@ -276,6 +282,7 @@
     };
 
     function initializeTimelapse() {
+
       var device = $device.getSelectedDevice();
       if (!device) {
         return;
@@ -292,10 +299,18 @@
 
       //cue up the slides
       var slideIndex = $timelapse.timelapses[deviceId].settings.slideIndex;
+      console.log('slideIndex before : ' + slideIndex);
       if ($views.firstTime) {
-        slideIndex++;
+        slideIndex = slideIndex+1;
       }
-      $ionicSlideBoxDelegate._instances[slideIndex].slide(1);
+      console.log('slideIndex after ***** : ' + slideIndex);
+      // console.log("$ionicSlideBoxDelegate.$getByHandle('timeLapseDirective') : ", $ionicSlideBoxDelegate.$getByHandle('timeLapseDirective'));
+      // $ionicSlideBoxDelegate.$getByHandle('timeLapseDirective')._instances[0].slide(1);
+      // $ionicSlideBoxDelegate._instances[slideIndex].slide(1);
+      $ionicSlideBoxDelegate.$getByHandle('time-lapse-directive').slide(1);
+      $ionicSlideBoxDelegate.$getByHandle('time-lapse-progres-directive').slide(0);
+      
+      // $ionicSlideBoxDelegate
       //build our TL data object
       $timelapse.prepareCountDownObject(device.id);
       if (!$timelapse.timelapses[deviceId].settings.duration.isInfinite) {
@@ -315,6 +330,7 @@
     };
 
     function initView() {
+      console.log('Inside Init View');
       //modal content
       vm.control = {};
       vm.btClassic = btClassic;
@@ -336,6 +352,7 @@
       $timelapse.initModel(dId);
       vm.timelapseModel = $timelapse;
       $scope.tlSettings = $timelapse.timelapses[dId].settings;
+      console.log('Time Lapse Settings : ' + JSON.stringify($scope.tlSettings));
 
       //hacky stuff to make sure the timelapse slider goes to the actual right slide since there are now multiple slide instances
       if (!$timelapse.timelapses[dId].settings.slideIndex) {
@@ -380,9 +397,9 @@
       $ionicSideMenuDelegate.canDragContent(false);
     });
 
-    $rootScope.$on("thumbnailUpload", function(event, data) {
+    $rootScope.$on("thumbnailUploadTimeLapsePage", function(event, data) {
       isRendering = false;
-      console.log("data.thumbPath Timelapse Page : " + data.thumbPath);
+      // console.log("data.thumbPath Timelapse Page : " + data.thumbPath);
       let photoThumb = window.Ionic.WebView.convertFileSrc(data.thumbPath);
       if (requestingThumb) {
         if (data.hasThumb) {

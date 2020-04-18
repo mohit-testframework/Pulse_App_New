@@ -33,8 +33,15 @@
 
     init();
 
-    $rootScope.$on("thumbnailUpload", function(event, data) {
+    $rootScope.$on("thumbnailUploadPhotoPage", function(event, data) {
       console.log("data.thumbPath Photo Page : " + data.thumbPath);
+      // console.log('thumbnailUpload called successfully 7777');
+
+      let element = document.getElementById("photo-ring-div");
+      element.style.opacity = "1";
+      element.style.filter  = 'alpha(opacity=100)';     
+      document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+
       let photoThumb = window.Ionic.WebView.convertFileSrc(data.thumbPath);
       $timeout.cancel(animationTimer);
       var device = $device.getSelectedDevice();
@@ -62,9 +69,9 @@
         vm.showSpinner = false;
         vm.backgroundGradient = 0.0;
         if (consecutivebadThumbs++ >= maxConsecutiveBadthumbs) {
-          console.log(
-            "We've had too many bad thumbs round here, disconnecting BTC"
-          );
+          // console.log(
+          //   "We've had too many bad thumbs round here, disconnecting BTC"
+          // );
           device.btClassic.disconnect(device.metaData.macAddress);
           device.btClassic.enabled = false;
           device.btClassic.connected = false;
@@ -76,6 +83,7 @@
       //thumbnail failed stop spinning
       vm.showSpinner = false;
       vm.backgroundGradient = 0.0;
+      console.log('inside thumbnailUploadFailed');
     });
 
     vm.burst = function() {
@@ -104,10 +112,20 @@
     };
 
     vm.takePhoto = function() {
-      console.log("inside takePhoto");
+      // console.log("inside takePhoto 77777778888");
+      // document.getElementsByClassName("photo-ring");
+      let element = document.getElementById("photo-ring-div");
+            element.style.opacity = "0.5";
+           element.style.filter  = 'alpha(opacity=50)';
+
+      // let svgElement = document.getElementById("photo-ring-svg");
+      // svgElement.style.pointer-events = 'none';
+      document.getElementById('photo-ring-svg').setAttribute('pointer-events','none');
+
       var device = $device.getSelectedDevice();
       var shutterWait = 0;
       var hasErrored = false;
+      vm.changeopacity = "make-disabled";
 
       if (
         device &&
@@ -120,6 +138,10 @@
         var settings = $camSettings.getActiveSettings();
         if (settings && settings.shutter) {
           if (settings.shutter.value == "BULB") {
+            let element = document.getElementById("photo-ring-div");
+            element.style.opacity = "1";
+            element.style.filter  = 'alpha(opacity=100)';
+
             vm.bulbClass = "animated fadeIn";
             vm.errorText =
               "Please change shutter from Bulb to enable photo capture";
@@ -180,6 +202,14 @@
         while (tempDevice) {
           $photo.takePhoto(tempDevice, true, shutterWait).then(
             function(response) {
+
+                 // console.log('takePhoto called successfully 7777');
+                 
+                // let element = document.getElementById("photo-ring-div");
+                // element.style.opacity = "1";
+                // element.style.filter  = 'alpha(opacity=100)';
+                // document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+
               $timeout.cancel(animationTimer);
               if (response && response.thumbCancel) {
                 //thumbnail failed for some reason
@@ -191,6 +221,13 @@
               return;
             },
             function(error) {
+                // console.log('takePhoto called successfully 7777');
+                
+                let element = document.getElementById("photo-ring-div");
+                element.style.opacity = "1";
+                element.style.filter  = 'alpha(opacity=100)';
+                document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+
               $timeout.cancel(animationTimer);
               //user is in video mode
               hasErrored = true;
@@ -239,7 +276,7 @@
       //check if we have iOS 11.2.5, if so we need to present the "can't do it" modal
       var os = $platform.getDeviceVersion();
       if (os === "11.2.5") {
-        console.log("Using OS 11.2.5, fuuuuuck");
+        // console.log("Using OS 11.2.5, fuuuuuck");
         var modalData = {
           text:
             "Unfortunately Apple’s iOS 11.2.5 release had significant bluetooth bugs and has disabled the Image Review feature. This feature will be disabled until Apple releases fixes to iOS. All other Pulse features are functioning correctly. Thank you for your patience! ",
@@ -257,7 +294,7 @@
       }
 
       if (enabled) {
-        console.log(`device: ${JSON.stringify(device)}`);
+        // console.log(`device: ${JSON.stringify(device)}`);
         //try to turn the toggle on
         btClassic.isConnected(device.metaData.macAddress).then(
           function(result) {

@@ -12,6 +12,7 @@
         'minutes': 0,
         'isInfinite': false
       },
+      timer:null,
       interval: 5,
       isPaused: false,
       isActive: false,
@@ -46,13 +47,13 @@
       enumeratingTl: enumeratingTl,
       totalPhotos: totalPhotos
     };
-
+    let timeInterval;
     var seconds, totalSeconds, totalPhotos;
     var enumeratingInterval = settings.interval;
     var enumeratingHours = settings.duration.hours;
     var enumeratingMinutes = settings.duration.minutes;
 
-    var enumeratingTl;
+    var enumeratingTl = {};
 
     var timelapses = {};
 
@@ -65,9 +66,13 @@
       slideIndex: 0,
 
       initModel: function initModel(deviceId) {
+        console.log('inside initModel');
+
         if (timelapses[deviceId]) {
+           console.log('inside timelapses[deviceId]');
           return timelapses;
         } else {
+          console.log('else timelapses[deviceId]');
           timelapses[deviceId] = {
             settings: {
               duration: {
@@ -75,6 +80,7 @@
                 'minutes': 0,
                 'isInfinite': false
               },
+              timer:null,
               interval: 5,
               isPaused: false,
               isActive: false,
@@ -120,11 +126,15 @@
        * @return {null}
        */
       setSeconds: function setSeconds(deviceId) {
+        console.log('inside setSeconds');
         timelapses[deviceId].settings.seconds = this.calculateTotalMinutes(deviceId) * 60 - timelapses[deviceId].settings.interval; //since we take a photo at the start of the TL, we need to initally subtract the interval
         timelapses[deviceId].settings.totalSeconds = timelapses[deviceId].settings.seconds;
+        console.log('Seconds Values : ' + timelapses[deviceId].settings.seconds);
+        console.log('total Seconds Values : ' + timelapses[deviceId].settings.totalSeconds);
       },
 
       restartTimelapseFromAppClose: function restartTimelapseFromAppClose(data) {
+        console.log('inside restartTimelapseFromAppClose');
         //app was closed and reopened and there was an active TL in progress, re-render the UI
 
         if (data && data.device && data.savedTl) {
@@ -145,6 +155,7 @@
       },
 
       calculateRestartDiff: function calculateRestartDiff(data, deviceId) {
+        console.log('inside calculateRestartDiff');
         var device = $device.getSelectedDevice();
         var currentPhotoCount = device.metaData.statusState;
         timelapses[deviceId].settings.enumeratingTl = {};
@@ -167,6 +178,7 @@
       },
 
       renderMinutes: function renderMinutes(deviceId) {
+        // console.log('inside renderMinutes');
         var finalString;
         if (deviceId) {
           var minuteString = timelapses[deviceId].settings.duration.minutes.toString();
@@ -184,9 +196,10 @@
        * @return {int} the number of total minutes
        */
       calculateTotalMinutes: function calculateTotalMinutes(deviceId) {
+        // console.log('inside calculateTotalMinutes');
         var minutes;
         if (deviceId) {
-          minutes = timelapses[deviceId].settings.duration.hours * 60 + parseInt(timelapses[deviceId].settings.duration.minutes);
+          minutes = parseInt(timelapses[deviceId].settings.duration.hours) * 60 + parseInt(timelapses[deviceId].settings.duration.minutes);
         }
         return minutes;
       },
@@ -196,6 +209,7 @@
        * @return {null}
        */
       prepareCountDownObject: function prepareCountDownObject(deviceId) {
+        console.log('inside prepareCountDownObject');
         this.setSeconds(deviceId);
         timelapses[deviceId].settings.enumeratingTl = {
           interval: timelapses[deviceId].settings.interval,
@@ -212,6 +226,7 @@
        * @return {int} the total amount of photos
        */
       getTotalPhotos: function getTotalPhotos(deviceId) {
+        // console.log('inside getTotalPhotos');
         var s = this.calculateTotalMinutes(deviceId) * 60;
         var totalPhotos;
         if (deviceId) {
@@ -222,6 +237,7 @@
       },
 
       getLivePhotos: function getLivePhotos(seconds, currentPhotoCount, deviceId) {
+        console.log('inside getLivePhotos');
         var photos;
         if (deviceId) {
           photos = Math.floor(seconds / timelapses[deviceId].settings.interval);
@@ -259,7 +275,7 @@
           timelapses[deviceId].settings.isPaused = true;
 
           //kill the timer
-          $interval.cancel(timelapses[deviceId].settings.timer);
+          $interval.cancel(timeInterval);
         }
       },
 
@@ -274,7 +290,7 @@
       },
 
       pauseUI: function pauseUI(deviceId) {
-        $interval.cancel(timelapses[deviceId].settings.timer);
+        $interval.cancel(timeInterval);
       },
 
       getAndSetSettingsValues: function getAndSetSettingsValues(deviceId) {
@@ -399,6 +415,7 @@
        * @return {null}
        */
       start: function start(device) {
+        console.log('Inside start');
         var _this = this;
 
         var isResuming = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -423,32 +440,57 @@
 
         var deferred = $q.defer();
         timelapses[deviceId].settings.isPaused = false;
-        timelapses[deviceId].settings.timer = $interval(function () {
+        // timelapses[deviceId].settings.enumeratingTl = {};
+        // timeInterval = null;
+        if(timeInterval){
+          console.log('Inside timeInterval If');
+          $interval.cancel(timeInterval);
+        }else {
+          console.log('Inside timeInterval Else');
+        }
+       
+         timeInterval = $interval(function () {
+          console.log('backgroundMode : ' + timelapses[deviceId].settings.backgroundMode);
 
           if (timelapses[deviceId].settings.backgroundMode) {
+            console.log('Inside backgroundMode');
+            console.log('Inside backgroundMode backgroundTime : ' + timelapses[deviceId].settings.backgroundTime);
+            console.log('Inside backgroundMode seconds : ' + timelapses[deviceId].settings.seconds);
+            console.log('Inside backgroundMode deviceId : ' + deviceId);
             //the app was in background mode, we need to figure out where we left off
-            timelapses[deviceId].settings.seconds = subtractBackgroundSeconds(timelapses[deviceId].settings.backgroundTime, timelapses[deviceId].settings.seconds, deviceId);
-            timelapses[deviceId].settings.enumeratingTl.seconds = subtractEnumeratingBackgroundSeconds(timelapses[deviceId].settings.backgroundTime, timelapses[deviceId].settings.enumeratingTl.seconds);
-            timelapses[deviceId].settings.enumeratingTl.photos = _this.getLivePhotos(timelapses[deviceId].settings.enumeratingTl.seconds, timelapses[deviceId].settings.enumeratingTl.photos, deviceId);
+            timelapses[deviceId].settings.seconds = subtractBackgroundSeconds(parseInt(timelapses[deviceId].settings.backgroundTime), parseInt(timelapses[deviceId].settings.seconds), deviceId);
+            timelapses[deviceId].settings.enumeratingTl.seconds = subtractEnumeratingBackgroundSeconds(parseInt(timelapses[deviceId].settings.backgroundTime), parseInt(timelapses[deviceId].settings.enumeratingTl.seconds));
+            timelapses[deviceId].settings.enumeratingTl.photos = _this.getLivePhotos(parseInt(timelapses[deviceId].settings.enumeratingTl.seconds), parseInt(timelapses[deviceId].settings.enumeratingTl.photos), deviceId);
           } else {
-            timelapses[deviceId].settings.seconds = timelapses[deviceId].settings.seconds - 1;
-            timelapses[deviceId].settings.enumeratingTl.seconds++;
+            console.log('else backgroundMode');
+            timelapses[deviceId].settings.seconds = parseInt(timelapses[deviceId].settings.seconds) - 1;
+            timelapses[deviceId].settings.enumeratingTl.seconds = parseInt(timelapses[deviceId].settings.enumeratingTl.seconds) + 1;
           }
 
           //minutes and hours get set in the view
-          var hoursAndMinutes = calculateMinutesAndHoursFromSeconds(timelapses[deviceId].settings.enumeratingTl.seconds);
+          var hoursAndMinutes = calculateMinutesAndHoursFromSeconds(parseInt(timelapses[deviceId].settings.enumeratingTl.seconds));
           timelapses[deviceId].settings.enumeratingTl.hours = hoursAndMinutes.hours;
           timelapses[deviceId].settings.enumeratingTl.minutes = hoursAndMinutes.minutes;
 
           //calculate the completion center for the view
-          timelapses[deviceId].settings.enumeratingTl.completionPercentage = 100 - Math.round(timelapses[deviceId].settings.seconds / timelapses[deviceId].settings.totalSeconds * 100);
-          if (timelapses[deviceId].settings.enumeratingTl.completionPercentage >= 100) {
+           console.log('seconds value *********&&&&& : ' + timelapses[deviceId].settings.seconds);
+           console.log('totalSeconds value *********&&&&& : ' + timelapses[deviceId].settings.totalSeconds);
+           let devideSeconds = parseInt(timelapses[deviceId].settings.seconds) / parseInt(timelapses[deviceId].settings.totalSeconds);
+
+          timelapses[deviceId].settings.enumeratingTl.completionPercentage = 100 - Math.round((devideSeconds * 100));
+           console.log('completionPercentage value **********&&&&&: ' + timelapses[deviceId].settings.enumeratingTl.completionPercentage);
+           // console.log('Math.round *********&&&&& : ',  Math.round(((parseInt(timelapses[deviceId].settings.seconds) / parseInt(timelapses[deviceId].settings.totalSeconds)) * 100));); 
+           
+          if (parseInt(timelapses[deviceId].settings.enumeratingTl.completionPercentage) >= 100) {
             //we cant go past 100% complete!!
+            console.log('************************** inside greater than 100 *****************');
             timelapses[deviceId].settings.enumeratingTl.completionPercentage = 100;
           }
-          if (timelapses[deviceId].settings.seconds <= 0) {
+          if (parseInt(timelapses[deviceId].settings.seconds) <= 0) {
+            console.log('************************** inside less than 0 *****************');
             //we've finished the timelapse
-            $interval.cancel(timelapses[deviceId].settings.timer);
+            $interval.cancel(timeInterval);
+            timelapses[deviceId].settings.timer = null;
             timelapses[deviceId].settings.backgroundTime = false;
             $rootScope.$broadcast('timelapseFinished', {
               deviceId: deviceId
@@ -460,7 +502,7 @@
             timelapses[deviceId].settings.enumeratingTl.interval = timelapses[deviceId].settings.enumeratingTl.interval - 1;
             if (device && device.metaData) {
               if (device.metaData.statusMode == $config.statusMode.TIMELAPSE && device.metaData.statusState != timelapses[deviceId].settings.enumeratingTl.photos) {
-                console.log('timelapse is out of sync, resyncing');
+                // console.log('timelapse is out of sync, resyncing');
                 _this.reSyncTimelapse(deviceId);
               }
             }
@@ -474,12 +516,20 @@
             }
             timelapses[deviceId].settings.enumeratingTl.interval = timelapses[deviceId].settings.interval;
           }
-        }, 1000 /*1 seconds interval*/);
+        }, 1000); /*1 seconds interval*/
+
+        // $scope.$on('$destroy', function() {
+        //   // Make sure that the interval is destroyed too
+        //   console.log('inside destroyed');
+        //   $interval.cancel(timeInterval);
+        // });
+        
         return deferred.promise;
       },
 
       //this gets called if we notice the UI picture count is out of sync with the picture count from the status mode ticker
       reSyncTimelapse: function reSyncTimelapse(deviceId) {
+        console.log('inside reSyncTimelapse');
         var unregister = $rootScope.$on('timelapseTaken', function (event, data) {
           timelapses[deviceId].settings.enumeratingTl.photos = data.pictureCount;
 
@@ -499,6 +549,7 @@
      * @return {object}  - object reperesenting the hours and minutes
      */
     function calculateMinutesAndHoursFromSeconds(seconds) {
+      console.log('Inside calculateMinutesAndHoursFromSeconds');
       var hours = Math.floor(seconds / 3600);
       var minutes = Math.floor((seconds - hours * 3600) / 60);
       if (minutes.toString().length == 1) {
@@ -512,6 +563,7 @@
     }
 
     function subtractBackgroundSeconds(timeAtBackground, currentSecondValue, deviceId) {
+      console.log('Inside subtractBackgroundSeconds');
       var curTime = Date.now();
 
       var diff = Math.round((curTime - timeAtBackground) / 1000);
@@ -526,6 +578,7 @@
     }
 
     function subtractEnumeratingBackgroundSeconds(timeAtBackground, currentSecondValue) {
+      console.log('Inside subtractEnumeratingBackgroundSeconds');
       var curTime = Date.now();
 
       var diff = Math.round((curTime - timeAtBackground) / 1000);
@@ -541,6 +594,7 @@
      * @return {int}  - the calculated number of minutes
      */
     function getMinutes(totalSeconds) {
+      console.log('Inside getMinutes');
       var minuteDivisor = totalSeconds % (60 * 60);
       var minutes = Math.floor(minuteDivisor / 60).toString();
       if (minutes.length < 2) {

@@ -28,7 +28,7 @@
       },
 
       takePhoto: function takePhoto(device) {
-        console.log('Photo service inside takePhoto');
+        // console.log('Photo service inside takePhoto');
         var _this = this;
 
         var blink = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
@@ -48,17 +48,35 @@
               // console.log('Photo page inside takePhoto');
               $transmit.blinkLED(device);
             }
-
+            
             $timeout(function () {
-              $transmit.capture(device, false);
-              // $transmit.reportActivity();
-              $timeout(function () {
-                _this.getThumb(device, thumbForceWait).then(function (response) {
-                  deferred.resolve(response);
-                }, function (error) {
-                  deferred.reject(error);
-                }, 100);
-              });
+              $transmit.capture(device, false).then(function(response){
+                  // $transmit.reportActivity();
+                  console.log('Photo service page $transmit.capture response : ', response);
+                  $timeout(function () {
+                    // console.log('getThumb function call');
+                    _this.getThumb(device, thumbForceWait).then(function (response) {
+                      let element = document.getElementById("photo-ring-div");
+                      element.style.opacity = "1";
+                      element.style.filter  = 'alpha(opacity=100)';
+                      document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');                  
+                      deferred.resolve(response);
+                    }, function (error) {
+                        let element = document.getElementById("photo-ring-div");
+                        element.style.opacity = "1";
+                        element.style.filter  = 'alpha(opacity=100)';       
+                        document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');           
+                      deferred.reject(error);
+                    }, 100);
+                  },1000);
+              },function (error) {
+                    let element = document.getElementById("photo-ring-div");
+                    element.style.opacity = "1";
+                    element.style.filter  = 'alpha(opacity=100)';       
+                    document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');           
+                    deferred.reject(error);
+                });
+
             }, 40);
           } else {
             $transmit.blinkLED(device);
@@ -135,10 +153,10 @@
 
         var deferred = $q.defer();
         //ensure we are connected
-        console.log('calling isConnected MAC: ' + device.metaData.macAddress);
+        // console.log('calling isConnected MAC: ' + device.metaData.macAddress);
         if (thumbForceWait < 0) {
           thumbForceWait = 0;
-          console.log("thumbForceWait was <0!?!");
+          // console.log("thumbForceWait was <0!?!");
         }
         btClassic.isConnected(device.metaData.macAddress).then(function (response) {
           $timeout(function () {
@@ -156,7 +174,14 @@
                     $device.setDevice(device);
                     // $transmit.cancelThumb(syncedDevice);
                     //read from BT CLASSIC then store to local storage, then render
-                    console.log('no thumbnail acknowledgement sent. Doing a force read.');
+                    // console.log('no thumbnail acknowledgement sent. Doing a force read.');
+                          var element = document.getElementById("photo-ring-div");
+                          if(element != null){
+                              element.style.opacity = "1";
+                              element.style.filter  = 'alpha(opacity=100)';  
+                              document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+                          }
+
                     btClassic.read(device.metaData.macAddress).then(function (data) {
                       if (data && data.length) {
                         console.log('Read from BTClassic. Data length is ' + data.length);
@@ -165,24 +190,36 @@
                           success: true
                         });
                       } else {
+                        console.log('Attempted to read from BT Classic. Failed. Data was empty');
                         $rootScope.$broadcast('thumbnailUploadFailed');
                         deferred.resolve({
                           thumbCancel: true,
                           reason: 'pulse took to long to respond'
                         });
-                        console.log('Attempted to read from BT Classic. Failed. Data was empty');
+                        
                       }
                     });
                   }
                 }, 8000 + thumbForceWait); //wait 8 seconds for the thumb and then cancel nothing happened
               }, function (error) {
-                console.log(error);
+                      console.log('Photo Service Page requestThumb error : ', error);
+                  var element = document.getElementById("photo-ring-div");
+                         if(element != null){
+                              element.style.opacity = "1";
+                              element.style.filter  = 'alpha(opacity=100)';  
+                              document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+                          }                             
+                // console.log(error);
               });
             } else {
               deferred.reject({ error: 'user is in video mode. Not requesting Thumb' });
             }
           }, 250);
         }, function (error) {
+              let element = document.getElementById("photo-ring-div");
+              element.style.opacity = "1";
+              element.style.filter  = 'alpha(opacity=100)';  
+              document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');         
           deferred.resolve({
             thumbCancel: true,
             reason: 'bt classic connection dropped'
@@ -191,7 +228,7 @@
           device.btClassic.connected = false;
           device.btClassic.enabled = false;
           $device.setDevice(device);
-          console.log(error + ' :BT CLASSIC has been disconnected');
+          // console.log(error + ' :BT CLASSIC has been disconnected');
         });
         return deferred.promise;
       }
@@ -200,14 +237,14 @@
     function forceThumb(syncedDevice) {
       btClassic.read(syncedDevice.metaData.macAddress).then(function (data) {
         if (data && data.length) {
-          console.log('Read from BTClassic. Data length is ' + data.length);
+          // console.log('Read from BTClassic. Data length is ' + data.length);
           $device.thumb(data, syncedDevice);
         } else {
-          console.log('Attempted to read from BT Classic. Failed. Data was empty');
+          // console.log('Attempted to read from BT Classic. Failed. Data was empty');
           $rootScope.$broadcast('thumbnailUploadFailed');
         }
       }, function () {
-        console.log('We went wrong with the BTClassic read');
+        // console.log('We went wrong with the BTClassic read');
         $rootScope.$broadcast('thumbnailUploadFailed');
       });
     }

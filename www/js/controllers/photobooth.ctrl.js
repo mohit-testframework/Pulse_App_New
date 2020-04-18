@@ -17,8 +17,8 @@
 
     $ionicSideMenuDelegate.canDragContent(false);
 
-    $rootScope.$on('thumbnailUpload', function (event, data) {
-      console.log("data.thumbPath PhotoBooth Page : " + data.thumbPath);
+    $rootScope.$on('thumbnailUploadPhotoBoothPage', function (event, data) {
+      // console.log("data.thumbPath PhotoBooth Page : " + data.thumbPath);
       let photoThumb = window.Ionic.WebView.convertFileSrc(data.thumbPath);
       if (pbPhotos > 0) {
         pbPhotos--;

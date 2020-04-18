@@ -36,9 +36,9 @@
           characteristicUuid,
           dataArray,
           function(response) {
-            console.log(
-              `BLE write success for service:  ${serviceUuid} and char: ${characteristicUuid} with dataArray: ${dataArray.toString()} and response: ${response}`
-            );
+            // console.log(
+            //   `BLE write success for service:  ${serviceUuid} and char: ${characteristicUuid} with dataArray: ${dataArray.toString()} and response: ${response}`
+            // );
             if (success) {
               success(response);
             }

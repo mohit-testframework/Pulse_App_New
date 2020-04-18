@@ -25,18 +25,18 @@
        * @return {promise} - the read data
        */
       read: function read(address) {
-        console.log("inside BTClassic read");
+        //console.log("inside BTClassic read");
         var deferred = $q.defer();
 
         BluetoothClassic.read(
           address,
           function(buffer) {
             var view = new Uint8Array(buffer);
-            console.log("successfully read data over BT Classic : " + buffer);
+            //console.log("successfully read data over BT Classic : " + buffer);
             deferred.resolve(view);
           },
           function(error) {
-            console.log("failed to read data over BT Classic : " + error);
+            //console.log("failed to read data over BT Classic : " + error);
             deferred.reject(error);
           }
         );
@@ -45,7 +45,7 @@
       },
 
       disconnect: function disconnect(address) {
-        console.log("inside BTClassic disconnect");
+        //console.log("inside BTClassic disconnect");
         if (!window.cordova) {
           return this.noCordova();
         }
@@ -54,14 +54,14 @@
         BluetoothClassic.disconnect(
           address,
           function() {
-            console.log(
-              "successfully disconnected device from BluetoothClassic"
-            );
+            // console.log(
+            //   "successfully disconnected device from BluetoothClassic"
+            // );
             deferred.resolve();
           },
           function() {
             deferred.reject();
-            console.log("failed to disconnect device from BluetoothClassic");
+            //console.log("failed to disconnect device from BluetoothClassic");
           }
         );
         return deferred.promise;
@@ -73,7 +73,7 @@
        * @return {promise} - response from BT classic
        */
       write: function write(data) {
-        console.log("inside BTClassic write");
+        //console.log("inside BTClassic write");
         if (!window.cordova) {
           return this.noCordova();
         }
@@ -83,12 +83,12 @@
           data,
           function(response) {
             //success cb
-            console.log("BluetoothClassic wrote successfully");
+            //console.log("BluetoothClassic wrote successfully");
             deferred.resolve(response);
           },
           function(error) {
             //failure, write failed
-            console.log("BluetoothClassic failed to write");
+            //console.log("BluetoothClassic failed to write");
             deferred.reject(error);
           }
         );
@@ -102,7 +102,7 @@
        * @return {promise} -- response from the bluetooth
        */
       connect: function connect(address, device, deferred) {
-        console.log("inside BTClassic connect,lgg: " + address);
+        //console.log("inside BTClassic connect,lgg: " + address);
         var _this = this;
 
         var toggleAction =
@@ -158,17 +158,17 @@
           deferred.resolve(this.noCordova());
           return this.noCordova();
         }
-        console.log("starting BTC connect ****** : " + address);
+        //console.log("starting BTC connect ****** : " + address);
         BluetoothClassic.connect(
           address,
           function(result) {
-            console.log("BluetoothClassic connection succeeded");
+            //console.log("BluetoothClassic connection succeeded");
             deferred.resolve(result);
             $rootScope.$broadcast("firmwareModalTime", {});
             $rootScope.$broadcast("btConnect", { success: true });
           },
           function(error) {
-            console.log("BluetoothClassic connection failed");
+            //console.log("BluetoothClassic connection failed");
             settings.connected = false;
             $transmit.resetBtc(device);
 
@@ -206,16 +206,12 @@
                       if (
                         error == $config.classicPickerResponses.MANUALLY_CLOSED
                       ) {
-                        console.log(
-                          "picker was manually closed prior to connection"
-                        );
+                        //console.log("picker was manually closed prior to connection");
                       } else if (
                         error ==
                         $config.classicPickerResponses.CONNECTION_FAILURE
                       ) {
-                        console.log(
-                          "bluetooth classic picker connection failure"
-                        );
+                        //console.log("bluetooth classic picker connection failure");
                       }
                       deferred.reject(error);
                     }
@@ -240,18 +236,18 @@
                             error ==
                             $config.classicPickerResponses.MANUALLY_CLOSED
                           ) {
-                            console.log(
-                              "picker was manually closed prior to connection"
-                            );
+                            // console.log(
+                            //   "picker was manually closed prior to connection"
+                            // );
                           } else if (
                             error ==
                             $config.classicPickerResponses.CONNECTION_FAILURE
                           ) {
-                            console.log(
-                              "bluetooth classic picker connection failure"
-                            );
+                            // console.log(
+                            //   "bluetooth classic picker connection failure"
+                            // );
                           }
-                          console.log("connection failed after picker attempt");
+                          //console.log("connection failed after picker attempt");
                           deferred.reject(error);
                         }
                       );
@@ -274,7 +270,7 @@
       },
 
       isConnected: function isConnected(address) {
-        console.log("inside BTClassic isConnected");
+        //console.log("inside BTClassic isConnected");
         var deferred = $q.defer();
 
         if (!window.cordova) {
@@ -298,23 +294,23 @@
        * @return {promise} a rejection error message
        */
       noCordova: function noCordova() {
-        console.log("inside BTClassic noCordova");
+        //console.log("inside BTClassic noCordova");
         var deferred = $q.defer();
         deferred.reject("cordova is not active");
         return deferred.promise;
       },
 
       closeSession: function closeSession() {
-        console.log("inside BTClassic closeSession");
+        //console.log("inside BTClassic closeSession");
         var deferred = $q.defer();
 
         BluetoothClassic.closeSession(
           function(result) {
-            console.log("BTC session closed");
+            //console.log("BTC session closed");
             deferred.resolve(result);
           },
           function(error) {
-            console.log("Problem closing BTC session!");
+            //console.log("Problem closing BTC session!");
             deferred.reject(error);
           }
         );

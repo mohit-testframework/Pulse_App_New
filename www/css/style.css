@@ -3728,4 +3728,6 @@ margin-top: 6vh;
 top: 50px;
 }
 }
-
+.make-disabled {
+  opacity: 0.5;
+}

@@ -38,7 +38,7 @@
       setShutter: function setShutter(device, data) {
         var deferred = $q.defer();
         if (!device) {
-          console.log("setShutter: No connected Device");
+          // console.log("setShutter: No connected Device");
           deferred.reject("no device is connected");
         } else {
           var setShutter = [0x00, 0x01, 0x01];
@@ -55,7 +55,7 @@
               deferred.resolve(response);
             },
             function(error) {
-              console.log(error);
+              // console.log(error);
               deferred.reject(error);
             }
           );
@@ -68,7 +68,7 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("setAperture: No connected Device");
+          // console.log("setAperture: No connected Device");
           deferred.reject("no device is connected");
         } else {
           var setAperture = [0x00, 0x01, 0x02];
@@ -85,7 +85,7 @@
               deferred.resolve(response);
             },
             function(error) {
-              console.log(error);
+              // console.log(error);
               deferred.reject(error);
             }
           );
@@ -98,7 +98,7 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("setIso: No connected Device");
+          // console.log("setIso: No connected Device");
           deferred.reject("no device is connected");
         } else {
           var setIso = [0x00, 0x01, 0x03];
@@ -115,7 +115,7 @@
               deferred.resolve(response);
             },
             function(error) {
-              console.log(error);
+              // console.log(error);
               deferred.reject(error);
             }
           );
@@ -133,16 +133,16 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("capture: No connected Device");
+          // console.log("capture: No connected Device");
           deferred.reject("no device is connected");
         } else {
           var photoMode;
           if (fastPhoto) {
             photoMode = $config.communication.ACTION_PHOTO_FAST;
-            console.log("capture: fast photo");
+            // console.log("capture: fast photo");
           } else {
             photoMode = $config.communication.ACTION_PHOTO_CAPTURE;
-            console.log("capture: ack photo");
+            // console.log("capture: ack photo");
           }
           var captureData = [
             0x00,
@@ -151,19 +151,19 @@
             photoMode
           ];
           var buff = new Uint8Array(captureData);
-          console.log("buff : " + JSON.stringify(buff));
+          // console.log("buff : " + JSON.stringify(buff));
           BLE.write(
             device.id,
             $config.services.GATT_SERVICE_UUID_PULSE_COMMS_SERVICE,
             $config.characteristics.GATT_CHAR_UUID_UART_TX,
             buff.buffer,
             function(response) {
-              console.log("capture write response : " + response);
+              // console.log("capture write response : " + response);
               deferred.resolve(response);
             },
             function(error) {
-              console.log("capture write error: ");
-              console.log(error);
+              // console.log("capture write error: ");
+              // console.log(error);
               deferred.reject(error);
             }
           );
@@ -176,7 +176,7 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("burst: No connected Device");
+          // console.log("burst: No connected Device");
           deferred.reject("no device is connected");
         } else {
           this.startBulb(device);
@@ -190,7 +190,7 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("burst: No connected Device");
+          // console.log("burst: No connected Device");
           deferred.reject("no device is connected");
         } else {
           this.endBulb(device);
@@ -204,7 +204,7 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("burst: No connected Device");
+          // console.log("burst: No connected Device");
           deferred.reject("no device is connected");
         } else {
           var burstData = [
@@ -235,7 +235,7 @@
       setLedBrightness: function setLedBrightness(device, level) {
         var deferred = $q.defer();
         if (!device) {
-          console.log("setLedBrightness: No connected Device");
+          // console.log("setLedBrightness: No connected Device");
           deferred.reject("no device is connected");
         } else {
           var ledData = [0x00, 0x01, $config.communication.SET_LED_DUTY, level];
@@ -249,7 +249,7 @@
               deferred.resolve(response);
             },
             function(error) {
-              console.log(error);
+              // console.log(error);
               deferred.reject(error);
             }
           );
@@ -261,7 +261,7 @@
       enableMenus: function enableMenus(device) {
         var deferred = $q.defer();
         if (!device) {
-          console.log("enableMenu: No connected Device");
+          // console.log("enableMenu: No connected Device");
           deferred.reject("no device is connected");
         } else {
           var menuData = [0x00, 0x01, $config.communication.ENABLE_MENUS];
@@ -275,7 +275,7 @@
               deferred.resolve(response);
             },
             function(error) {
-              console.log(error);
+              // console.log(error);
               deferred.reject(error);
             }
           );
@@ -288,7 +288,7 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("startVideo: No connected Device");
+          // console.log("startVideo: No connected Device");
           deferred.reject("no device is connected");
         } else {
           var videoData = [
@@ -307,7 +307,7 @@
               deferred.resolve(response);
             },
             function(error) {
-              console.log(error);
+              // console.log(error);
               deferred.reject(error);
             }
           );
@@ -320,7 +320,7 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("stopVideo: No connected Device");
+          // console.log("stopVideo: No connected Device");
           deferred.reject("no device is connected");
         } else {
           var videoData = [
@@ -339,7 +339,7 @@
               deferred.resolve(response);
             },
             function(error) {
-              console.log(error);
+              // console.log(error);
               deferred.reject(error);
             }
           );
@@ -352,7 +352,7 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("camStatus: No connected Device");
+          // console.log("camStatus: No connected Device");
           deferred.reject("no device is connected");
         } else {
           var statusData = [0x00, 0x01, $config.communication.GET_CAM_STATUS];
@@ -366,7 +366,7 @@
               deferred.resolve(response);
             },
             function(error) {
-              console.log(error);
+              // console.log(error);
               deferred.reject(error);
             }
           );
@@ -380,15 +380,15 @@
         var devicePlatform = device.platform;
         var deviceOS = $views.detectVersion(device.version);
 
-        console.log("device platform is " + device.platform);
+        // console.log("device platform is " + device.platform);
 
         if (!pulse) {
-          console.log("getMeta: No connected Device");
+          // console.log("getMeta: No connected Device");
           deferred.reject("no device is connected");
         } else {
-          console.log("requesting meta data");
+          // console.log("requesting meta data");
           var metaData = [0x00, 0x01, $config.communication.GET_META, MTU];
-          console.log(metaData);
+          // console.log(metaData);
           var buff = new Uint8Array(metaData);
           BLE.write(
             pulse.id,
@@ -399,7 +399,7 @@
               deferred.resolve(response);
             },
             function(error) {
-              console.log(error);
+              // console.log(error);
               deferred.reject(error);
             }
           );
@@ -416,10 +416,10 @@
 
         var deferred = $q.defer();
         if (!device) {
-          console.log("requestThumb: No connected Device");
+          // console.log("requestThumb: No connected Device");
           deferred.reject("no device is connected");
         } else {
-          console.log("Requesting thumbnail");
+          // console.log("Requesting thumbnail");
           var thumbData = [
             0x00,
             0x01,
@@ -434,10 +434,10 @@
             $config.characteristics.GATT_CHAR_UUID_UART_TX,
             buff.buffer,
             function(response) {
-              console.log("successfully requested thumb");
+              // console.log("successfully requested thumb");
             },
             function(error) {
-              console.log("failed in requesting thumb");
+              // console.log("failed in requesting thumb");
             }
           );
           deferred.resolve();
@@ -448,10 +448,10 @@
       cancelThumb: function cancelThumb(device) {
         var deferred = $q.defer();
         if (!device) {
-          console.log("cancelThumb: No connected Device");
+          // console.log("cancelThumb: No connected Device");
           deferred.reject("no device is connected");
         } else {
-          console.log("picture taken. canceling thumbnail");
+          // console.log("picture taken. canceling thumbnail");
           var cancelData = [0x00, 0x01, $config.communication.CANCEL_THUMB];
           var buff = new Uint8Array(cancelData);
           BLE.write(
@@ -460,10 +460,10 @@
             $config.characteristics.GATT_CHAR_UUID_UART_TX,
             buff.buffer,
             function(response) {
-              console.log("successfully canceled thumb");
+              // console.log("successfully canceled thumb");
             },
             function(error) {
-              console.log("failed in canceling thumb");
+              // console.log("failed in canceling thumb");
             }
           );
           deferred.resolve();
@@ -477,7 +477,7 @@
         var buff = new Uint8Array(packetData);
 
         if (!device) {
-          console.log("acknowledgePacket: No connected Device");
+          // console.log("acknowledgePacket: No connected Device");
           deferred.reject("no device is connected");
         } else {
           BLE.write(
@@ -489,7 +489,7 @@
               deferred.resolve(response);
             },
             function(error) {
-              console.log(error);
+              // console.log(error);
               deferred.reject(error);
             }
           );
@@ -511,10 +511,10 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("timelapse: no connected device");
+          // console.log("timelapse: no connected device");
           deferred.reject("no device is connected");
         } else {
-          console.log("sending TL data");
+          // console.log("sending TL data");
           var setShutterTime = 100;
 
           var totalInterval = interval * 4,
@@ -656,10 +656,10 @@
             $config.characteristics.GATT_CHAR_UUID_UART_TX,
             buff.buffer,
             function(response) {
-              console.log("sent TL Data");
+              // console.log("sent TL Data");
             },
             function(error) {
-              console.log("Failed to send TL data. Error: " + error);
+              // console.log("Failed to send TL data. Error: " + error);
             }
           );
         }
@@ -674,7 +674,7 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("startBulb: no connected device");
+          // console.log("startBulb: no connected device");
           deferred.reject("no device is connected");
         } else {
           var bulbData = [
@@ -705,7 +705,7 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("endBulb: no connected device");
+          // console.log("endBulb: no connected device");
           deferred.reject("no device is connected");
         } else {
           var bulbData = [
@@ -734,10 +734,10 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("pauseTimelapse: no connected device");
+          // console.log("pauseTimelapse: no connected device");
           deferred.reject("no device is connected");
         } else {
-          console.log("pausing timelapse");
+          // console.log("pausing timelapse");
           var pauseData = [
             0x00,
             0x01,
@@ -764,7 +764,7 @@
         var deferred = $q.defer();
 
         if (!device) {
-          console.log("killTimelapse: no connected device");
+          // console.log("killTimelapse: no connected device");
           deferred.reject("no device is connected");
         } else {
           var killData = [
@@ -791,10 +791,10 @@
 
       resumeTimelapse: function resumeTimelapse(device) {
         var deferred = $q.defer();
-        console.log("resuming timelapse");
+        // console.log("resuming timelapse");
 
         if (!device) {
-          console.log("resumeTimelapse: no connected device");
+          // console.log("resumeTimelapse: no connected device");
           deferred.reject("no device is connected");
         } else {
           var resumeData = [
@@ -820,7 +820,7 @@
       },
 
       blinkLED: function blinkLED(device) {
-        console.log("blinkLED");
+        // console.log("blinkLED");
         var blinkCount =
           arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
         var blinkOrSteady =
@@ -835,7 +835,7 @@
         }
 
         if (!device) {
-          console.log("blinkLED: no connected device");
+          // console.log("blinkLED: no connected device");
           deferred.reject("no device is connected");
         } else {
           var blinkData = [
@@ -865,10 +865,10 @@
 
       getFirmWareVersion: function getFirmWareVersion(device) {
         var deferred = $q.defer();
-        console.log("fetching firmware version");
+        // console.log("fetching firmware version");
 
         if (!device) {
-          console.log("getFirmWareVersion: no connected device");
+          // console.log("getFirmWareVersion: no connected device");
           deferred.reject("no device is connected");
         } else {
           var firmwareData = [0x00, 0x01, $config.communication.GET_FW_VERSION];
@@ -890,12 +890,12 @@
       },
 
       getFirmwareType: function getFirmwareType(device) {
-        console.log("inside getFirmwareType ");
+        // console.log("inside getFirmwareType ");
         var deferred = $q.defer();
-        console.log("fetching firmware type");
+        // console.log("fetching firmware type");
 
         if (!device) {
-          console.log("getFirmwareType: no connected device");
+          // console.log("getFirmwareType: no connected device");
           deferred.reject("no device is connected");
         } else {
           var typeData = [0x00, 0x01, $config.communication.GET_FW_TYPE];
@@ -906,7 +906,7 @@
             $config.characteristics.GATT_CHAR_UUID_UART_TX,
             buff.buffer,
             function(response) {
-              console.log("getFirmwareType BLE.write response");
+              // console.log("getFirmwareType BLE.write response");
               deferred.resolve(response);
             },
             function(error) {
@@ -920,10 +920,10 @@
 
       getMacAddress: function getMacAddress(device) {
         var deferred = $q.defer();
-        console.log("fetching mac ddddd time, wtf");
-        console.log("sytp");
+        // console.log("fetching mac ddddd time, wtf");
+        // console.log("sytp");
         if (!device) {
-          console.log("getMacAddress: no connected device");
+          // console.log("getMacAddress: no connected device");
           deferred.reject("no device is connected");
         } else {
           var macData = [0x00, 0x01, $config.communication.GET_CLASSIC_MAC];
@@ -934,11 +934,11 @@
             $config.characteristics.GATT_CHAR_UUID_UART_TX,
             buff.buffer,
             function(response) {
-              console.log("getMacAddress : " + response);
+              // console.log("getMacAddress : " + response);
               deferred.resolve(response);
             },
             function(error) {
-              console.log("getMacAddress error : " + error);
+              // console.log("getMacAddress error : " + error);
               deferred.reject("failed to request firmware version");
             }
           );
@@ -948,10 +948,10 @@
 
       getPersistentData: function getPersistentData(device) {
         var deferred = $q.defer();
-        console.log("fetching persistent data");
+        // console.log("fetching persistent data");
 
         if (!device) {
-          console.log("getPersistentData: no connected device");
+          // console.log("getPersistentData: no connected device");
           deferred.reject("no device is connected");
         } else {
           var buff = new Uint8Array([
@@ -993,7 +993,7 @@
             pages
         );
         if (!pulse) {
-          console.log("setPersistentData: no connected device");
+          // console.log("setPersistentData: no connected device");
           deferred.reject("no device is connected");
         } else {
           var startIndex = MTU * page;
@@ -1027,10 +1027,10 @@
 
       systemReset: function systemReset(device) {
         var deferred = $q.defer();
-        console.log("asking to reset the system");
+        // console.log("asking to reset the system");
 
         if (!device) {
-          console.log("systemReset: no connected device");
+          // console.log("systemReset: no connected device");
           deferred.reject("no device is connected");
         } else {
           var data = [0x00, 0x01, $config.communication.SYSTEM_RESET, 0x0];
@@ -1053,10 +1053,10 @@
 
       enterBlMode: function enterBlMode(device) {
         var deferred = $q.defer();
-        console.log("asking to enter bootloader mode");
+        // console.log("asking to enter bootloader mode");
 
         if (!device) {
-          console.log("enterBLMode: no connected device");
+          // console.log("enterBLMode: no connected device");
           deferred.reject("no device is connected");
         } else {
           var data = [0x00, 0x01, $config.communication.SYSTEM_RESET, 0x1];
@@ -1079,10 +1079,10 @@
 
       resetBtc: function resetBtc(device) {
         var deferred = $q.defer();
-        console.log("Resetting the BTC connection on Pulse");
+        // console.log("Resetting the BTC connection on Pulse");
 
         if (!device) {
-          console.log("resetBtc: no connected device");
+          // console.log("resetBtc: no connected device");
           deferred.reject("no device is connected");
         } else {
           var data = [0x00, 0x01, $config.communication.RESET_BTC];
@@ -1105,10 +1105,10 @@
 
       requestAnalytic: function requestAnalytic(device, analytic) {
         var deferred = $q.defer();
-        console.log("Requesting device analytic");
+        // console.log("Requesting device analytic");
 
         if (!device) {
-          console.log("requestAnalytic: no connected device");
+          // console.log("requestAnalytic: no connected device");
           deferred.reject("no device is connected");
         } else {
           var data = [
@@ -1142,10 +1142,10 @@
           arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
         var deferred = $q.defer();
-        console.log("Requesting USB session be refreshed");
+        // console.log("Requesting USB session be refreshed");
 
         if (!device) {
-          console.log("refreshUSB: no connected device");
+          // console.log("refreshUSB: no connected device");
           deferred.reject("no device is connected");
         } else {
           var data = [
@@ -1172,12 +1172,12 @@
       },
 
       renameDevice: function renameDevice(device, nickname) {
-        console.log("insdie renameDevice : " + nickname);
+        // console.log("insdie renameDevice : " + nickname);
         var deferred = $q.defer();
-        console.log("Renaming Pulse to " + nickname);
+        // console.log("Renaming Pulse to " + nickname);
 
         if (!device) {
-          console.log("renameDevice: no connected device");
+          // console.log("renameDevice: no connected device");
           deferred.reject("no device is connected");
         } else {
           var buff = $views.stringtoBuffer(nickname);
@@ -1272,10 +1272,10 @@
 
       requestUUID: function requestUUID(device) {
         var deferred = $q.defer();
-        console.log("Requesting Pulse UUID");
+        // console.log("Requesting Pulse UUID");
 
         if (!device) {
-          console.log("requestUUID: no connected device");
+          // console.log("requestUUID: no connected device");
           deferred.reject("no device is connected");
         } else {
           var data = [0x00, 0x01, $config.communication.GET_PULSE_UUID];

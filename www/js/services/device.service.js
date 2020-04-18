@@ -6,6 +6,7 @@
   pulse.services.factory("$device", function(
     $cordovaNativeStorage,
     $q,
+    $state,
     $timeout,
     $views,
     $config,
@@ -75,15 +76,18 @@
     };
 
     function convertThumb(data, pulse) {
+      console.log('inside convertThumb');
       data = decorruptJpegArray(data);
       var blob,
         iter = 0;
 
       try {
+        console.log('inside convertThumb try');
         blob = new Blob([data], {
           type: "image/jpeg"
         });
       } catch (e) {
+        console.log('inside convertThumb catch');
         var BlobBuilder =
           window.BlobBuilder ||
           window.WebKitBlobBuilder ||
@@ -100,7 +104,7 @@
       var fileName = "pulseThumb" + Date.now() + ".jpg";
       if (!$platform.isAndroid()) {
         path = cordova.file.documentsDirectory;
-        dir = cordova.file.documentsDirectory + "/thumbnails/" + fileName;
+        dir = cordova.file.documentsDirectory + "thumbnails/" + fileName;
       } else {
         path = cordova.file.externalApplicationStorageDirectory;
         dir =
@@ -112,18 +116,57 @@
       $fileSystem.saveThumb(path, fileName, blob).then(
         function(success) {
           console.log("$fileSystem.saveThumb success");
+          console.log('Current State is name is :' + $state.current.name);
           var data = {
             hasThumb: true,
             thumbPath: dir
           };
-          $rootScope.$broadcast("thumbnailUpload", data);
+          if($state.current.name == 'app.main'){
+            console.log('Photo Page thumbnailUpload call');
+            $rootScope.$broadcast("thumbnailUploadPhotoPage", data);
+          } 
+          else if($state.current.name == 'app.photobooth'){
+            console.log('Photo Booth Page thumbnailUpload call');
+             $rootScope.$broadcast("thumbnailUploadPhotoBoothPage", data);
+          }
+          else if($state.current.name == 'app.timelapse'){
+            console.log('Time lapse Page thumbnailUpload call');
+            $rootScope.$broadcast("thumbnailUploadTimeLapsePage", data);
+          }
+          else {
+              $rootScope.$broadcast("thumbnailUpload", data);
+          }
+          
         },
         function(error) {
+          
+          let element = document.getElementById("photo-ring-div");
+          element.style.opacity = "1";
+          element.style.filter  = 'alpha(opacity=100)'; 
+          document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+
           console.log("$fileSystem.saveThumb error");
           var data = {
             hasThumb: false
           };
-          $rootScope.$broadcast("thumbnailUpload", data);
+          // $rootScope.$broadcast("thumbnailUpload", data);
+
+          if($state.current.name == 'app.main'){
+            console.log('Photo Page thumbnailUpload call');
+            $rootScope.$broadcast("thumbnailUploadPhotoPage", data);
+          } 
+          else if($state.current.name == 'app.photobooth'){
+            console.log('Photo Booth Page thumbnailUpload call');
+             $rootScope.$broadcast("thumbnailUploadPhotoBoothPage", data);
+          }
+          else if($state.current.name == 'app.timelapse'){
+            console.log('Time lapse Page thumbnailUpload call');
+            $rootScope.$broadcast("thumbnailUploadTimeLapsePage", data);
+          }
+          else {
+              $rootScope.$broadcast("thumbnailUpload", data);
+          }
+          
         }
       );
     }
@@ -887,12 +930,12 @@
             that.pulseAck(rxData, device);
           },
           changeNickname: function changeNickname(buffer) {
-            console.log(
-              "inside changeNickname buffer : " + JSON.stringify(buffer)
-            );
-            console.log(
-              "inside changeNickname device : " + JSON.stringify(device)
-            );
+            // console.log(
+            //   "inside changeNickname buffer : " + JSON.stringify(buffer)
+            // );
+            // console.log(
+            //   "inside changeNickname device : " + JSON.stringify(device)
+            // );
             that.handleNickname(buffer, device);
           },
           subscriptionFailure: function subscriptionFailure(error) {
@@ -1323,7 +1366,7 @@
 
       postSubscribe: function postSubscribe(pulse) {
         var _this4 = this;
-        console.log("postSubscribe : " + JSON.stringify(pulse));
+        // console.log("postSubscribe : " + JSON.stringify(pulse));
         {
           if (!devices.sessionDevices || devices.sessionDevices.length <= 1) {
             pulse.isMainDevice = true;
@@ -1972,10 +2015,10 @@
       startSubscription: function startSubscription(device) {
         var _this15 = this;
 
-        console.log(
-          "setting up subscriptions Inside startSubscription : " +
-            JSON.stringify(device)
-        );
+        // console.log(
+        //   "setting up subscriptions Inside startSubscription : " +
+        //     JSON.stringify(device)
+        // );
         ble.startNotification(
           device.id,
           $config.services.GATT_SERVICE_UUID_PULSE_SETTINGS_SERVICE,

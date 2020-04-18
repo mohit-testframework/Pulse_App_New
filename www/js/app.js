@@ -261,6 +261,7 @@ pulse.app = angular.module('pulse', ['ionic', 'pulse.controllers', 'pulse.servic
     controllerAs: 'vm'
   }).state('app.main', {
     url: '/main',
+    cache: false,
     templateUrl: 'templates/photo.html',
     controller: 'PhotoCtrl',
     menuItem: 'main',
@@ -275,6 +276,7 @@ pulse.app = angular.module('pulse', ['ionic', 'pulse.controllers', 'pulse.servic
 
   }).state('app.timelapse', {
     url: '/timelapse/:deviceId',
+    cache: false,
     templateUrl: 'templates/timelapse.html',
     controller: 'TimelapseCtrl',
     menuItem: 'timelapse',
@@ -291,6 +293,7 @@ pulse.app = angular.module('pulse', ['ionic', 'pulse.controllers', 'pulse.servic
     controllerAs: 'ctrl'
   }).state('app.timelapsemenu', {
     url: '/timelapsemenu/:deviceId',
+     cache: false,
     templateUrl: 'templates/timelapsemenu.html',
     controller: 'TimelapseMenuCtrl',
     controllerAs: 'ctrl'
