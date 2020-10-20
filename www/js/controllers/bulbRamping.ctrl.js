@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  pulse.controllers.controller('ExposureCtrl', function ($scope, $rootScope, $device, $timelapse, $views, $stateParams, $ionicSideMenuDelegate) {
+  pulse.controllers.controller('BulbRampingCtrl', function ($scope, $rootScope, $device, $timelapse, $views, $stateParams, $ionicSideMenuDelegate) {
     var vm = this;
     var dId = $stateParams.deviceId;
     vm.dId = dId;
@@ -26,19 +26,21 @@
       }
     }
 
-    vm.changeExposure = function() {
+    vm.changeBulbRamping = function() {
       console.log('activeExposure : ' + vm.timelapseModel.timelapses[vm.dId].settings.activeExposure);
       console.log('activeBulbExposure : ' + vm.timelapseModel.timelapses[vm.dId].settings.activeBulbExposure);
       console.log('activeISOExposure : ' + vm.timelapseModel.timelapses[vm.dId].settings.activeISOExposure);
-      if(!vm.timelapseModel.timelapses[vm.dId].settings.activeBulbExposure &&  !vm.timelapseModel.timelapses[vm.dId].settings.activeISOExposure){
-        if(!vm.timelapseModel.timelapses[vm.dId].settings.activeExposure){
-           $timelapse.timelapses[vm.dId].settings.activeExposure = false;
+      if(!vm.timelapseModel.timelapses[vm.dId].settings.activeExposure &&  !vm.timelapseModel.timelapses[vm.dId].settings.activeISOExposure){
+        if(!vm.timelapseModel.timelapses[vm.dId].settings.activeBulbExposure){
+           console.log('inside activeBulbExposure if : ' + vm.timelapseModel.timelapses[vm.dId].settings.activeBulbExposure);
+           $timelapse.timelapses[vm.dId].settings.activeBulbExposure = false;
         }else {
-          $timelapse.timelapses[vm.dId].settings.activeExposure = true;
+           console.log('inside activeBulbExposure else : ' + vm.timelapseModel.timelapses[vm.dId].settings.activeBulbExposure);
+          $timelapse.timelapses[vm.dId].settings.activeBulbExposure = true;
         }
         
       }else {
-        $timelapse.timelapses[vm.dId].settings.activeExposure = false;
+        $timelapse.timelapses[vm.dId].settings.activeBulbExposure = false;
          var modalData = {
             text: "Only one Advanced Time Lapse feature can be turned on!",
             onButtonClick: function onButtonClick() {
@@ -49,7 +51,6 @@
           $rootScope.$broadcast("openModal", modalData);
       }
     }
-
     vm.onReadySwiper = function (swiper, parentClass, settingType) {
       var parent = $('.' + parentClass);
       var header = parent.find('.setting-header');

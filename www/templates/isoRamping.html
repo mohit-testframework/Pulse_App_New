@@ -1,9 +1,9 @@
-<ion-view view-title="Exposure Ramping" class="exposure">
+<!-- <ion-view view-title="ISO Ramping" class="exposure">
   <ion-content class="has-header" overflow-scroll="true" has-bouncing="true">
     <div class="gotham-light white exposure-container">
       <div class="row row-center center text-center delay">
 
-        <ion-toggle ng-model="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeExposure" ng-checked="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeExposure" class="grey" ng-change="ctrl.changeExposure()">
+        <ion-toggle ng-model="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeISOExposure" ng-checked="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeISOExposure" class="grey" ng-change="ctrl.changeISORamping()">
           Enable
         </ion-toggle>
       </div>
@@ -41,59 +41,6 @@
               swipe-interval=50
               time-incrementer-name="exposure-duration"
               initminute="{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.duration.minutes}}"></timeincrementer>
-          </div>
-        </div>
-
-        <div class="slider-container startShutter" ng-if="ctrl.shutterOptions.valueArray.length">
-          <div style="height: 55px;">
-
-            <div class="setting-header gotham-book blue left label carousel">Start Shutter:</div>
-
-            <ks-swiper-container
-              loop="false"
-              show-nav-buttons="false"
-              slides-per-view="1"
-              initial-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.startShutterIndex"
-              current-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.startShutterIndex"
-              pagination-clickable="false"
-              on-ready="ctrl.onReadySwiper(swiper, 'startShutter', 'startShutter')"
-              speed="600"
-              override-parameters="{iOSEdgeSwipeDetection: true, centeredSlides: true, resistanceRatio: 1, longSwipesRatio: 0.3, freeMode: true, freeModeSticky: true, freeModeMomentumBounce: false,  freeModeMomentumRatio: 0.4, freeModeMomentumVelocityRatio: 0.8}">
-              <ks-swiper-slide class="swiper-slide" data-index="{{$index}}" ng-repeat="item in ctrl.shutterOptions.valueArray">
-
-                <div class="text-center gotham-book">
-                  <span class="iso-number">{{item.value}}</span>
-                </div>
-
-              </ks-swiper-slide>
-            </ks-swiper-container>
-          </div>
-        </div>
-
-        <div class="row-center container gotham-medium">
-          <div class="slider-container endShutter" ng-if="ctrl.shutterOptions.valueArray.length">
-            <div style="height: 55px;">
-              <div class="setting-header gotham-book blue left label carousel">End Shutter:</div>
-
-              <ks-swiper-container
-                loop="false"
-                show-nav-buttons="false"
-                slides-per-view="1"
-                initial-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.endShutterIndex"
-                current-slide="ctrl.timelapseModel.timelapses[ctrl.dId].settings.exposure.endShutterIndex"
-                pagination-clickable="false"
-                on-ready="ctrl.onReadySwiper(swiper, 'endShutter', 'endShutter')"
-                speed="600"
-                override-parameters="{iOSEdgeSwipeDetection: true, centeredSlides: true, resistanceRatio: 1, longSwipesRatio: 0.3, freeMode: true, freeModeSticky: true, freeModeMomentumBounce: false,  freeModeMomentumRatio: 0.4, freeModeMomentumVelocityRatio: 0.8}">
-                <ks-swiper-slide class="swiper-slide" data-index="{{$index}}" ng-repeat="item in ctrl.shutterOptions.valueArray">
-
-                  <div class="text-center gotham-book">
-                    <span class="iso-number">{{item.value}}</span>
-                  </div>
-
-                </ks-swiper-slide>
-              </ks-swiper-container>
-            </div>
           </div>
         </div>
         <div class="row-center container gotham-medium">
@@ -177,4 +124,14 @@
       </div>
     </div>
   </div>
+</ion-view>
+ -->
+  <ion-view view-title="ISO Ramping" class="bug-report">
+  <ion-content class="has-header" scroll="false">
+    <div class="bug-report-container">
+      <div class="text-center gotham-light padding thanks">
+        <p>ISO Ramping is Coming Soon!!</p>
+      </div>
+    </div>
+  </ion-content>
 </ion-view>

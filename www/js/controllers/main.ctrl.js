@@ -9,11 +9,11 @@
     var spanIndex = -1;
     var sawFirmwareModal = false;
 
-    var hideRightIconStates = ['/app/settings', '/app/about', '/app/timelapsedelay', '/app/exposure', '/app/timelapsemenu', '/app/bugreport', '/app/devices', '/app/appsettings', '/app/updateFirmware', '/app/savePreset', '/app/loadPreset'];
+    var hideRightIconStates = ['/app/settings', '/app/about', '/app/timelapsedelay', '/app/exposure', '/app/bulbRamping', '/app/isoRamping', '/app/speedRamping', '/app/timelapsemenu', '/app/bugreport', '/app/devices', '/app/appsettings', '/app/updateFirmware', '/app/savePreset', '/app/loadPreset'];
 
-    var backArrowIconStates = ['/app/settings', '/app/about', '/app/bugreport', '/app/timelapsemenu', '/app/exposure', '/app/timelapsedelay', '/app/savePreset', '/app/loadPreset'];
+    var backArrowIconStates = ['/app/settings', '/app/about', '/app/bugreport', '/app/timelapsemenu', '/app/exposure',  '/app/bulbRamping', '/app/isoRamping', '/app/speedRamping', '/app/timelapsedelay', '/app/savePreset', '/app/loadPreset'];
 
-    var dynamicRoutes = ['/app/settings', '/app/timelapsemenu', '/app/exposure', '/app/timelapsedelay', '/app/timelapse'];
+    var dynamicRoutes = ['/app/settings', '/app/timelapsemenu', '/app/exposure',  '/app/bulbRamping', '/app/isoRamping', '/app/speedRamping', '/app/timelapsedelay', '/app/timelapse'];
 
     initView();
 
@@ -175,19 +175,23 @@
     };
 
     vm.handleLeftNavigation = function () {
-
+      console.log('inside handleLeftNavigation');
       if ($location.path().indexOf('/app/updateFirmware') > -1) {
         //you cant do anything from the firmware update page
         return;
       }
       if (showBackArrow()) {
+        console.log('inside showBackArrow');
 
         //they are seeing the back arrow, so we navigate backwards
         if ($location.path().indexOf('/app/exposure') > -1) {
+          console.log('inside /app/exposure');
           var device = $device.getSelectedDevice();
           if (device) {
+            console.log('inside device');
             //they were in exposure ramping, check for exposure errors
             if ($timelapse.timelapses[device.id].settings.activeExposure) {
+              console.log('inside activeExposure error');
               //exposure settings are bad, pop open a model, display the error and don't let the user continue
               var exposureError = $timelapse.checkForExposureErrors(device.id);
               if (exposureError) {
@@ -201,7 +205,50 @@
               }
             }
           }
+        } else if ($location.path().indexOf('/app/bulbRamping') > -1) {
+          console.log('inside /app/bulbRamping');
+          var device = $device.getSelectedDevice();
+          if (device) {
+            console.log('inside device');
+            //they were in exposure ramping, check for exposure errors
+            if ($timelapse.timelapses[device.id].settings.activeBulbExposure) {
+              console.log('inside activeBulbExposure error');
+              //exposure settings are bad, pop open a model, display the error and don't let the user continue
+              var exposureError = $timelapse.checkForExposureErrors(device.id);
+              if (exposureError) {
+                var modalData = {
+                  text: exposureError.message,
+                  animation: 'fade-in-scale'
+                };
+                $rootScope.$broadcast('openModal', modalData);
+
+                return;
+              }
+            }
+          }
+        } else if ($location.path().indexOf('/app/isoRamping') > -1) {
+          console.log('inside /app/isoRamping');
+          var device = $device.getSelectedDevice();
+          if (device) {
+            console.log('inside device');
+            //they were in exposure ramping, check for exposure errors
+            if ($timelapse.timelapses[device.id].settings.activeISOExposure) {
+              console.log('inside activeISOExposure error');
+              //exposure settings are bad, pop open a model, display the error and don't let the user continue
+              var exposureError = $timelapse.checkForISOExposureErrors(device.id);
+              if (exposureError) {
+                var modalData = {
+                  text: exposureError.message,
+                  animation: 'fade-in-scale'
+                };
+                $rootScope.$broadcast('openModal', modalData);
+
+                return;
+              }
+            }
+          }
         }
+
         var backURL;
         if ($ionicHistory.backView()) {
           backURL = $ionicHistory.backView().url;
@@ -224,6 +271,16 @@
       }
     };
 
+    vm.showRightIconTimelapsePage = function () {
+      var device = $device.getSelectedDevice();
+      // Show camera icon only if we're connected and NOT the hide right icon pages
+      if (device && device.metaData.cameraConnected && typeof device.metaData.cameraType != 'undefined' && !hideRightIcon() && $location.path().indexOf('/app/timelapse') > -1) {
+          return true;
+      } else {
+        return false;
+      }
+    };
+
     vm.showRightIcon = function () {
       var device = $device.getSelectedDevice();
       // Show camera icon only if we're connected and NOT the hide right icon pages
@@ -241,6 +298,10 @@
      */
     vm.changePulse = function (index) {
       $device.deselectPulse(index);
+    };
+
+    vm.getRightIconTimeLapsePage = function () {
+        return 'img/cam-settings-white.svg';
     };
 
     vm.getRightIcon = function () {
@@ -320,6 +381,15 @@
        * function handleRightNavigation - handles the process of clicking the right header nav (either going back to the preceding page or showing camera settings)
        * @return null
        */
+    vm.handleRightNavigationTimelapsePage = function () {
+      var header = $('.pulse-header');
+      header.removeClass('orange-bg');
+      var device = $device.getSelectedDevice();
+      $('.pb-header').removeClass('orange-bg');
+      $('.menu-pane').removeClass('orange-bg');
+        $location.path('/app/settings/' + device.id);
+    };
+
     vm.handleRightNavigation = function () {
       var header = $('.pulse-header');
       header.removeClass('orange-bg');
@@ -334,6 +404,7 @@
         return;
       }
     };
+
 
     /**
        * updateArrow - handles whether to show the back arrow or not
@@ -359,7 +430,7 @@
       var markup;
       var device = $device.getSelectedDevice();
       if (updatingFirmware) {
-        console.log('inside updatingFirmware');
+        // console.log('inside updatingFirmware');
         markup = '<img src="img/circle.svg" class="circle"/><span class="gotham-light footer-text">Performing firmware update</span>';
       } else if (!device || !device.localStorageInfo || !device.localStorageInfo.nickname || !device.isConnected) {
         // console.log('insdie updatingFirmware');
@@ -426,9 +497,11 @@
           onButtonClick: function onButtonClick() {},
           onYesButtonClick: function onYesButtonClick() {
             if ($platform.isAndroid()) {
-              cordova.InAppBrowser.open('https://play.google.com/store/apps/details?id=com.alpinelabs.pulse&hl=en');
+              // cordova.InAppBrowser.open('https://play.google.com/store/apps/details?id=com.alpinelabs.pulse&hl=en');
+              cordova.plugins.market.open('com.alpinelabs.pulse');
             } else {
-              cordova.InAppBrowser.open('https://itunes.apple.com/us/app/pulse-camera-control/id1093969356?mt=8');
+              cordova.plugins.market.open('id1093969356');
+              // cordova.InAppBrowser.open('https://itunes.apple.com/us/app/pulse-camera-control/id1093969356?mt=8');
             }
           },
           animation: 'fade-in-scale',

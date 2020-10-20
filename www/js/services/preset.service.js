@@ -41,6 +41,8 @@
               interval: $timelapse.timelapses[device.id].settings.interval,
               exposure: $timelapse.timelapses[device.id].settings.exposure,
               activeExposure: $timelapse.timelapses[device.id].settings.activeExposure,
+              activeBulbExposure: $timelapse.timelapses[device.id].settings.activeBulbExposure,
+              activeISOExposure: $timelapse.timelapses[device.id].settings.activeISOExposure,
               activeDelay: $timelapse.timelapses[device.id].settings.activeDelay,
               delay: $timelapse.timelapses[device.id].settings.delay
             };
@@ -64,6 +66,8 @@
         $timelapse.timelapses[device.id].settings.interval = preset.interval;
         $timelapse.timelapses[device.id].settings.activeDelay = preset.activeDelay;
         $timelapse.timelapses[device.id].settings.activeExposure = preset.activeExposure;
+        $timelapse.timelapses[device.id].settings.activeBulbExposure = preset.activeBulbExposure;
+        $timelapse.timelapses[device.id].settings.activeISOExposure = preset.activeISOExposure;
       }
 
     };

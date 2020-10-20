@@ -32,10 +32,12 @@
       },
 
       setMTU: function setMTU(newMTU) {
+        console.log('inside transmit page setMTU');
         MTU = newMTU;
       },
 
       setShutter: function setShutter(device, data) {
+        console.log('inside setShutter BLE write : ' + JSON.stringify(data));
         var deferred = $q.defer();
         if (!device) {
           // console.log("setShutter: No connected Device");
@@ -65,6 +67,7 @@
       },
 
       setAperture: function setAperture(device, data) {
+        console.log('inside setAperture BLE write : ' + JSON.stringify(data));
         var deferred = $q.defer();
 
         if (!device) {
@@ -95,6 +98,7 @@
       },
 
       setIso: function setIso(device, data) {
+        console.log('inside setIso BLE write : ' + JSON.stringify(data));
         var deferred = $q.defer();
 
         if (!device) {
@@ -865,7 +869,7 @@
 
       getFirmWareVersion: function getFirmWareVersion(device) {
         var deferred = $q.defer();
-        // console.log("fetching firmware version");
+        console.log("fetching firmware version");
 
         if (!device) {
           // console.log("getFirmWareVersion: no connected device");
@@ -880,6 +884,7 @@
             buff.buffer,
             function(response) {
               deferred.resolve(response);
+              console.log('response : ' + JSON.stringify(response));
             },
             function(error) {
               deferred.reject("failed to request firmware version");

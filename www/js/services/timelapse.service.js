@@ -24,6 +24,9 @@
       },
       activeDelay: false,
       activeExposure: false,
+      activeBulbExposure: false,
+      activeISOExposure: false,
+      activeSpeedExposure: false,
       exposure: {
         startShutterIndex: false,
         shutterArray: [],
@@ -92,6 +95,9 @@
               },
               activeDelay: false,
               activeExposure: false,
+              activeBulbExposure: false,
+              activeISOExposure: false,
+              activeSpeedExposure: false,
               exposure: {
                 startShutterIndex: false,
                 shutterArray: [],
@@ -126,7 +132,7 @@
        * @return {null}
        */
       setSeconds: function setSeconds(deviceId) {
-        console.log('inside setSeconds');
+        console.log('inside setSeconds 1  : ' + timelapses[deviceId].settings.interval);
         timelapses[deviceId].settings.seconds = this.calculateTotalMinutes(deviceId) * 60 - timelapses[deviceId].settings.interval; //since we take a photo at the start of the TL, we need to initally subtract the interval
         timelapses[deviceId].settings.totalSeconds = timelapses[deviceId].settings.seconds;
         console.log('Seconds Values : ' + timelapses[deviceId].settings.seconds);
@@ -196,7 +202,9 @@
        * @return {int} the number of total minutes
        */
       calculateTotalMinutes: function calculateTotalMinutes(deviceId) {
-        // console.log('inside calculateTotalMinutes');
+        // console.log('inside calculateTotalMinutes 1  : ' + timelapses[deviceId].settings.duration.hours);
+
+        // console.log('inside calculateTotalMinutes 2  : ' + timelapses[deviceId].settings.duration.minutes);
         var minutes;
         if (deviceId) {
           minutes = parseInt(timelapses[deviceId].settings.duration.hours) * 60 + parseInt(timelapses[deviceId].settings.duration.minutes);
@@ -326,6 +334,22 @@
           });
           brampingData = this.getBrampingData(deviceId);
         }
+       else if (timelapses[deviceId].settings.activeBulbExposure) {
+          this.getAndSetSettingsValues(deviceId).then(function () {
+            console.log('gettings settings values');
+          });
+          brampingData = this.getBrampingData(deviceId);
+        }  else if (timelapses[deviceId].settings.activeISOExposure) {
+          this.getAndSetSettingsValues(deviceId).then(function () {
+            console.log('gettings settings values');
+          });
+          brampingData = this.getBrampingData(deviceId);
+        }  else if (timelapses[deviceId].settings.activeSpeedExposure) {
+          this.getAndSetSettingsValues(deviceId).then(function () {
+            console.log('gettings settings values');
+          });
+          brampingData = this.getBrampingData(deviceId);
+        }
         $transmit.timelapse(device, parseInt(timelapses[deviceId].settings.interval), timelapses[deviceId].settings.totalPhotos, delay, brampingData, timelapses[deviceId].settings.duration.isInfinite);
       },
 
@@ -369,23 +393,68 @@
         if (timelapses[deviceId].settings.exposure.shutterArray.length && timelapses[deviceId].settings.exposure.isoArray.length) {
           var shutterEV = $views.computeDeltaEVShutter($views.str2Num(timelapses[deviceId].settings.exposure.shutterArray[timelapses[deviceId].settings.exposure.startShutterIndex].value), $views.str2Num(timelapses[deviceId].settings.exposure.shutterArray[timelapses[deviceId].settings.exposure.endShutterIndex].value));
           var isoEV = $views.computeDeltaEVIso($views.str2Num(timelapses[deviceId].settings.exposure.isoArray[timelapses[deviceId].settings.exposure.startIsoIndex].value), $views.str2Num(timelapses[deviceId].settings.exposure.isoArray[timelapses[deviceId].settings.exposure.endIsoIndex].value));
+          
           if (Math.abs(isoEV) != 0 && Math.abs(shutterEV) == 0) {
             error = {
               message: 'Rut roh. Exposure ramping requires changing both ISO and Shutter Speed.'
             };
           }
 
-          if (isoEV < 0 && shutterEV > 0) {
-            error = {
-              message: 'Rut roh. Pulse cannot ramp a negative ISO setting and a positive shutter speed simultaneously.'
-            };
-          }
+          // if (isoEV < 0 && shutterEV > 0) {
+          //   error = {
+          //     message: 'Rut roh. Pulse cannot ramp a negative ISO setting and a positive shutter speed simultaneously.'
+          //   };
+          // }
 
-          if (isoEV > 0 && shutterEV < 0) {
+          // if (isoEV > 0 && shutterEV < 0) {
+          //   error = {
+          //     message: 'Rut roh. Pulse cannot ramp a positive ISO settings and a negative shutter speed simultaneously.'
+          //   };
+          // }
+        }
+        return error;
+      },
+      checkForISOExposureErrors: function checkForISOExposureErrors(deviceId) {
+        var error;
+        var totalTimeInMinutes = parseInt(timelapses[deviceId].settings.exposure.duration.hours) * 60 + parseInt(timelapses[deviceId].settings.exposure.duration.minutes),
+            frontDelayTime = parseInt(timelapses[deviceId].settings.exposure.delay.hours) * 60 + parseInt(timelapses[deviceId].settings.exposure.delay.minutes),
+            totalTlTime = parseInt(timelapses[deviceId].settings.duration.hours) * 60 + parseInt(timelapses[deviceId].settings.duration.minutes);
+
+        if (totalTimeInMinutes + frontDelayTime > totalTlTime) {
+          error = {
+            message: 'Duration + delay cannot be longer than total timelapse duration.'
+          };
+        }
+        if (timelapses[deviceId].settings.exposureEV) {
+
+          if (Math.abs(timelapses[deviceId].settings.exposureEV / ((parseInt(timelapses[deviceId].settings.exposure.duration.hours) * 60 + parseInt(timelapses[deviceId].settings.exposure.duration.minutes)) / 10.0)) > 5.00) {
             error = {
-              message: 'Rut roh. Pulse cannot ramp a positive ISO settings and a negative shutter speed simultaneously.'
+              message: 'Your eV change is too fast. Please set something slower than 5eV per 10 minutes.'
             };
           }
+        }
+
+        if (timelapses[deviceId].settings.exposure.shutterArray.length && timelapses[deviceId].settings.exposure.isoArray.length) {
+          var shutterEV = $views.computeDeltaEVShutter($views.str2Num(timelapses[deviceId].settings.exposure.shutterArray[timelapses[deviceId].settings.exposure.startShutterIndex].value), $views.str2Num(timelapses[deviceId].settings.exposure.shutterArray[timelapses[deviceId].settings.exposure.endShutterIndex].value));
+          var isoEV = $views.computeDeltaEVIso($views.str2Num(timelapses[deviceId].settings.exposure.isoArray[timelapses[deviceId].settings.exposure.startIsoIndex].value), $views.str2Num(timelapses[deviceId].settings.exposure.isoArray[timelapses[deviceId].settings.exposure.endIsoIndex].value));
+          
+          // if (Math.abs(isoEV) != 0 && Math.abs(shutterEV) == 0) {
+          //   error = {
+          //     message: 'Rut roh. Exposure ramping requires changing both ISO and Shutter Speed.'
+          //   };
+          // }
+
+          // if (isoEV < 0 && shutterEV > 0) {
+          //   error = {
+          //     message: 'Rut roh. Pulse cannot ramp a negative ISO setting and a positive shutter speed simultaneously.'
+          //   };
+          // }
+
+          // if (isoEV > 0 && shutterEV < 0) {
+          //   error = {
+          //     message: 'Rut roh. Pulse cannot ramp a positive ISO settings and a negative shutter speed simultaneously.'
+          //   };
+          // }
         }
         return error;
       },

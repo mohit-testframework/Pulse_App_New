@@ -194,7 +194,7 @@
   width: 30px; }
 
 .platform-android .pulse-header .title {
-  font-size: 24px;
+  font-size: 19px;
   line-height: 46px !important; }
 
 .platform-ios .pulse-header .settings-icon {
@@ -472,8 +472,13 @@ ion-content {
   font-family: "Gotham-Medium", sans-serif; }
 
 .gotham-book {
-  font-family: "Gotham-Book", sans-serif; }
+  font-family: "Gotham-Book", sans-serif; 
+}
 
+.margin-class-gotham-book {
+    margin-top: -5px;
+  font-size: 15px;
+}
 .gotham-bold {
   font-family: "Gotham-Bold", sans-serif; }
 
@@ -1061,7 +1066,7 @@ ion-content {
 
 .timelapse .timelapse-container {
   height: 100vh;
-  margin-top: 15vh;
+  margin-top: 5vh;
   font-size: 1.2em; }
   .timelapse .timelapse-container.slide-2 {
     margin-top: 18%; }
@@ -3730,4 +3735,13 @@ top: 50px;
 }
 .make-disabled {
   opacity: 0.5;
+}
+.margin-class-duration {
+  margin-top: -20px !important;
+}
+.margin-class-exposure {
+  margin-top: -23px !important;
+}
+.margin-class-enable-delay {
+  margin-top: -30px !important;
 }

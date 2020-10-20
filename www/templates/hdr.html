@@ -14,6 +14,15 @@
           <incrementer swipe-interval=100 ng-model="ctrl.model.settings.evSteps" integer initval="{{ctrl.model.settings.evSteps}}" step="1" min=1 max=7></incrementer>
         </div>
       </div>
+
+      <div class="row row-center center text-center delay" >
+        <ion-toggle class="grey" ng-model="ctrl.activeBracketing" ng-checked="ctrl.activeBracketing">
+          Enable ISO Bracketing
+        </ion-toggle>
+      </div>  
+      <div class="text-center gotham-light padding thanks" ng-if="ctrl.activeBracketing">
+        <p>ISO Bracketing is Coming Soon!!</p>
+      </div>
     </div>
   </ion-content>
 

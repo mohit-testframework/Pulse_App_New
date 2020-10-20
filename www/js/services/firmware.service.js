@@ -115,23 +115,32 @@
         if (!window.cordova) {
           deferred.reject("no cordova");
         } else {
-          cordova.getAppVersion.getVersionNumber(
-            function(version) {
-              // alert(version);
-              appVersion = version;
-              console.log("Version is " + version);
-            },
-            function(error) {
-              // alert(error);
-              // appVersion = version;
-              console.log("Version is " + error);
-            }
-          );
+          // cordova.getAppVersion.getVersionNumber(
+          //   function(version) {
+          //     // alert(version);
+          //     appVersion = version;
+          //     console.log("Version is " + version);
+          //   },
+          //   function(error) {
+          //     // alert(error);
+          //     // appVersion = version;
+          //     console.log("Version is " + error);
+          //   });
 
-          var url =
-            "https://s3-us-west-1.amazonaws.com/alpine-firmware/pulse-firmware/" +
-            appVersion +
-            "/firmware-version-fota.json";
+            cordova.getAppVersion.getVersionNumber().then(function(version) {
+                // $('.version').text(version);
+                console.log('getVersionNumber Version app.js page ' + version);    
+                appVersion = version;
+            },function (error) {
+                  // alert(error);
+                // appVersion = version;
+                   console.log('error version is app.js page ' + error);    
+            });
+
+          var url = "https://alpinelabs.s3-us-west-1.amazonaws.com/firmware-version-fota.json";
+            // "https://s3-us-west-1.amazonaws.com/alpine-firmware/pulse-firmware/" +
+            // appVersion +
+            // "/firmware-version-fota.json";
           var targetPath;
           if ($platform.isAndroid()) {
             targetPath =
@@ -189,18 +198,18 @@
 
               var url;
               if ($platform.isAndroid()) {
-                url =
-                  "https://s3-us-west-1.amazonaws.com/alpine-firmware/pulse-firmware/" +
-                  appVersion +
-                  "/pulse-firmware-dual.bin";
+                url = "https://alpinelabs.s3-us-west-1.amazonaws.com/pulse-firmware-dual.bin";
+                  // "https://s3-us-west-1.amazonaws.com/alpine-firmware/pulse-firmware/" +
+                  // appVersion +
+                  // "/pulse-firmware-dual.bin";
                 targetPath =
                   cordova.file.externalApplicationStorageDirectory +
                   "firmware.bin";
               } else {
-                url =
-                  "https://s3-us-west-1.amazonaws.com/alpine-firmware/pulse-firmware/" +
-                  appVersion +
-                  "/pulse-firmware-ios.bin";
+                url = "https://alpinelabs.s3-us-west-1.amazonaws.com/pulse-firmware-ios.bin";
+                  // "https://s3-us-west-1.amazonaws.com/alpine-firmware/pulse-firmware/" +
+                  // appVersion +
+                  // "/pulse-firmware-ios.bin";
                 targetPath = cordova.file.documentsDirectory + "firmware.bin";
               }
 
@@ -256,6 +265,7 @@
       },
 
       readUpdateFirmware: function readUpdateFirmware() {
+        console.log("Inside readUpdateFirmware.");
         var _this = this;
 
         var deferred = $q.defer();
@@ -336,6 +346,8 @@
                   //android needs help and has to be told what services to scan for
                   //scanArray = [$config.bootloader.BL_SERVICE];
                 }
+                navigator.geolocation.getCurrentPosition (function (geolocation_res) {
+                  console.log('inside geolocation_res response : ', geolocation_res);
                 ble.startScan(
                   scanArray,
                   function(peripheral) {
@@ -346,7 +358,7 @@
                           $timeout.cancel(masterTimer);
                           peripheral.callbacks = {
                             disconnectCallback: function disconnectCallback() {
-                              that.handleDisconnect(peripheral);
+                              _this2.handleDisconnect(peripheral);
                             }
                           };
 
@@ -417,14 +429,16 @@
                         }
                       );
                     }
-                  },
-                  function(error) {
+                  }, function(error) {
                     console.log(
                       "Error scanning for bootloader. Rejecting promise."
                     );
                     deferred.reject(error);
-                  }
-                );
+                  });
+
+                    }, function (error) {
+                      console.log('inside geolocation_res error : ', error);
+                    });                
               });
             }, 2000);
           };
@@ -553,6 +567,7 @@
         };
 
         var fwCommandTransmit = function fwCommandTransmit(cmd) {
+          console.log('inside fwCommandTransmit');
           ble.write(
             device.id,
             $config.bootloader.BL_SERVICE,
@@ -610,7 +625,7 @@
             console.log("Data to send is out of bounds. Aborting!");
             return;
           }
-
+          console.log('inside fwDataTransmit');
           ble.write(
             device.id,
             $config.bootloader.BL_SERVICE,

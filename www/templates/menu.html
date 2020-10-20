@@ -9,9 +9,18 @@
           <button ng-if="!(vm.photobooth.inProgress && vm.$location.path() == '/app/photobooth')" class="button button-icon button-clear header-btn left {{vm.getLeftIcon()}}" ng-click="vm.handleLeftNavigation()"></button>
         </ion-nav-buttons>
         <ion-nav-buttons side="right">
-          <button class="button button-icon button-clear header-btn" ng-class="vm.showRightIcon() ? 'show' : 'hide'" ng-click="vm.handleRightNavigation()">
-            <div ng-include src="vm.getRightIcon()"></div>
-          </button>
+          <div style="display: block;">
+              <button class="button button-icon button-clear header-btn" ng-class="vm.showRightIconTimelapsePage() ? 'show' : 'hide'" ng-click="vm.handleRightNavigationTimelapsePage()">
+                <div ng-include src="vm.getRightIconTimeLapsePage()"></div>
+                <!-- <div ng-include src="vm.getRightIcon()"></div> -->
+              </button>
+              
+              <button class="button button-icon button-clear header-btn" ng-class="vm.showRightIcon() ? 'show' : 'hide'" ng-click="vm.handleRightNavigation()">
+                <!-- <div ng-include src="vm.getRightIconTimeLapsePage()"></div> -->
+                <div ng-include src="vm.getRightIcon()"></div>
+              </button>            
+          </div>
+
         </ion-nav-buttons>
       </ion-nav-bar>
 

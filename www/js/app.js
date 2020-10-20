@@ -28,7 +28,7 @@ var setPD = false;
 var ignorePD = false;
 var updatingFirmware = false;
 
-pulse.app = angular.module('pulse', ['ionic', 'pulse.controllers', 'pulse.services', 'ngCordova', 'ionic-native-transitions', 'ksSwiper', 'incrementer', 'timeincrementer', 'timer', 'angular-svg-round-progressbar', 'angularMoment', 'chart.js', 'ngCordova.plugins.nativeStorage']).run(function ($ionicPlatform, $window, $rootScope, $cordovaStatusbar, $device, $fileLogger, $ionicNativeTransitions, $views, $timeout, $platform, $bulb, $camSettings, $location, $http, $transmit, $presetData, $cordovaNativeStorage, $testClient, $ionicHistory) {
+pulse.app = angular.module('pulse', ['ionic', 'pulse.controllers', 'pulse.services', 'ngCordova', 'ionic-native-transitions', 'ksSwiper', 'incrementer', 'timelapseincrementer',  'timeincrementer', 'timeincrementerexposure', 'timer', 'angular-svg-round-progressbar', 'angularMoment', 'chart.js', 'ngCordova.plugins.nativeStorage']).run(function ($ionicPlatform, $window, $rootScope, $cordovaStatusbar, $device, $fileLogger, $ionicNativeTransitions, $views, $timeout, $platform, $bulb, $camSettings, $location, $http, $transmit, $presetData, $cordovaNativeStorage, $testClient, $ionicHistory) {
   function setupStorageItems() {
     // * Check if it's first login!
     $cordovaNativeStorage.getItem('firstLogin').then(function (value) {
@@ -138,14 +138,24 @@ pulse.app = angular.module('pulse', ['ionic', 'pulse.controllers', 'pulse.servic
       //    console.log('Version Error is ', error);
       //  });
 
-      cordova.getAppVersion.getVersionNumber(function (version) {
-          // alert(version);
+    //   cordova.getAppVersion.getVersionNumber(function (version) {
+    //       // alert(version);
+    //     appVersion = version;
+    //        console.log('Version is ' + version);    
+    // },function (error) {
+    //       // alert(error);
+    //     // appVersion = version;
+    //        console.log('Version is ' + error);    
+    // });
+
+    cordova.getAppVersion.getVersionNumber().then(function(version) {
+        // $('.version').text(version);
+        console.log('getVersionNumber Version app.js page ' + version);    
         appVersion = version;
-           console.log('Version is ' + version);    
     },function (error) {
           // alert(error);
         // appVersion = version;
-           console.log('Version is ' + error);    
+           console.log('error version is app.js page ' + error);    
     });
 
     // }
@@ -306,6 +316,21 @@ pulse.app = angular.module('pulse', ['ionic', 'pulse.controllers', 'pulse.servic
     url: '/exposure/:deviceId',
     templateUrl: 'templates/exposure.html',
     controller: 'ExposureCtrl',
+    controllerAs: 'ctrl'
+  }).state('app.bulbRamping', {
+    url: '/bulbRamping/:deviceId',
+    templateUrl: 'templates/bulbRamping.html',
+    controller: 'BulbRampingCtrl',
+    controllerAs: 'ctrl'
+  }).state('app.isoRamping', {
+    url: '/isoRamping/:deviceId',
+    templateUrl: 'templates/isoRamping.html',
+    controller: 'IsoRampingCtrl',
+    controllerAs: 'ctrl'
+  }).state('app.speedRamping', {
+    url: '/speedRamping/:deviceId',
+    templateUrl: 'templates/speedRamping.html',
+    controller: 'SpeedRampingCtrl',
     controllerAs: 'ctrl'
   }).state('app.bulb', {
     url: '/bulb',

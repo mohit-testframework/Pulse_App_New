@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  pulse.controllers.controller('BugReportCtrl', function ($fileLogger, $http, $views, $device, $platform, $timeout, $firmware, $bugreport, $q, $cordovaNativeStorage) {
+  pulse.controllers.controller('SpeedRampingCtrl', function ($fileLogger, $http, $views, $device, $platform, $timeout, $firmware, $bugreport, $q, $cordovaNativeStorage) {
     var vm = this;
     // Very Old // var emailEndpoint = 'https://alpine-bug-report-server.herokuapp.com/main/email'; //our herokuapp that will send emails for us
 
@@ -120,57 +120,48 @@
 
     function sendLogFile(data) {
       var attempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      console.log('Request Params sendLogFile *** : ');
+      console.log('data : ' + JSON.stringify(data));
 
       var defer = $q.defer();
       //make the post request to the heroku email app
-      var request = $http.post(emailEndpoint, data);
-      request.success(function (data) {
-        vm.viewSettings.sent = true;
-        vm.ellipsis = false;
-        vm.viewSettings.btnText = 'Send Another Bug';
-        $bugreport.settings.firstName = '';
-        $bugreport.settings.email = '';
-        $bugreport.settings.comments = '';        
-        defer.resolve(data);
-      });
-      request.error(function (error) {
-        if (attempts < 1) {
-          sendLogFile(data, 1);
-        } else {
-          vm.ellipsis = false;
-          vm.error = true;
-          defer.reject(error);
-        }
-      });
-      return defer.promise;
+      // var request = $http.post(emailEndpoint, data);
+      // request.success(function (data) {
+      //   vm.viewSettings.sent = true;
+      //   vm.ellipsis = false;
+      //   vm.viewSettings.btnText = 'Send Another Bug';
+      //   defer.resolve(data);
+      // });
+      // request.error(function (error) {
+      //   if (attempts < 1) {
+      //     sendLogFile(data, 1);
+      //   } else {
+      //     vm.ellipsis = false;
+      //     vm.error = true;
+      //     defer.reject(error);
+      //   }
+      // });
+      // return defer.promise;
       
-       // cordova.plugin.http.post(emailEndpoint, data, {}, function(response) {
-       //        console.log(response.status);
-       //        console.log('response success : ' + JSON.stringify(response));
-                
-       //          vm.viewSettings.sent = true;
-       //          vm.ellipsis = false;
-       //          vm.viewSettings.btnText = 'Send Another Bug';
-       //          $bugreport.settings.firstName = '';
-       //          $bugreport.settings.email = '';
-       //          $bugreport.settings.comments = '';
-       //          // vm.formSettings = {};
-       //          // $bugreport.settings = {};
-       //          defer.resolve(data);
-       //      }, function(error) {
-       //        console.log('response error : ' + JSON.stringify(error));
-       //           // $bugreport.settings = {};
-       //            // vm.formSettings = {};
-       //           if (attempts < 1) {
-       //              sendLogFile(data, 1);
-       //            } else {
-       //              vm.ellipsis = false;
-       //              vm.error = true;
-       //              defer.reject(error);
-       //            }
-       //      });
-       //  return defer.promise;
+       cordova.plugin.http.post(emailEndpoint, data, {}, function(response) {
+              // console.log(response.status);
+                vm.viewSettings.sent = true;
+                vm.ellipsis = false;
+                vm.viewSettings.btnText = 'Send Another Bug';
+                $bugreport.settings.firstName = '';
+                $bugreport.settings.email = '';
+                $bugreport.settings.comments = '';
+                defer.resolve(data);
+            }, function(response) {
+              // console.error(response.error);
+                 if (attempts < 1) {
+                    sendLogFile(data, 1);
+                  } else {
+                    vm.ellipsis = false;
+                    vm.error = true;
+                    defer.reject(error);
+                  }
+            });
+        return defer.promise;
     }
 
     function validateEmail(email) {

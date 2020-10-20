@@ -410,7 +410,7 @@
       getMinutes: function getMinutes(totalSeconds) {
         var minuteDivisor = totalSeconds % (60 * 60);
         var minutes = Math.floor(minuteDivisor / 60).toString();
-        if (minutes.length < 2) minutes = '0' + minutes;
+        if (minutes.length < 2) minutes = minutes;
         return minutes;
       },
 

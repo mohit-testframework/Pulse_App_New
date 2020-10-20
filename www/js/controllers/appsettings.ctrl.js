@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  pulse.controllers.controller('AppSettingsCtrl', function ($device, $firmware, $views, $transmit, $cordovaNativeStorage, $fileLogger, $timeout) {
+  pulse.controllers.controller('AppSettingsCtrl', function($device, $firmware, $views, $transmit, $cordovaNativeStorage, $fileLogger, $timeout) {
     var vm = this;
     var checkedLed = false;
 

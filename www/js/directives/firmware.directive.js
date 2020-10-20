@@ -17,6 +17,7 @@
 
         var vm = this;
         var proceed = true;
+        $scope.firmwareError = false;
         $rootScope.$on('cancelUpdate', function () {
           proceed = false;
           updatingFirmware = false;
@@ -46,11 +47,13 @@
         };
 
         vm.goToFirmwarePage = function () {
+          console.log('goToFirmwarePage');
           $ionicLoading.show({
             templateUrl: 'templates/partials/loading-firmware.html',
             scope: $scope
           });
           $q.all([$firmware.readUpdateFirmware()]).then(function (responses) {
+             console.log('goToFirmwarePage');
             window.plugins.insomnia.keepAwake();
             $scope.allgood = true;
             $firmware.settings.firmwareBinary = responses[0];

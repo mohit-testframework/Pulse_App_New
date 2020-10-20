@@ -23,6 +23,7 @@
 
     vm.exitWelcomeScreen = function () {
       //they have exited the welcome screen. Start Scanning
+      console.log('exitWelcomeScreen');
       $device.scanAndConnectDevices();
       $location.path('/app/main');
     };

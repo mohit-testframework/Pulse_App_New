@@ -1,20 +1,7 @@
-=<ion-view view-title="TL Menu" class="timelapse-menu">
+<ion-view view-title="Advanced Time Lapse Menu" class="timelapse-menu">
   <ion-content class="has-header" overflow-scroll="true" has-bouncing="true">
     <div class="menu-list gotham-light">
       <ion-list>
-        <ion-item>
-          <ion-item>
-            <a class="row item-row" ui-sref="app.settings({deviceId:'{{ctrl.dId}}'})">
-              <div class="col left-section">
-                <div>
-                  Camera Settings
-                </div>
-              </div>
-              <div class="col gotham-medium">
-                <div class="ion-ios-arrow-right right"></div>
-              </div>
-            </a>
-          </ion-item>
           <ion-item>
             <a class="row item-row" ui-sref="app.exposure({deviceId:'{{ctrl.dId}}'})">
               <div class="col left-section">
@@ -29,17 +16,41 @@
             </a>
           </ion-item>
           <ion-item>
-            <a class="row item-row" ui-sref="app.timelapsedelay({deviceId:'{{ctrl.dId}}'})">
+            <a class="row item-row" ui-sref="app.bulbRamping({deviceId:'{{ctrl.dId}}'})">
               <div class="col left-section">
                 <div>
-                  Time Delay
+                  Bulb Ramp
                 </div>
               </div>
               <div class="col gotham-medium">
-
                 <div class="ion-ios-arrow-right right"></div>
-                <div class="blue gotham-medium right time" ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeDelay">{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.delay.hours}}h{{ctrl.timelapseModel.timelapses[ctrl.dId].settings.delay.minutes}}m
+                <div class="blue gotham-medium right time" ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeBulbExposure">On</div>
+              </div>
+            </a>
+          </ion-item>
+          <ion-item>
+            <a class="row item-row" ui-sref="app.isoRamping({deviceId:'{{ctrl.dId}}'})">
+              <div class="col left-section">
+                <div>
+                  ISO Ramp
                 </div>
+              </div>
+              <div class="col gotham-medium">
+                <div class="ion-ios-arrow-right right"></div>
+                <div class="blue gotham-medium right time" ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeISOExposure">On</div>
+              </div>
+            </a>
+          </ion-item>
+          <ion-item>
+            <a class="row item-row" ui-sref="app.speedRamping({deviceId:'{{ctrl.dId}}'})">
+              <div class="col left-section">
+                <div>
+                  Speed Ramp
+                </div>
+              </div>
+              <div class="col gotham-medium">
+                <div class="ion-ios-arrow-right right"></div>
+                <div class="blue gotham-medium right time" ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeSpeedExposure">On</div>
               </div>
             </a>
           </ion-item>

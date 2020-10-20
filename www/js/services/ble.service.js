@@ -132,6 +132,8 @@
         var deviceArray = serviceCharacteristics;
 
         console.log("scanning for Pulse devices");
+      navigator.geolocation.getCurrentPosition (function (geolocation_res) {
+          console.log('inside geolocation_res response : ', geolocation_res);
         ble.startScan(
           deviceArray,
           function(peripheral) {
@@ -151,11 +153,9 @@
                   console.log("device name toLowerCase : " + deviceName);
                   if (deviceName.indexOf("pulse") > -1) {
                     console.log("inside deviceName.indexOf");
-                    if (
-                      deviceName != "pulse bootloader" ||
-                      deviceName != "pulse lite"
-                    ) {
-                      console.log("inside not pulse bootloader and pulse lite");
+                    if (deviceName != "pulse bootloader" || deviceName != "pulse lite") 
+                    {
+                      console.log("inside either pulse bootloader or pulse lite");
                       that.devices.push(peripheral);
                     }
                     if (deviceName == "pulse lite") {
@@ -189,9 +189,13 @@
           function(error) {
             console.log("Failed to scan. Error: ", error);
             deferred.reject(error);
-          }
-        );
-        if (timeout) {
+          });
+        
+        }, function (error) {
+          console.log('inside geolocation_res error : ', error);
+        });
+
+        if(timeout) {
           timer = $timeout(
             ble.stopScan,
             timeout,

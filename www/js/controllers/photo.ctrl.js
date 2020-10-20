@@ -37,10 +37,10 @@
       console.log("data.thumbPath Photo Page : " + data.thumbPath);
       // console.log('thumbnailUpload called successfully 7777');
 
-      let element = document.getElementById("photo-ring-div");
-      element.style.opacity = "1";
-      element.style.filter  = 'alpha(opacity=100)';     
-      document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+      // let element = document.getElementById("photo-ring-div");
+      // element.style.opacity = "1";
+      // element.style.filter  = 'alpha(opacity=100)';     
+      // document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
 
       let photoThumb = window.Ionic.WebView.convertFileSrc(data.thumbPath);
       $timeout.cancel(animationTimer);
@@ -114,13 +114,14 @@
     vm.takePhoto = function() {
       // console.log("inside takePhoto 77777778888");
       // document.getElementsByClassName("photo-ring");
-      let element = document.getElementById("photo-ring-div");
-            element.style.opacity = "0.5";
-           element.style.filter  = 'alpha(opacity=50)';
+      
+      // let element = document.getElementById("photo-ring-div");
+      //       element.style.opacity = "0.5";
+      //      element.style.filter  = 'alpha(opacity=50)';
 
-      // let svgElement = document.getElementById("photo-ring-svg");
-      // svgElement.style.pointer-events = 'none';
-      document.getElementById('photo-ring-svg').setAttribute('pointer-events','none');
+      // // let svgElement = document.getElementById("photo-ring-svg");
+      // // svgElement.style.pointer-events = 'none';
+      // document.getElementById('photo-ring-svg').setAttribute('pointer-events','none');
 
       var device = $device.getSelectedDevice();
       var shutterWait = 0;
@@ -138,10 +139,12 @@
         var settings = $camSettings.getActiveSettings();
         if (settings && settings.shutter) {
           if (settings.shutter.value == "BULB") {
-            let element = document.getElementById("photo-ring-div");
-            element.style.opacity = "1";
-            element.style.filter  = 'alpha(opacity=100)';
 
+               // let element = document.getElementById("photo-ring-div");
+               //  element.style.opacity = "1";
+               //  element.style.filter  = 'alpha(opacity=100)';
+               //  document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+                
             vm.bulbClass = "animated fadeIn";
             vm.errorText =
               "Please change shutter from Bulb to enable photo capture";
@@ -223,10 +226,10 @@
             function(error) {
                 // console.log('takePhoto called successfully 7777');
                 
-                let element = document.getElementById("photo-ring-div");
-                element.style.opacity = "1";
-                element.style.filter  = 'alpha(opacity=100)';
-                document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+                // let element = document.getElementById("photo-ring-div");
+                // element.style.opacity = "1";
+                // element.style.filter  = 'alpha(opacity=100)';
+                // document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
 
               $timeout.cancel(animationTimer);
               //user is in video mode
@@ -272,6 +275,7 @@
     };
 
     vm.handleToggle = function(enabled) {
+      console.log('inside handleToggle');
       var device = $device.getSelectedDevice();
       //check if we have iOS 11.2.5, if so we need to present the "can't do it" modal
       var os = $platform.getDeviceVersion();
@@ -296,6 +300,7 @@
       if (enabled) {
         // console.log(`device: ${JSON.stringify(device)}`);
         //try to turn the toggle on
+        console.log('inside handleToggle enabled');
         btClassic.isConnected(device.metaData.macAddress).then(
           function(result) {
             //we are already connected, update the device already

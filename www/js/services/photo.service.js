@@ -56,24 +56,24 @@
                   $timeout(function () {
                     // console.log('getThumb function call');
                     _this.getThumb(device, thumbForceWait).then(function (response) {
-                      let element = document.getElementById("photo-ring-div");
-                      element.style.opacity = "1";
-                      element.style.filter  = 'alpha(opacity=100)';
-                      document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');                  
+                      // let element = document.getElementById("photo-ring-div");
+                      // element.style.opacity = "1";
+                      // element.style.filter  = 'alpha(opacity=100)';
+                      // document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');                  
                       deferred.resolve(response);
                     }, function (error) {
-                        let element = document.getElementById("photo-ring-div");
-                        element.style.opacity = "1";
-                        element.style.filter  = 'alpha(opacity=100)';       
-                        document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');           
+                        // let element = document.getElementById("photo-ring-div");
+                        // element.style.opacity = "1";
+                        // element.style.filter  = 'alpha(opacity=100)';       
+                        // document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');           
                       deferred.reject(error);
                     }, 100);
                   },1000);
               },function (error) {
-                    let element = document.getElementById("photo-ring-div");
-                    element.style.opacity = "1";
-                    element.style.filter  = 'alpha(opacity=100)';       
-                    document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');           
+                    // let element = document.getElementById("photo-ring-div");
+                    // element.style.opacity = "1";
+                    // element.style.filter  = 'alpha(opacity=100)';       
+                    // document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');           
                     deferred.reject(error);
                 });
 
@@ -175,12 +175,13 @@
                     // $transmit.cancelThumb(syncedDevice);
                     //read from BT CLASSIC then store to local storage, then render
                     // console.log('no thumbnail acknowledgement sent. Doing a force read.');
-                          var element = document.getElementById("photo-ring-div");
-                          if(element != null){
-                              element.style.opacity = "1";
-                              element.style.filter  = 'alpha(opacity=100)';  
-                              document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
-                          }
+                    
+                          // var element = document.getElementById("photo-ring-div");
+                          // if(element != null){
+                          //     element.style.opacity = "1";
+                          //     element.style.filter  = 'alpha(opacity=100)';  
+                          //     document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+                          // }
 
                     btClassic.read(device.metaData.macAddress).then(function (data) {
                       if (data && data.length) {
@@ -203,12 +204,12 @@
                 }, 8000 + thumbForceWait); //wait 8 seconds for the thumb and then cancel nothing happened
               }, function (error) {
                       console.log('Photo Service Page requestThumb error : ', error);
-                  var element = document.getElementById("photo-ring-div");
-                         if(element != null){
-                              element.style.opacity = "1";
-                              element.style.filter  = 'alpha(opacity=100)';  
-                              document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
-                          }                             
+                  // var element = document.getElementById("photo-ring-div");
+                  //        if(element != null){
+                  //             element.style.opacity = "1";
+                  //             element.style.filter  = 'alpha(opacity=100)';  
+                  //             document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+                  //         }                             
                 // console.log(error);
               });
             } else {
@@ -216,10 +217,10 @@
             }
           }, 250);
         }, function (error) {
-              let element = document.getElementById("photo-ring-div");
-              element.style.opacity = "1";
-              element.style.filter  = 'alpha(opacity=100)';  
-              document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');         
+              // let element = document.getElementById("photo-ring-div");
+              // element.style.opacity = "1";
+              // element.style.filter  = 'alpha(opacity=100)';  
+              // document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');         
           deferred.resolve({
             thumbCancel: true,
             reason: 'bt classic connection dropped'

@@ -5,6 +5,7 @@
 
   pulse.controllers.controller('HdrCtrl', function ($hdr, $device, $cordovaVibration, $ionicSideMenuDelegate, $timeout, $views, $rootScope) {
     var vm = this;
+    vm.activeBracketing = false;
 
     init();
 

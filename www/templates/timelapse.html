@@ -3,17 +3,30 @@
     <ion-slide-box ng-init="ctrl.disableSwipe(false)" show-pager=false delegate-handle="time-lapse-directive">
       <!-- TL Slide 1 -->
       <ion-slide>
-        <div class="timelapse-container col">
+        <div class="timelapse-container col" >
+
+          <div ng-class="!ctrl.model1.settings.isActive && !ctrl.showPreview ? 'animated fadeIn' : 'hide'">
           <div class="preset-name" ng-if="ctrl.presetModel.settings.presetName.length">
             <div class="row row-center center text-center gotham-bold blue">{{ctrl.presetModel.settings.presetName}}</div>
           </div>
+            <div class="row row-center center text-center gotham-book" ng-if="ctrl.bulbMode" >
+              <div class="row row-center center text-center gotham-book margin-class-gotham-book" ng-if="ctrl.model1.settings.isTimed" >
+                      Interval should be 1.5 times Exposure Time </div>
+             </div>
           <div class="gotham-light">
-            <div class="row row-center center text-center gotham-light">Interval</div>
+            <div class="row row-center center text-center gotham-light" >Interval</div>
             <div class="row row-center center text-center incrementer-spacer">
-              <incrementer ng-model="tlSettings.interval" initval="5" postfix="s" min=1 max=1200 swipe-interval=50 incrementer-name="timelapse"></incrementer>
+              <div ng-if="ctrl.bulbMode" >
+                <timelapseincrementer  ng-model="tlSettings.interval" initval="{{tlSettings.interval}}" postfix="s" min=1 max=1200 swipe-interval=50 incrementer-name="timelapse" ng-change="ctrl.changeExposureTime(tlSettings.interval)"></timelapseincrementer>
+              </div>
+             <div ng-if="!ctrl.bulbMode">
+                <timelapseincrementer  ng-model="tlSettings.interval" initval="5" postfix="s" min=1 max=1200 swipe-interval=50 incrementer-name="timelapse" ng-change="ctrl.changeExposureTime(tlSettings.interval)"></timelapseincrementer>
+             </div>
+             
             </div>
-            <div class="row row-center center text-center gotham-light incrementer-header">Duration</div>
-            <div class="row row-center center text-center incrementer-spacer">
+
+            <div class="row row-center center text-center gotham-light incrementer-header margin-class-duration">Duration</div>
+            <div class="row row-center center text-center incrementer-spacer" style="font-size: : 12px !important;">
               <timeincrementer
                 minute-transition=true
                 ng-model="tlSettings.duration"
@@ -29,9 +42,124 @@
                 time-incrementer-name="timelapse"
                 imgpath="img/infinity.svg"></timeincrementer>
             </div>
-          </div>
-        </div>
+
+            <div ng-if="ctrl.bulbMode">
+   
+                  <!-- <div class="row row-center center text-center gotham-book"> -->
+                    <div class="row row-center center text-center gotham-book margin-class-exposure" ng-if="ctrl.model1.settings.isTimed">
+                      Exposure Time</div>
+                  <!-- </div> -->
+                  <div class="row row-center center text-center picker" ng-if="ctrl.model1.settings.isTimed">
+                    <timeincrementerexposure swipe-interval=50 ng-model="duration.timed" inithour={{ctrl.model1.duration.timed.hours}} minute-transition=true postfix="m" postfix2="S" initial-selection="minutes" min=0 max=60 min2=0 max2=59 initminute={{ctrl.model1.duration.timed.minutes}} ng-change="ctrl.changeIntervalTime(duration.timed)"></timeincrementerexposure>
+                  </div>              
+            </div>
+
+    <!-- <div class="gotham-light vertically-center white"> -->
+      <div class="row row-center center text-center delay margin-class-enable-delay" >
+        <ion-toggle ng-model="tlSettings.activeDelay" ng-checked="tlSettings.activeDelay" class="grey" >
+          Enable Delay
+        </ion-toggle>
       </div>
+      <div class="row row-center center text-center picker" ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeDelay">
+        <timeincrementer swipe-interval=50 minute-transition=true ng-model="tlSettings.delay" inithour={{tlSettings.delay.hours}} postfix="h" postfix2="m" min=0 max=24 min2=0 max2=59 initminute={{tlSettings.delay.minutes}} time-incrementer-name="delay"></timeincrementer>
+      </div>
+    <!-- </div> -->
+
+          </div>
+          </div> 
+
+      <div class="page-2" ng-class="ctrl.model1.settings.isActive ? 'animated fadeIn' : 'hide'">
+        <div class="bulb-container">
+           <div class="text-center gotham-book">
+                <div class="progress-container col" >
+                  <div class="progress-wrapper">
+                    <div class="percentage gotham-light"> {{ctrl.model1.duration.animationValues.currentTimelapse}} 
+                      <span>%</span>
+                    </div>
+                    <div
+                      animation-delay="0"
+                      animation="easeInOutQuart"
+                      bgcolor="#615f5f"
+                      clockwise="true"
+                      color="#008bca"
+                      current="ctrl.model1.duration.animationValues.current"
+                      duration="800"
+                      max="ctrl.model1.duration.animationValues.maxTimelapse"
+                      radius="65"
+                      responsive="false"
+                      round-progress
+                      stroke="4"></div>
+                  </div>
+
+                </div>        
+                 </div>  
+                 <div class="line-separator"></div> 
+
+          <div class="row row-center center text-center gotham-light">
+            Exposure Time</div>
+
+        
+
+            
+            <div class="status-section gotham-xlight text grey row row-center">
+                  <div class="text-column col">
+                    <div class="row center-row">
+                      <div class="row left-photo">
+                        <img src="img/photos-white.svg"/>
+                      </div>
+                      <div class="row right-text">
+                        <div class="count">{{ctrl.currentCount}} </div>
+                        <div class="small-container">
+                          <span class="spacer">/</span>
+                          <span class="small">{{ctrl.getTotalPhotosLongExposure()}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        <div class="status-section gotham-xlight text grey row row-center">
+            <!-- <div class="text-column col"> -->
+                <div class="row row-center center countdown-timer gotham-thin">
+                        <img style="height: 20px; width: 20px;" src="img/clock-white.svg"/>
+                     &nbsp;&nbsp;
+                  <div class="count">
+                    <timer interval="1000"  max-time-unit="minute" autostart="false" start-time="ctrl.timerStart">{{mminutes}}:{{sseconds}}</timer> 
+                  </div>
+                   <div class="small-container" ng-if="!ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite">
+                          <span class="spacer">/</span>
+                          <span class="small">{{ctrl.totalExposureMinutes}}:00</span>
+                    </div>
+                </div>
+        <!-- </div> -->
+        </div>
+
+        <div class="status-section gotham-xlight text grey row row-center">
+            <!-- <div class="text-column col"> -->
+              <div class="row row-center center countdown-timer gotham-thin">
+                    <img style="height: 20px; width: 20px;" src="img/bulb.png"/>
+                 &nbsp;&nbsp;
+                 <div class="count">
+                  {{ctrl.cminutes}}:{{ctrl.cseconds}}
+                    <!-- <timer interval="1000"  max-time-unit="minute" autostart="false" start-time="ctrl.timerStart"></timer>  -->
+                 </div>
+                   <div class="small-container" ng-if="!ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite">
+                          <span class="spacer">/</span>
+                          <span class="small">{{ctrl.maxMinutes}}:{{ctrl.maxSeconds}}</span>
+                    </div>                
+              </div>
+        <!-- </div> -->
+      </div>
+
+
+<!--           <div class="bottom-section gotham-thin" ng-if="ctrl.model1.settings.isTimed && ctrl.model1.settings.isActive">
+            <div class="line-separator"></div>
+          <div class="row row-center center total-time">
+            
+          </div>
+        </div> -->
+        </div>
+    </div>
+ </div> 
     </ion-slide>
 
     <!-- TL Slide 2 -->
@@ -72,7 +200,6 @@
 
                     <div class="row center-row">
                       <div class="row left-photo">
-
                         <img ng-src="img/photos-white.svg"/>
                       </div>
                       <div class="row right-text" ng-class="(ctrl.timelapseModel.timelapses[ctrl.dId].settings.duration.isInfinite) ? 'push-left' : ''">
@@ -192,7 +319,7 @@
 </ion-content>
 
 <!-- TL Stats -->
-<div class="row fixed-bottom-section">
+<div class="row fixed-bottom-section" ng-if="!ctrl.bulbMode">
   <div class="col text-center" ng-if="!ctrl.timelapseModel.timelapses[ctrl.dId].settings.isActive">
 
     <photo-button id='tlButton' partial-url="TLButton" on-item-click="ctrl.startTl()" animate-time="{{ctrl.tlDelay}}" animate-max="{{ctrl.tlMax}}" button-opacity="{{ctrl.opacity}}" processing="ctrl.processing"></photo-button>
@@ -217,6 +344,16 @@
         <div class="stat">On
         </div>
       </div>
+      <div ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeBulbExposure">
+        <div class='ramp'></div>
+        <div class="stat">On
+        </div>
+      </div>
+      <div ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeISOExposure">
+        <div class='ramp'></div>
+        <div class="stat">On
+        </div>
+      </div>            
     </div>
   </div>
   <div class="row text-center center bottom-buttons" ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.isActive">
@@ -225,5 +362,37 @@
   </div>
 
 </div>
+
+  <div class="row fixed-bottom-section" ng-if="ctrl.bulbMode">
+    <div class="col text-center" >
+      <div class="red gotham-light bulb-warning {{ctrl.errorClass}}">Make sure your camera is set to bulb</div>
+      <photo-button partial-url="bulbButton" on-item-click="ctrl.startOrStopBulb()" ng-if="!ctrl.model1.settings.isActive"></photo-button>
+      <photo-button partial-url="bulbButtonEnd" on-item-click="ctrl.startOrStopBulb()" ng-if="ctrl.model1.settings.isActive" animate-time="{{ctrl.model1.duration.animationValues.current}}" animate-max="{{ctrl.model1.duration.animationValues.maxTimelapse}}"></photo-button>
+          <div class='stats' ng-if="ctrl.isNumber(ctrl.getTotalPhotos())" ng-class="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeDelay && ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeExposure ? 'smaller' : '' ">
+      <div>
+        <div class='photos'></div>
+        <div class="stat">{{ctrl.getTotalPhotos()}}</div>
+      </div>
+      <div>
+        <div class='duration'></div>
+        <div class="stat">{{ctrl.getFinalTLLength()}}s
+        </div>
+      </div>
+      <div ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeDelay">
+        <div class='delay'></div>
+        <div class="stat">{{ctrl.getDelaySeconds() - ctrl.countDown}}s
+        </div>
+      </div>
+      <div ng-if="ctrl.timelapseModel.timelapses[ctrl.dId].settings.activeExposure">
+        <div class='ramp'></div>
+        <div class="stat">On
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- <div class="row text-center center" >
+      <button class="button white-btn gotham-book bulb-btn one" ng-click="ctrl.finishBulb()">Finish</button>
+    </div> -->
+  </div>
 
 </ion-view>

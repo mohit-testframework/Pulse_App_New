@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  pulse.controllers.controller('ExposureCtrl', function ($scope, $rootScope, $device, $timelapse, $views, $stateParams, $ionicSideMenuDelegate) {
+  pulse.controllers.controller('IsoRampingCtrl', function ($scope, $rootScope, $device, $timelapse, $views, $stateParams, $ionicSideMenuDelegate) {
     var vm = this;
     var dId = $stateParams.deviceId;
     vm.dId = dId;
@@ -26,19 +26,19 @@
       }
     }
 
-    vm.changeExposure = function() {
+    vm.changeISORamping = function() {
       console.log('activeExposure : ' + vm.timelapseModel.timelapses[vm.dId].settings.activeExposure);
       console.log('activeBulbExposure : ' + vm.timelapseModel.timelapses[vm.dId].settings.activeBulbExposure);
       console.log('activeISOExposure : ' + vm.timelapseModel.timelapses[vm.dId].settings.activeISOExposure);
-      if(!vm.timelapseModel.timelapses[vm.dId].settings.activeBulbExposure &&  !vm.timelapseModel.timelapses[vm.dId].settings.activeISOExposure){
-        if(!vm.timelapseModel.timelapses[vm.dId].settings.activeExposure){
-           $timelapse.timelapses[vm.dId].settings.activeExposure = false;
+      if(!vm.timelapseModel.timelapses[vm.dId].settings.activeBulbExposure &&  !vm.timelapseModel.timelapses[vm.dId].settings.activeExposure){
+        if(!vm.timelapseModel.timelapses[vm.dId].settings.activeISOExposure){
+           $timelapse.timelapses[vm.dId].settings.activeISOExposure = false;
         }else {
-          $timelapse.timelapses[vm.dId].settings.activeExposure = true;
+          $timelapse.timelapses[vm.dId].settings.activeISOExposure = true;
         }
         
       }else {
-        $timelapse.timelapses[vm.dId].settings.activeExposure = false;
+        $timelapse.timelapses[vm.dId].settings.activeISOExposure = false;
          var modalData = {
             text: "Only one Advanced Time Lapse feature can be turned on!",
             onButtonClick: function onButtonClick() {

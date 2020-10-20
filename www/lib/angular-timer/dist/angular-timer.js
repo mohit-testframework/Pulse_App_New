@@ -274,8 +274,9 @@ var timerModule = angular.module('timer', [])
           $scope.yearUnit = timeUnits.years;
 
           //add leading zero if number is smaller than 10
+          // console.log('$scope.interval : ' + $scope.interval);
           $scope.sseconds = $scope.seconds < 10 ? '0' + $scope.seconds : $scope.seconds;
-          $scope.mminutes = $scope.minutes < 10 ? '0' + $scope.minutes : $scope.minutes;
+          $scope.mminutes = (parseInt($scope.minutes) < 10) ? parseInt('0' + $scope.minutes) : ($scope.minutes);
           $scope.hhours = $scope.hours < 10 ? '0' + $scope.hours : $scope.hours;
           $scope.ddays = $scope.days < 10 ? '0' + $scope.days : $scope.days;
           $scope.mmonths = $scope.months < 10 ? '0' + $scope.months : $scope.months;

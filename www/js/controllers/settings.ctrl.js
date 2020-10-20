@@ -8,7 +8,7 @@
 
     init();
 
-    $rootScope.$on('shutterUpdated', function (event, data) {
+    $rootScope.$on('shutterUpdated', function(event, data) {
       $timeout(function () {
         vm.indexes.shutterIndex = data.shutterIndex;
         $scope.$apply();
@@ -114,6 +114,7 @@
       var slide = parent.find('.swiper-slide.clear');
 
       swiper.on('onTransitionEnd', function () {
+        console.log('onTransitionEnd : ')
         var selectedDevice = $device.getSelectedDevice();
         var isActiveTl;
         if ($timelapse.timelapses && $timelapse.timelapses[selectedDevice.id]) {

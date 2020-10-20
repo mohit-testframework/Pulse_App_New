@@ -1,11 +1,11 @@
 <div class="fw-loading">
   <div class="fw-backdrop">
-    <div class="gotham-light center-text padding" ng-if="!firmwareError">Gathering information about your pulse<ellipsis-animated></ellipsis-animated>
+    <div class="gotham-light center-text padding" >Gathering information about your pulse<ellipsis-animated></ellipsis-animated>
     </div>
     <div class="gotham-light center-text padding red" ng-if="firmwareError">We weren't able to fetch the firmware update. Please make sure you have a good data connection and try again.
     </div>
   </div>
-  <div ng-if="allgood" class="bulldozer-entry padding">
+  <div class="bulldozer-entry padding">
     <img src="img/bulldozer.svg">
   </div>
   <div ng-if="firmwareError" class="bulldozer-fire padding">

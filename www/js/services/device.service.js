@@ -32,7 +32,7 @@
     var devices = {
       sessionDevices: []
     };
-
+  let bluetoothSetting = false;
     var decorruptJpegArray = function decorruptJpegArray(data) {
       var byte = 0,
         corruptStart = 0,
@@ -140,10 +140,10 @@
         },
         function(error) {
           
-          let element = document.getElementById("photo-ring-div");
-          element.style.opacity = "1";
-          element.style.filter  = 'alpha(opacity=100)'; 
-          document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
+          // let element = document.getElementById("photo-ring-div");
+          // element.style.opacity = "1";
+          // element.style.filter  = 'alpha(opacity=100)'; 
+          // document.getElementById('photo-ring-svg').setAttribute('pointer-events','auto');
 
           console.log("$fileSystem.saveThumb error");
           var data = {
@@ -178,8 +178,11 @@
           : true;
       console.log("inside handleSettings");
       refreshShutter(device).then(function() {
+        console.log('inside refreshShutter');
         refreshAperture(device).then(function() {
+          console.log('inside refreshAperture');
           refreshIso(device).then(function() {
+            console.log('inside refreshIso');
             if (changeMode) {
               device.metaData.newSession = false;
               device.shouldBroadcast = true;
@@ -228,6 +231,7 @@
     };
 
     var refreshMode = function refreshMode(device) {
+      console.log('inside refreshMode');
       var deferred = $q.defer();
       ble.read(
         device.id,
@@ -822,17 +826,46 @@
             device.id,
             20,
             function(mtu) {
+              console.log("mtu set to outside timeout : " + JSON.stringify(mtu));
               $timeout(() => {
                 console.log("mtu set to: " + JSON.stringify(mtu));
                 // console.log("mtu set to size : " + (mtu - 3));
                 $transmit.setMTU(20);
+                console.log("After transmit setMTU : " + JSON.stringify(mtu));
                 deferred.resolve();
               }, 10000);
             },
             function(error) {
-              console.log(
-                "Firmware updates not supported on this device: " + error
-              );
+              console.log("Firmware updates not supported on this device: " + error);
+              deferred.resolve();
+            }
+          );
+        } else {
+          deferred.resolve();
+        }
+        deferred.resolve();
+        return deferred.promise;
+      },
+      increaseMTUBootLoader: function increaseMTUBootLoader(device) {
+        var deferred = $q.defer();
+
+        if ($platform.isAndroid()) {
+          console.log("Attempting to increase MTU");
+          ble.requestMtu(
+            device.id,
+            158,
+            function(mtu) {
+              console.log("mtu set to outside timeout : " + JSON.stringify(mtu));
+              $timeout(() => {
+                console.log("mtu set to: " + JSON.stringify(mtu));
+                // console.log("mtu set to size : " + (mtu - 3));
+                $transmit.setMTU(158);
+                console.log("After transmit setMTU : " + JSON.stringify(mtu));
+                deferred.resolve();
+              }, 10000);
+            },
+            function(error) {
+              console.log("Firmware updates not supported on this device: " + error);
               deferred.resolve();
             }
           );
@@ -1018,9 +1051,37 @@
             },
             function(err) {
               console.log("bluetooth is not enabled:", err);
-              $timeout(function() {
-                _this.scanAndConnectDevices(timeout, deferred, isManual);
-              }, 1000);
+              if (window.cordova && window.cordova.plugins.settings) {
+                  console.log('openNativeSettingsTest is active');
+                  if(!bluetoothSetting){
+        var modalData = {
+          text: "Bluetooth not turned on. Selecting Ok will take you to your phone's Bluetooth settings. Once turned on please restart the Pulse app.",
+          onButtonClick: function onButtonClick() {
+                      window.cordova.plugins.settings.open("bluetooth", function() {
+                              console.log('opened settings');
+                              bluetoothSetting = true;
+                               $timeout(function() {
+                                  _this.scanAndConnectDevices(timeout, deferred, isManual);
+                                }, 1000);
+                          },
+                          function () {
+                              console.log('failed to open settings');
+                          }
+                  );            
+          },
+          animation: 'fade-in-scale',
+          twoButton: false
+        };
+        $rootScope.$broadcast('openModal', modalData);
+
+        } else {
+                       $timeout(function() {
+                                  _this.scanAndConnectDevices(timeout, deferred, isManual);
+                             }, 1000);
+                }
+              } else {
+                  console.log('openNativeSettingsTest is not active!');
+              }              
             }
           );
         });
@@ -1105,6 +1166,9 @@
         if ($platform.isAndroid()) {
           //scanArray = [$config.services.GATT_SERVICE_UUID_PULSE_COMMS_SERVICE, $config.bootloader.BL_SERVICE];
         }
+       navigator.geolocation.getCurrentPosition (function (geolocation_res) {
+          console.log('inside geolocation_res response');
+
         BLE.scan(scanArray, timeout).then(
           function(peripheral) {
             //If bootloader handoff to firmware update
@@ -1125,7 +1189,8 @@
                 BLE.connect(peripheral).then(function(dev) {
                   console.log("Connected to a pulse bootloader");
                   if (dev) {
-                    _this2.increaseMTU(dev).then(function() {
+                    _this2.increaseMTUBootLoader(dev).then(function() {
+                      console.log('increaseMTU successfully');
                       $firmware.readUpdateFirmware().then(function(fw) {
                         updatingFirmware = true;
                         $firmware.settings.firmwareBinary = fw;
@@ -1185,6 +1250,9 @@
             deferred.resolve(status);
           }
         );
+        }, function (error) {
+          console.log('inside geolocation_res error : ', error);
+        });
 
         return deferred.promise;
       },
@@ -1258,7 +1326,7 @@
           BLE.connect(pulse).then(
             function(connectedDevice) {
               console.log(
-                "BLE Connect Device : " + JSON.stringify(connectedDevice)
+                "BLE Connect Device : "
               );
               console.log("$location.path() : " + $location.path());
               if ($location.path() == "/app/timelapse/") {
@@ -2014,6 +2082,7 @@
 
       startSubscription: function startSubscription(device) {
         var _this15 = this;
+        console.log('startSubscription changeShutter');
 
         // console.log(
         //   "setting up subscriptions Inside startSubscription : " +
@@ -2106,15 +2175,29 @@
         });
       },
 
-      handleNickname: function handleNickname(rxData, device) {
+    handleNickname: function handleNickname(rxData, device) {
+        console.log('handleNickname device nickname 1  ***** : ' +  device["localStorageInfo"].nickname);
+        console.log('handleNickname device nickname 2 : ' +  device.localStorageInfo.nickname);
+        // console.log('handleNickname device ******* : ' +  JSON.stringify(device));
+        console.log('handleNickname device ******* : ');
+        // console.log('handleNickname rxData : ' +  JSON.stringify(rxData));
+        console.log('handleNickname rxData : ');
+        let nickname;
         var _this10 = this;
 
-        var data = new Uint8Array(rxData).subarray(0, 17);
-        var nickname = decodeURIComponent(
-          escape(String.fromCharCode.apply(null, data))
-        );
-        console.log("nickname : " + nickname);
-        device.currentName = nickname;
+        if(rxData){
+          var data = new Uint8Array(rxData).subarray(0, 17);
+          console.log("data : " + JSON.stringify(data));
+           nickname = decodeURIComponent(
+            escape(String.fromCharCode.apply(null, data))
+          );
+          console.log("nickname : " + nickname);
+          device.currentName = nickname;
+        }else {
+          nickname = device.localStorageInfo.nickname;
+          device.currentName = device.localStorageInfo.nickname;
+        }
+
         this.setDevice(device);
         this.reSyncLocalStorage(device, nickname).then(function() {
           _this10.renameDevice(device, nickname);
@@ -2186,10 +2269,13 @@
 
       commsSuccess: function commsSuccess(rxData, device) {
         console.log("inside commsSuccess");
+
         var _this13 = this;
 
         var deferred = $q.defer();
         var data = new Uint8Array(rxData);
+        // console.log('firmware major version data : ' + data[3]);
+        // console.log('firmware minor version data : ' + data[4]);
         var currentPacket = data[0];
         var expectedPackets = data[1];
         var opcode = data[2];
@@ -2653,6 +2739,7 @@
         } else {
           apertureValue = $config.cameraSettings.nikonAperture[value];
         }
+        console.log("After aperture value is: " + apertureValue);
         if (!device.metaData.camSettings.apertureOptions.length) {
           device = setAperture(device);
         }
@@ -2830,12 +2917,13 @@
         var isoValue;
         var value =
           data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
-        console.log("iso value is: " + value);
+        
         if (device.metaData.cameraType == $config.cameraSettings.make.CANON) {
           isoValue = $config.cameraSettings.canonIso[value];
         } else {
           isoValue = $config.cameraSettings.nikonIso[value];
         }
+        console.log("iso value is: " + isoValue);
         if (!device.metaData.camSettings.isoOptions.length) {
           device = setIso(device);
         }

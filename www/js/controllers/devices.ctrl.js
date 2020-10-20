@@ -26,13 +26,13 @@
       window.Keyboard.disableScroll(true);
     }
 
-    vm.noBLE = function () {
+    vm.noBLE = function() {
       if (window.cordova) {
         return true;
       }
     };
 
-    vm.getCameraModel = function (device) {
+    vm.getCameraModel = function(device) {
       var selectedDevice = _.find($device.devices, function (item) {
         return device.id == item.id;
       });
