@@ -19,7 +19,7 @@
     "cordova-ios": "^6.1.1",
     "cordova-plugin-bluetoothle": "~4.5.6",
     "cordova-plugin-geolocation": "^4.0.2",
-    "cordova-plugin-inappbrowser": "^4.0.0",
+    "cordova-plugin-inappbrowser": "^3.1.0",
     "cordova-plugin-ionic-webview": "^5.0.0",
     "cordova-plugin-market": "^1.2.0",
     "cordova-plugin-statusbar": "^2.4.3",
